@@ -28,5 +28,10 @@ public class UnitLogicTest
     {
         
     }
-    
+
+    [Test]
+    public void KillEnemyPawn()
+    {
+
+    }
 }
