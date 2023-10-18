@@ -12,22 +12,16 @@ public class UnitLogic
         private IGridManager gridManager;
         private IGameManager gameManager;
         private IMenuManager menuManager;
-
-        private int gridWight;
-        private int gridHeight;
-        
+      
         private List<ScriptableUnit> _units;
         public BaseHero SelectedHero;
         private UnitsHolder unitsHolder;
         
-        public UnitLogic(IGridManager gridManager, IGameManager gameManager, IMenuManager menuManager, int gridWight, int gridHeight)
+        public UnitLogic(IGridManager gridManager, IGameManager gameManager, IMenuManager menuManager)
         {
                 this.gridManager = gridManager;
                 this.gameManager = gameManager;
                 this.menuManager = menuManager;
-
-                this.gridWight = gridWight;
-                this.gridHeight = gridHeight;
 
                 unitsHolder = new UnitsHolderImpl();
                 _units = Resources.LoadAll<ScriptableUnit>("Units").ToList();
@@ -172,10 +166,10 @@ public class UnitLogic
         {
             case Faction.Hero:
                 //TODO: размер доски должен быть в конструкторе класса.
-                if (y > gridHeight - 1) return true;
+                if (y > GridSettings.HEIGHT - 1) return true;
                 else return false;
             case Faction.Enemy:
-                if (y < gridHeight - gridHeight) return true;
+                if (y < GridSettings.WIGHT - GridSettings.WIGHT) return true;
                 else return false;
         }
         //Сюда никогда не должны попадать. Как в С# написать эту часть безопасно, чтобы не было Exception пока не понял.

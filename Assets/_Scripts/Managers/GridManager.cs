@@ -7,7 +7,8 @@ using Random = UnityEngine.Random;
 
 public class GridManager : MonoBehaviour, IGridManager {
     public static GridManager Instance;
-    [SerializeField ] private int _width = 8, _height = 8;
+
+    private int _width = GridSettings.WIGHT, _height = GridSettings.HEIGHT;
 
     [SerializeField] private Tile _grassTile, _mountainTile;
 
@@ -38,16 +39,6 @@ public class GridManager : MonoBehaviour, IGridManager {
         _cam.transform.position = new Vector3((float)_width / 2 - 0.5f, (float)_height / 2 - 0.5f, -10);
 
         gameManager.ChangeState(GameState.SpawnEnemies);
-    }
-
-    public int GetGridWidth()
-    {
-        return _width;
-    }
-
-    public int GetGridHeight()
-    {
-        return _height;
     }
 
     public Tile GetHeroSpawnTile() {

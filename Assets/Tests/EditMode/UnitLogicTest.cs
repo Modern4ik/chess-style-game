@@ -12,7 +12,7 @@ public class UnitLogicTest
         var gameManager = new GameManagerStub();
         var gridManager = new GridManagerStub();
         var menuManager = new MenuManagerStub();
-        var unitLogic = new UnitLogic(gridManager, gameManager, menuManager, 8, 8);
+        var unitLogic = new UnitLogic(gridManager, gameManager, menuManager);
         var spawnTile = gridManager.GetTileAtPosition(new Vector2(0, 0));
         var spawnUnit = UnityUnitCreator.createUnit(Faction.Hero);
         //По хорошему нужно передать юнит какого-то типа
