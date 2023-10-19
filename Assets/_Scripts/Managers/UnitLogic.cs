@@ -12,7 +12,7 @@ public class UnitLogic
         private IGridManager gridManager;
         private IGameManager gameManager;
         private IMenuManager menuManager;
-        
+      
         private List<ScriptableUnit> _units;
         public BaseHero SelectedHero;
         private UnitsHolder unitsHolder;
@@ -22,6 +22,7 @@ public class UnitLogic
                 this.gridManager = gridManager;
                 this.gameManager = gameManager;
                 this.menuManager = menuManager;
+
                 unitsHolder = new UnitsHolderImpl();
                 _units = Resources.LoadAll<ScriptableUnit>("Units").ToList();
         }
@@ -165,7 +166,7 @@ public class UnitLogic
         {
             case Faction.Hero:
                 //TODO: размер доски должен быть в конструкторе класса.
-                if (y > 7) return true;
+                if (y > GridSettings.HEIGHT - 1) return true;
                 else return false;
             case Faction.Enemy:
                 if (y < 0) return true;
