@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,12 +7,12 @@ using UnityEngine;
 
 public class UnitManager : MonoBehaviour {
     public static UnitManager Instance;
-    
-    private UnitLogic unitLogic;
-    
+
+    //TODO: поле инициализируется на данный момент в GameManager
+    public UnitLogic unitLogic;
+
     void Awake() {
         Instance = this;
-        unitLogic = new UnitLogic(GridManager.Instance, GameManager.Instance, MenuManager.Instance);
     }
 
     public void SpawnHero(Tile tile)
