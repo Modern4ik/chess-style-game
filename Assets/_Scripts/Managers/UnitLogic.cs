@@ -67,6 +67,9 @@ public class UnitLogic
             var spawnedEnemy = Object.Instantiate(randomPrefab);
             var randomSpawnTile = gridManager.GetEnemySpawnTile();
 
+            //TODO: в будущем нужно будет найти решение без этого костыля на фракцию
+            spawnedEnemy.Faction = Faction.Enemy;
+
             randomSpawnTile.SetUnit(spawnedEnemy);
             unitsHolder.AddUnit(spawnedEnemy);
         }
