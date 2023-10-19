@@ -8,7 +8,7 @@ using UnityEngine;
 public class UnitManager : MonoBehaviour {
     public static UnitManager Instance;
 
-    //TODO: поле инициализируется на данный момент в GameManager.cs, из-за костыля
+    //TODO: поле инициализируется на данный момент в GameManager из-за костыля
     public UnitLogic unitLogic;
 
     void Awake() {
