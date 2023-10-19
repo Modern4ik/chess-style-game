@@ -7,12 +7,11 @@ using UnityEngine;
 
 public class UnitManager : MonoBehaviour {
     public static UnitManager Instance;
-    
-    private UnitLogic unitLogic;
-    
+
+    public UnitLogic unitLogic { get; set; }
+
     void Awake() {
         Instance = this;
-        unitLogic = new UnitLogic(GridManager.Instance, GameManager.Instance, MenuManager.Instance);
     }
 
     public void SpawnHero(Tile tile)
