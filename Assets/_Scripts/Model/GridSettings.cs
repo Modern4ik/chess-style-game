@@ -1,4 +1,3 @@
-
 public class GridSettings
 {
     public const int WIDTH = 8;
