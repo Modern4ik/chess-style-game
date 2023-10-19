@@ -1,4 +1,4 @@
-using System.Collections;
+п»їusing System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,7 +8,7 @@ using UnityEngine;
 public class UnitManager : MonoBehaviour {
     public static UnitManager Instance;
 
-    //TODO: поле инициализируется на данный момент в ГеймМенеджер
+    //TODO: РїРѕР»Рµ РёРЅРёС†РёР°Р»РёР·РёСЂСѓРµС‚СЃСЏ РЅР° РґР°РЅРЅС‹Р№ РјРѕРјРµРЅС‚ РІ GameManager
     public UnitLogic unitLogic;
 
     void Awake() {
