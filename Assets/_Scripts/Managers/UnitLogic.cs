@@ -169,7 +169,7 @@ public class UnitLogic
                 if (y > GridSettings.HEIGHT - 1) return true;
                 else return false;
             case Faction.Enemy:
-                if (y < GridSettings.WIGHT - GridSettings.WIGHT) return true;
+                if (y < 0) return true;
                 else return false;
         }
         //Сюда никогда не должны попадать. Как в С# написать эту часть безопасно, чтобы не было Exception пока не понял.

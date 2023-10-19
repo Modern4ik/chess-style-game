@@ -8,15 +8,16 @@ using Random = UnityEngine.Random;
 public class GridManager : MonoBehaviour, IGridManager {
     public static GridManager Instance;
 
-    private int _width = GridSettings.WIGHT, _height = GridSettings.HEIGHT;
-
     [SerializeField] private Tile _grassTile, _mountainTile;
 
     [SerializeField] private Transform _cam;
 
+    private int _width = GridSettings.WIDTH;
+    private int _height = GridSettings.HEIGHT;
+
     private Dictionary<Vector2, Tile> _tiles;
     private IGameManager gameManager;
-
+    
     void Awake() {
         Instance = this;
         gameManager = GameManager.Instance;
