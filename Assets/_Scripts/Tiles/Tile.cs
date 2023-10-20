@@ -1,7 +1,7 @@
-using System.Collections;
+п»їusing System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//TODO: этот класс был абстрактным. Временно убрано из-за unit-тестов.
+//TODO: СЌС‚РѕС‚ РєР»Р°СЃСЃ Р±С‹Р» Р°Р±СЃС‚СЂР°РєС‚РЅС‹Рј. Р’СЂРµРјРµРЅРЅРѕ СѓР±СЂР°РЅРѕ РёР·-Р·Р° unit-С‚РµСЃС‚РѕРІ.
 public class Tile : MonoBehaviour {
     public string TileName;
     [SerializeField] protected SpriteRenderer _renderer;

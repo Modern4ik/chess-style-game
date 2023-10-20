@@ -1,4 +1,4 @@
-using UnityEngine;
+п»їusing UnityEngine;
 
 public class GridManagerStub : IGridManager
 {
@@ -22,7 +22,7 @@ public class GridManagerStub : IGridManager
         gameObject.AddComponent<Tile>();
         return gameObject.GetComponent<Tile>();
     }
-    //TODO: Данный метод временно мокнут для тестов.
+    //TODO: Р”Р°РЅРЅС‹Р№ РјРµС‚РѕРґ РІСЂРµРјРµРЅРЅРѕ РјРѕРєРЅСѓС‚ РґР»СЏ С‚РµСЃС‚РѕРІ.
     public Tile GetTileAtPosition(Vector2 pos)
     {
         GameObject testTile = new GameObject("TestTile", typeof(Tile));
