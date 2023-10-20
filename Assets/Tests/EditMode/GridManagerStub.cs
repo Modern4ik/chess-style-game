@@ -19,13 +19,28 @@ public class GridManagerStub : IGridManager
     private Tile CreateTile()
     {
         GameObject gameObject = new GameObject();
-        gameObject.AddComponent<TestTile>();
-        return gameObject.GetComponent<TestTile>();
+        gameObject.AddComponent<Tile>();
+        return gameObject.GetComponent<Tile>();
     }
-
+    //TODO: ƒанный метод временно мокнут дл€ тестов.
     public Tile GetTileAtPosition(Vector2 pos)
     {
-        throw new System.NotImplementedException();
+        GameObject testTile = new GameObject("TestTile", typeof(Tile));
+        var tileComp = testTile.GetComponent<Tile>();
+        switch (pos.y)
+        {
+            case 1:
+                tileComp.y = 1;
+                break;
+            case 6:
+                tileComp.y = 6;
+                break;
+            case 7:
+                tileComp.y = 7;
+                break;
+        }
+
+        return tileComp;
     }
 
     public Tile GetEnemySpawnTile()

@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public abstract class Tile : MonoBehaviour {
+//TODO: этот класс был абстрактным. Временно убрано из-за unit-тестов.
+public class Tile : MonoBehaviour {
     public string TileName;
     [SerializeField] protected SpriteRenderer _renderer;
     [SerializeField] private GameObject _highlight;
