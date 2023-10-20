@@ -13,6 +13,8 @@ public class UnitManager : MonoBehaviour {
 
     void Awake() {
         Instance = this;
+        Debug.Log("UnitManager awaked");
+        unitLogic = new UnitLogic(GridManager.Instance, GameManager.Instance, MenuManager.Instance);
     }
 
     public void SpawnHero(Tile tile)

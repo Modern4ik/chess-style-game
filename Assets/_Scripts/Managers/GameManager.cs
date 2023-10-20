@@ -11,12 +11,13 @@ public class GameManager : MonoBehaviour, IGameManager
     void Awake()
     {
         Instance = this;
+        Debug.Log("GameManager awaked");
     }
 
     void Start()
     {   
         //TODO: нужно придумать решение проблемы порядка инициализации и избавиться от этого костыля
-        UnitManager.Instance.unitLogic = new UnitLogic(GridManager.Instance, GameManager.Instance, MenuManager.Instance);
+        //UnitManager.Instance.unitLogic = new UnitLogic(GridManager.Instance, GameManager.Instance, MenuManager.Instance);
         ChangeState(GameState.GenerateGrid);
     }
 

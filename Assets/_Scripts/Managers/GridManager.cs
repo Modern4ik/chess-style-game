@@ -21,6 +21,7 @@ public class GridManager : MonoBehaviour, IGridManager {
     void Awake() {
         Instance = this;
         gameManager = GameManager.Instance;
+        Debug.Log("GridManager awaked");
     }
 
     public void GenerateGrid()

@@ -26,6 +26,7 @@ public class MenuManager : MonoBehaviour, IMenuManager {
 
     void Awake() {
         Instance = this;
+        Debug.Log("MenuManager awaked");
     }
 
     public void ShowTileInfo(Tile tile) {
