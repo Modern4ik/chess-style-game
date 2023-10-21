@@ -13,6 +13,10 @@ public class UnitManager : MonoBehaviour {
 
     void Awake() {
         Instance = this;
+        Debug.Log("UnitManager awaked");
+        //TODO: для инициализации unitLogic отрабатывает настроенная фича Unity (Script Execution Order)
+        // в ней настроен нужный порядок работы скриптов/инициализации
+        unitLogic = new UnitLogic(GridManager.Instance, GameManager.Instance, MenuManager.Instance);
     }
 
     public void SpawnHero(Tile tile)
