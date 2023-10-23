@@ -48,6 +48,7 @@ public class GameManager : MonoBehaviour, IGameManager
                  * На первой линии
                  */
                 //Стейт переключается в Tile, т.к нужно реагировать на нажатие мыши
+                
                 break;
             case GameState.HeroesTurn:
                 /*

@@ -1,30 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
-public class Pawn : BaseUnityUnit
+public class Pawn : BaseUnit
 {
-    private MovePattern _movePattern = new MovePattern(
+    public Pawn(string name, Faction faction, MonoBehaviour monoBehaviour) : base(pawnName + name, faction, new Health(2), _movePattern, monoBehaviour) { }
+    private static string pawnName = "Pawn ";
+    private static MovePattern _movePattern = new MovePattern(
         new List<Coordinate>() {
             new Coordinate(0, 1)
         }
       );
-
-    public override MovePattern movePattern()
-    {
-        return _movePattern;
-    }
-
-    //TODO: может есть смысл вынести выше по иерархии?
-    private Health health = new Health(2);
-
-    public override Health getHealth()
-    {
-        return health;
-    }
-
-    public override void ReceiveDamage(int damage)
-    {
-        health.GetDamage(1);
-    }
 }
 

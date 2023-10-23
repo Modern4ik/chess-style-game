@@ -20,27 +20,27 @@ public class UnitsHolderImpl : UnitsHolder
 
     private List<AliveUnitWrapper> units = new List<AliveUnitWrapper>() { };
 
-    public void AddUnit(BaseUnityUnit baseUnit)
+    public void AddUnit(BaseUnit baseUnit)
     {
         units.Add(new AliveUnitWrapper(baseUnit));
     }
 
     
-    public void DeleteUnit(BaseUnityUnit baseUnit)
+    public void DeleteUnit(BaseUnit baseUnit)
     {
         //TODO: надо переписать на безопасный вариант, который не может выбросить Exception. Есть ли в C# аналог Option?
         AliveUnitWrapper unitNeedToDelete = units.Find(unit => unit.getUnit() == baseUnit);
         unitNeedToDelete.MarkForDeletion();
     }
 
-    public IEnumerable<BaseUnityUnit> GetAllUnits()
+    public IEnumerable<BaseUnit> GetAllUnits()
     {
         return units.Where(unit => unit.isAlive()).Select(unit => unit.getUnit());
     }
 
-    public IEnumerable<BaseUnityUnit> GetUnits(Faction faction)
+    public IEnumerable<BaseUnit> GetUnits(Faction faction)
     {
-        return GetAllUnits().Where(unit => unit.Faction == faction);
+        return GetAllUnits().Where(unit => unit.getFaction() == faction);
     }
 
     public void compact()

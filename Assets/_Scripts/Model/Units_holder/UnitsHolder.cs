@@ -17,10 +17,10 @@ public interface UnitsHolder
      * Структура не потоко-безопасная. Т.е предполагается что обработка действий юнитов
      * будет по очереди
      */
-    public void AddUnit(BaseUnityUnit baseUnit);
-    public void DeleteUnit(BaseUnityUnit baseUnit);
-    public IEnumerable<BaseUnityUnit> GetAllUnits();
-    public IEnumerable<BaseUnityUnit> GetUnits(Faction faction);
+    public void AddUnit(BaseUnit baseUnit);
+    public void DeleteUnit(BaseUnit baseUnit);
+    public IEnumerable<BaseUnit> GetAllUnits();
+    public IEnumerable<BaseUnit> GetUnits(Faction faction);
     public void compact();
 
 }

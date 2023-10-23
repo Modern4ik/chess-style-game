@@ -8,12 +8,11 @@ public class Tile : MonoBehaviour {
     [SerializeField] private GameObject _highlight;
     [SerializeField] private bool _isWalkable;
 
-    public BaseUnityUnit OccupiedUnit;
+    public BaseUnit OccupiedUnit;
     public bool Walkable => _isWalkable && OccupiedUnit == null;
     public int x;
     public int y;
-
-
+    
     public virtual void Init(int x, int y)
     {
         this.x = x;
@@ -34,36 +33,18 @@ public class Tile : MonoBehaviour {
 
     void OnMouseDown() {
         if(GameManager.Instance.GameState != GameState.SpawnHeroes) return;
-
         if (OccupiedUnit == null)
         {
             //Generate and set unit
             //End turn
             UnitManager.Instance.SpawnHero(this);
         }
-
-        //if (OccupiedUnit != null) {
-        //    if(OccupiedUnit.Faction == Faction.Hero) UnitManager.Instance.SetSelectedHero((BaseHero)OccupiedUnit);
-        //    else {
-        //        if (UnitManager.Instance.SelectedHero != null) {
-        //            var enemy = (BaseEnemy) OccupiedUnit;
-        //            Destroy(enemy.gameObject);
-        //            UnitManager.Instance.SetSelectedHero(null);
-        //        }
-        //    }
-        //}
-        //else {
-        //    if (UnitManager.Instance.SelectedHero != null) {
-        //        SetUnit(UnitManager.Instance.SelectedHero);
-        //        UnitManager.Instance.SetSelectedHero(null);
-        //    }
-        //}
-
     }
 
-    public void SetUnit(BaseUnityUnit unit) {
+    public void SetUnit(BaseUnit unit)
+    {
         if (unit.OccupiedTile != null) unit.OccupiedTile.OccupiedUnit = null;
-        unit.transform.position = transform.position;
+        unit.getUnityObject().transform.position = transform.position;
         OccupiedUnit = unit;
         unit.OccupiedTile = this;
     }
