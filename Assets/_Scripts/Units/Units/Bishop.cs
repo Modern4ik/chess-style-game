@@ -1,9 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
-public class Bishop : BaseUnityUnit
+public class Bishop : BaseUnit
 {
-    private MovePattern _movePattern = new MovePattern(
+    public Bishop(string name, Faction faction, MonoBehaviour monoBehaviour) : base(bishopName + name, faction, new Health(2), _movePattern, monoBehaviour) { }
+    private static string bishopName = "Bishop ";
+    private static MovePattern _movePattern = new MovePattern(
         new List<Coordinate>() {
             new Coordinate(1, 1),
             new Coordinate(1, 1),
@@ -11,21 +13,4 @@ public class Bishop : BaseUnityUnit
         }
       );
 
-    public override MovePattern movePattern()
-    {
-        return _movePattern;
-    }
-
-    private Health health = new Health(2);
-
-    public override Health getHealth()
-    {
-        return health;
-    }
-
-    public override void ReceiveDamage(int damage)
-    {
-        health.GetDamage(1);
-    }
 }
-

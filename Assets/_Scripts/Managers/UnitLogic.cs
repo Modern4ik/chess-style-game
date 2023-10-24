@@ -13,63 +13,56 @@ public class UnitLogic
         private IGameManager gameManager;
         private IMenuManager menuManager;
       
-        private List<ScriptableUnit> _units;
-        public BaseHero SelectedHero;
         private UnitsHolder unitsHolder;
+        private UnitFactory unitFactory;
         
         public UnitLogic(IGridManager gridManager, IGameManager gameManager, IMenuManager menuManager)
         {
                 this.gridManager = gridManager;
                 this.gameManager = gameManager;
                 this.menuManager = menuManager;
-
+                
+                unitFactory = new UnitFactory();
                 unitsHolder = new UnitsHolderImpl();
-                _units = Resources.LoadAll<ScriptableUnit>("Units").ToList();
         }
 
-        public BaseUnityUnit SpawnUnit(Tile tile, BaseUnityUnit unit)
-        {
-            BaseUnityUnit spawnedUnit = Object.Instantiate(unit);
-            tile.SetUnit(spawnedUnit);
-            unitsHolder.AddUnit(spawnedUnit);
-            
-            Faction faction = unit.Faction;
-            switch (faction)
-            {
-                case Faction.Hero:
-                    gameManager.ChangeState(GameState.HeroesTurn);
-                    break;
-                case Faction.Enemy:
-                    gameManager.ChangeState(GameState.EnemiesTurn);
-                    break;
-            }
-            
-            return spawnedUnit;
-        }
+        // public BaseUnit SpawnUnit(Tile tile, BaseUnit unit)
+        // {
+        //     BaseUnit spawnedUnit = Object.Instantiate(unit);
+        //     tile.SetUnit(spawnedUnit);
+        //     unitsHolder.AddUnit(spawnedUnit);
+        //     
+        //     Faction faction = unit.Faction;
+        //     switch (faction)
+        //     {
+        //         case Faction.Hero:
+        //             gameManager.ChangeState(GameState.HeroesTurn);
+        //             break;
+        //         case Faction.Enemy:
+        //             gameManager.ChangeState(GameState.EnemiesTurn);
+        //             break;
+        //     }
+        //     
+        //     return spawnedUnit;
+        // }
         
-        public BaseUnityUnit SpawnHero(Tile tile)
+    public BaseUnit SpawnHero(Tile tile)
     {
-        var randomPrefab = GetRandomUnit<BaseHero>(Faction.Hero);
-        var spawnedHero = Object.Instantiate(randomPrefab);
-        tile.SetUnit(spawnedHero);
-        unitsHolder.AddUnit(spawnedHero);
+        var randomUnit = unitFactory.spawnUnit<BaseUnit>(Faction.Hero); 
+        tile.SetUnit(randomUnit);
+        unitsHolder.AddUnit(randomUnit);
         gameManager.ChangeState(GameState.HeroesTurn);
-        return spawnedHero;
+        return randomUnit;
     }
 
     public void SpawnEnemies()
-    {
+    { 
         var enemyCount = 1;
 
         for (int i = 0; i < enemyCount; i++)
         {
-            var randomPrefab = GetRandomUnit<BaseEnemy>(Faction.Enemy);
-            var spawnedEnemy = Object.Instantiate(randomPrefab);
+            var spawnedEnemy = unitFactory.spawnUnit<BaseUnit>(Faction.Enemy);
             var randomSpawnTile = gridManager.GetEnemySpawnTile();
-
-            //TODO: в будущем нужно будет найти решение без этого костыля на фракцию
-            spawnedEnemy.Faction = Faction.Enemy;
-
             randomSpawnTile.SetUnit(spawnedEnemy);
             unitsHolder.AddUnit(spawnedEnemy);
         }
@@ -79,11 +72,11 @@ public class UnitLogic
 
     public void MoveUnits(Faction faction)
     {
-        IEnumerable<BaseUnityUnit> unitsEnumerator = unitsHolder.GetUnits(faction);
-        foreach (BaseUnityUnit unit in unitsEnumerator)
+        IEnumerable<BaseUnit> unitsEnumerator = unitsHolder.GetUnits(faction);
+        foreach (BaseUnit unit in unitsEnumerator)
         {
             List<Coordinate> movementSteps = factionDependentSteps(unit, faction);
-            Debug.Log($"moved units {faction} {unit.UnitName}");
+            Debug.Log($"moved units {faction} {unit.getName()}");
             foreach (Coordinate step in movementSteps)
             {
                 //TODO: порефакторить так чтобы не нужно было передавать так много параметров
@@ -97,16 +90,16 @@ public class UnitLogic
     }
 
     //TODO: может быть это инкапсулировать внутри unit.movePattern? Т.к у юнита уже известна фракция?
-    private List<Coordinate> factionDependentSteps(BaseUnityUnit unit, Faction faction)
+    private List<Coordinate> factionDependentSteps(BaseUnit unit, Faction faction)
     {
         int ySign = yMultiplier(faction);
-        MovePattern movePattern = unit.movePattern();
+        MovePattern movePattern = unit.getMovePattern();
         List<Coordinate> newSteps = movePattern.moveSequence.Select(coordinate => new Coordinate(coordinate.x, coordinate.y * ySign)).ToList();
         return newSteps;
     }
 
     //TODO: эту ф-ию явно можно упростить. Разбить на ф-ии попроще и часть унести в поведение юнита.
-    private bool TryMoveOrFight(Faction faction, BaseUnityUnit unit, Coordinate step)
+    private bool TryMoveOrFight(Faction faction, BaseUnit unit, Coordinate step)
     {
         Tile occupiedTile = unit.OccupiedTile;
         int moveToX = occupiedTile.x + step.x;
@@ -116,7 +109,7 @@ public class UnitLogic
         {
             DoDamageToMainEnemy(faction);
             unitsHolder.DeleteUnit(unit);
-            Object.Destroy(unit.gameObject);
+            Object.Destroy(unit.getUnityObject().gameObject);
             return false;
         }
         else
@@ -124,7 +117,7 @@ public class UnitLogic
             Tile moveTo = gridManager.GetTileAtPosition(new Vector2(moveToX, moveToY));
             if (moveTo.OccupiedUnit != null) //Что делать, если кто-то уже есть на этом тайле
             {
-                if (moveTo.OccupiedUnit.Faction == faction)
+                if (moveTo.OccupiedUnit.getFaction() == faction)
                 { //Это союзный юнит, просто туда не идём, остаёмся где есть.
                     return false; //Юнит не смог сдвинуться, дальше не идёт.
                 }
@@ -133,7 +126,7 @@ public class UnitLogic
                     //Это чужой юнит, нужно с ним сражаться
                     //Можно сделать отдельную ф-ию fight. Сейчас просто удаляем чужого юнита.
                     unitsHolder.DeleteUnit(moveTo.OccupiedUnit);
-                    Object.Destroy(moveTo.OccupiedUnit.gameObject);
+                    Object.Destroy(moveTo.OccupiedUnit.getUnityObject().gameObject);
                     moveTo.SetUnit(unit);
                     return false; //Юнит файтится 1 раз. Если пофайтился, дальше не двигается
                 }
@@ -190,14 +183,5 @@ public class UnitLogic
                 menuManager.DamagePlayer(1);
                 break;
         }
-    }
-
-    private T GetRandomUnit<T>(Faction faction) where T : BaseUnityUnit {
-        return (T)_units.Where(u => u.Faction == faction).OrderBy(o => Random.value).First().UnitPrefab;
-    }
-
-    public void SetSelectedHero(BaseHero hero) {
-        SelectedHero = hero;
-        menuManager.ShowSelectedHero(hero);
     }
 }
