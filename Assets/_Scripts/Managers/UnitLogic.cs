@@ -178,7 +178,7 @@ public class UnitLogic
         switch (faction)
         {
             case Faction.Hero:
-                //TODO: это ещё нужно добавить
+                menuManager.DamageEnemy(1);
                 break;
             case Faction.Enemy:
                 menuManager.DamagePlayer(1);

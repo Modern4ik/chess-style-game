@@ -5,6 +5,11 @@ public class MenuManagerStub : IMenuManager
         throw new System.NotImplementedException();
     }
 
+    public void DamageEnemy(int damage)
+    {
+        throw new System.NotImplementedException();
+    }
+
     public void ShowTileInfo(Tile tile)
     {
         throw new System.NotImplementedException();
