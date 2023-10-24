@@ -51,19 +51,9 @@ public class MenuManager : MonoBehaviour, IMenuManager {
         _tileObject.GetComponentInChildren<Text>().text = tile.TileName;
         _tileObject.SetActive(true);
 
-        if (tile.OccupiedUnit) {
-            _tileUnitObject.GetComponentInChildren<Text>().text = tile.OccupiedUnit.UnitName;
+        if (tile.OccupiedUnit != null) {
+            _tileUnitObject.GetComponentInChildren<Text>().text = tile.OccupiedUnit.getName();
             _tileUnitObject.SetActive(true);
         }
-    }
-
-    public void ShowSelectedHero(BaseHero hero) {
-        if (hero == null) {
-            _selectedHeroObject.SetActive(false);
-            return;
-        }
-
-        _selectedHeroObject.GetComponentInChildren<Text>().text = hero.UnitName;
-        _selectedHeroObject.SetActive(true);
     }
 }

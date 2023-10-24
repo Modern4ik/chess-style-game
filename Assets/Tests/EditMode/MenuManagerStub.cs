@@ -9,9 +9,5 @@ public class MenuManagerStub : IMenuManager
     {
         throw new System.NotImplementedException();
     }
-
-    public void ShowSelectedHero(BaseHero hero)
-    {
-        throw new System.NotImplementedException();
-    }
+    
 }
