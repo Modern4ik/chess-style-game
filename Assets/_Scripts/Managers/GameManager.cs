@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour, IGameManager
 {
     public static GameManager Instance;
     public GameState GameState;
+    
 
     void Awake()
     {
@@ -16,6 +17,10 @@ public class GameManager : MonoBehaviour, IGameManager
 
     void Start()
     {   
+        //TODO: Тут вызывается решение(скорее всего временное) для генерации HP бара.
+        // Возможно стоит перенести в другое место.
+        MenuManager.Instance.GenerateHealthBar();
+
         ChangeState(GameState.GenerateGrid);
     }
 
