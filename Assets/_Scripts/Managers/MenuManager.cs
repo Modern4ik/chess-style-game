@@ -12,7 +12,9 @@ public class MenuManager : MonoBehaviour, IMenuManager {
 
     [SerializeField] private GameObject _selectedHeroObject,_tileObject,_tileUnitObject;
     [SerializeField] private GameObject _healthBarPrefab;
-    [SerializeField] private Transform _canvas; // Данное поле нужно для правильного размещения HP бара в иерархии Unity
+    // Поле ниже подтягивает Canvas(именно Transform Канваса) из иерархии в Unity.
+    // Оно нужно для того, чтобы разместить healthBar ввиде дочернего объекта в Canvas по иерархии на сцене.
+    [SerializeField] private Transform _canvas;
 
     public void DamagePlayer(int damage)
     {
@@ -22,8 +24,6 @@ public class MenuManager : MonoBehaviour, IMenuManager {
 
     public void GenerateHealthBar()
     {   
-        //TODO: в данном месте происходит генерация объекта в Unity и сразу жe
-        // инициализируется переменная для работы с спрайтом HP бара.
         healthBarSprite = Object.Instantiate(_healthBarPrefab, _canvas.transform).transform
             .GetChild(0).GetComponent<Image>();
     }
