@@ -16,7 +16,7 @@ public class UnitManager : MonoBehaviour {
         Debug.Log("UnitManager awaked");
         //TODO: для инициализации unitLogic отрабатывает настроенная фича Unity (Script Execution Order)
         // в ней настроен нужный порядок работы скриптов/инициализации
-        unitLogic = new UnitLogic(GridManager.Instance, GameManager.Instance, MenuManager.Instance);
+        unitLogic = new UnitLogic(GridManager.Instance, GameManager.Instance, MenuManager.Instance, new UnitPrefabLoader());
     }
 
     public void SpawnHero(Tile tile)

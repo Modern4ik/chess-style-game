@@ -16,13 +16,13 @@ public class UnitLogic
         private UnitsHolder unitsHolder;
         private UnitFactory unitFactory;
         
-        public UnitLogic(IGridManager gridManager, IGameManager gameManager, IMenuManager menuManager)
+        public UnitLogic(IGridManager gridManager, IGameManager gameManager, IMenuManager menuManager, IUnitPrefabLoader unitPrefabLoader)
         {
                 this.gridManager = gridManager;
                 this.gameManager = gameManager;
                 this.menuManager = menuManager;
                 
-                unitFactory = new UnitFactory();
+                unitFactory = new UnitFactory(unitPrefabLoader);
                 unitsHolder = new UnitsHolderImpl();
         }
 
@@ -48,11 +48,9 @@ public class UnitLogic
         
     public BaseUnit SpawnHero(Tile tile)
     {
-        var randomUnit = unitFactory.spawnUnit<BaseUnit>(Faction.Hero); 
-        tile.SetUnit(randomUnit);
-        unitsHolder.AddUnit(randomUnit);
+        var unit = SpawnUnit(Faction.Hero, tile);
         gameManager.ChangeState(GameState.HeroesTurn);
-        return randomUnit;
+        return unit;
     }
 
     public void SpawnEnemies()
@@ -61,13 +59,19 @@ public class UnitLogic
 
         for (int i = 0; i < enemyCount; i++)
         {
-            var spawnedEnemy = unitFactory.spawnUnit<BaseUnit>(Faction.Enemy);
             var randomSpawnTile = gridManager.GetEnemySpawnTile();
-            randomSpawnTile.SetUnit(spawnedEnemy);
-            unitsHolder.AddUnit(spawnedEnemy);
+            SpawnUnit(Faction.Enemy, randomSpawnTile);
         }
 
         gameManager.ChangeState(GameState.EnemiesTurn);
+    }
+
+    public BaseUnit SpawnUnit(Faction faction, Tile tile)
+    {
+        var unit = unitFactory.createUnit(faction);
+        tile.SetUnit(unit);
+        unitsHolder.AddUnit(unit);
+        return unit;
     }
 
     public void MoveUnits(Faction faction)
