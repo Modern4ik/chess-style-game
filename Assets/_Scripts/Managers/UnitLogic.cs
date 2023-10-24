@@ -110,6 +110,7 @@ public class UnitLogic
             DoDamageToMainEnemy(faction);
             unitsHolder.DeleteUnit(unit);
             Object.Destroy(unit.getUnityObject().gameObject);
+            occupiedTile.OccupiedUnit = null;
             return false;
         }
         else
