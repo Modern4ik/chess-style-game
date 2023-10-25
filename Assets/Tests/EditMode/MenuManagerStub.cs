@@ -1,11 +1,6 @@
 public class MenuManagerStub : IMenuManager
 {
-    public void DamagePlayer(int damage)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void DamageEnemy(int damage)
+    public void DoDamageToMainHero(Faction unitFaction)
     {
         throw new System.NotImplementedException();
     }

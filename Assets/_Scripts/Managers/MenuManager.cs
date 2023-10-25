@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,7 +12,7 @@ public class MenuManager : MonoBehaviour, IMenuManager {
     private Health enemyHealth = new Health(enemyMaxHealth);
     private Image playerHealthSprite;
     private Image enemyHealthSprite;
-
+    
     [SerializeField] private GameObject _selectedHeroObject,_tileObject,_tileUnitObject;
     [SerializeField] private GameObject _alliedHealthPrefab;
     [SerializeField] private GameObject _enemyHealthPrefab;
@@ -19,42 +20,39 @@ public class MenuManager : MonoBehaviour, IMenuManager {
     // Оно нужно для того, чтобы разместить healthBar ввиде дочернего объекта в Canvas по иерархии на сцене.
     [SerializeField] private Transform _canvas;
 
-    public void DamagePlayer(int damage)
+    public void DoDamageToMainHero(Faction unitFaction)
     {
-        int currentHealth = playerHealth.GetDamage(damage);
-        UpdateHealthBar(playerMaxHealth, currentHealth, Faction.Hero);
-    }
+        float currentHealth;
 
-    public void DamageEnemy(int damage)
-    {
-        int currentHealth = enemyHealth.GetDamage(damage);
-        UpdateHealthBar(enemyMaxHealth, currentHealth, Faction.Enemy);
-    }
-
-    public void GenerateHealthBars()
-    {
-        GameObject playerHealthBar = Object.Instantiate(_alliedHealthPrefab, _canvas.transform);
-        playerHealthBar.transform.localPosition = new Vector3(0, _canvas.GetComponent<RectTransform>().sizeDelta.y / -2, 0);
-        playerHealthSprite = playerHealthBar.transform.GetChild(0).GetComponent<Image>();
-
-        GameObject enemyHealthBar = Object.Instantiate(_enemyHealthPrefab, _canvas.transform);
-        enemyHealthBar.transform.localPosition = new Vector3(0, _canvas.GetComponent<RectTransform>().sizeDelta.y / 2, 0);
-        enemyHealthSprite = enemyHealthBar.transform.GetChild(0).GetComponent<Image>();
-    }
-
-    private void UpdateHealthBar(float maxHealth, float currentHealth, Faction faction)
-    {   
-        switch (faction)
+        switch (unitFaction)
         {
-            case Faction.Enemy:
-                enemyHealthSprite.fillAmount = currentHealth / maxHealth;
-                break;
             case Faction.Hero:
-                playerHealthSprite.fillAmount = currentHealth / maxHealth;
+                currentHealth = enemyHealth.GetDamage(1);
+                enemyHealthSprite.fillAmount = currentHealth / enemyMaxHealth;
+                break;
+            case Faction.Enemy:
+                currentHealth = playerHealth.GetDamage(1);
+                playerHealthSprite.fillAmount = currentHealth / playerMaxHealth;
                 break;
         }
     }
 
+    public void GenerateHealthBars()
+    {
+        var canvasCoordY = _canvas.GetComponent<RectTransform>().sizeDelta.y / 2;
+
+        playerHealthSprite = GenerateHealthBar(_alliedHealthPrefab, -canvasCoordY);
+        enemyHealthSprite = GenerateHealthBar(_enemyHealthPrefab, canvasCoordY);
+    }
+
+    private Image GenerateHealthBar(GameObject prefab, float coordinate)
+    {
+        GameObject sideHealthBar = Instantiate(prefab, _canvas.transform);
+        sideHealthBar.transform.localPosition = new Vector3(0, coordinate, 0);
+        
+        return sideHealthBar.transform.GetChild(0).GetComponent<Image>();
+
+    }
 
     void Awake() {
         Instance = this;

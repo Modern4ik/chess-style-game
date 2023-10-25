@@ -1,6 +1,5 @@
 public interface IMenuManager
 {
-    public void DamagePlayer(int damage);
-    public void DamageEnemy(int damage);
+    public void DoDamageToMainHero(Faction unitFaction);
     public void ShowTileInfo(Tile tile);
 }

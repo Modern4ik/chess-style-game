@@ -111,7 +111,7 @@ public class UnitLogic
         //Определяем что делать, в зависимости от того что на следующем tile
         if (IsInTheEndZone(moveToY, faction))
         {
-            DoDamageToMainEnemy(faction);
+            menuManager.DoDamageToMainHero(faction);
             unitsHolder.DeleteUnit(unit);
             Object.Destroy(unit.getUnityObject().gameObject);
             occupiedTile.OccupiedUnit = null;
@@ -175,18 +175,5 @@ public class UnitLogic
         }
         //Сюда никогда не должны попадать. Как в С# написать эту часть безопасно, чтобы не было Exception пока не понял.
         throw new System.Exception("в эту ветку кода никогда не должны попадать");
-    }
-
-    private void DoDamageToMainEnemy(Faction faction)
-    {
-        switch (faction)
-        {
-            case Faction.Hero:
-                menuManager.DamageEnemy(1);
-                break;
-            case Faction.Enemy:
-                menuManager.DamagePlayer(1);
-                break;
-        }
     }
 }
