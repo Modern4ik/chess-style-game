@@ -18,7 +18,9 @@ public class UnitPrefabLoader : IUnitPrefabLoader
 
     public override MonoBehaviour getRandomPrefab(Faction faction)
     {
-        return selectScriptableUnits(faction).OrderBy(o => Random.value).First().UnitPrefab;
+        var prefab = selectScriptableUnits(faction).OrderBy(o => Random.value).First().UnitPrefab;
+        MonoBehaviour instance = UnityEngine.Object.Instantiate(prefab);
+        return instance;
     }
 
     private List<ScriptableUnit> selectScriptableUnits(Faction faction)
