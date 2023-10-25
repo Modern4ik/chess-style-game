@@ -6,29 +6,15 @@ using Random = UnityEngine.Random;
 
 public class UnitFactory
 {
-    private List<ScriptableUnit> playerUnits;
-    private List<ScriptableUnit> enemyUnits;
-
-    public UnitFactory()
+    private IUnitPrefabLoader _unitPrefabLoader;
+    public UnitFactory(IUnitPrefabLoader unitPrefabLoader)
     {
-        playerUnits = Resources.LoadAll<ScriptableUnit>("Units/Heroes").ToList();
-        enemyUnits = Resources.LoadAll<ScriptableUnit>("Units/Enemies").ToList();
+        this._unitPrefabLoader = unitPrefabLoader;
     }
 
-    public BaseUnit spawnUnit<T>(Faction faction) where T : BaseUnit
+    public BaseUnit createUnit(Faction faction)
     {
-        switch (faction)
-        {
-            case Faction.Hero:
-                EmptyUnityObject heroPrefab = playerUnits.OrderBy(o => Random.value).First().UnitPrefab;
-                MonoBehaviour heroPrefabInstance = UnityEngine.Object.Instantiate(heroPrefab);
-                return new Pawn("new_pawn", Faction.Hero, heroPrefabInstance);
-            case Faction.Enemy:
-                EmptyUnityObject enemyPrefab = enemyUnits.OrderBy(o => Random.value).First().UnitPrefab;
-                MonoBehaviour enemyPrefabInstance = UnityEngine.Object.Instantiate(enemyPrefab);
-                return new Pawn("new_pawn", Faction.Enemy, enemyPrefabInstance);
-            default:
-                throw new NotImplementedException($"Unknown faction {faction}");
-        }
+        MonoBehaviour prefab = _unitPrefabLoader.getRandomPrefab(faction);
+        return new Pawn("new_pawn", faction, prefab);
     }
 }
