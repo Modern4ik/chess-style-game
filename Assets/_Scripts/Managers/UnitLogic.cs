@@ -104,7 +104,7 @@ public class UnitLogic
 
     //TODO: эту ф-ию явно можно упростить. Разбить на ф-ии попроще и часть унести в поведение юнита.
     private bool TryMoveOrFight(Faction faction, BaseUnit unit, Coordinate step)
-    {
+    {   
         Tile occupiedTile = unit.OccupiedTile;
         int moveToX = occupiedTile.x + step.x;
         int moveToY = occupiedTile.y + step.y;
@@ -129,11 +129,7 @@ public class UnitLogic
                 else
                 {
                     //Это чужой юнит, нужно с ним сражаться
-                    //Можно сделать отдельную ф-ию fight. Сейчас просто удаляем чужого юнита.
-                    unitsHolder.DeleteUnit(moveTo.OccupiedUnit);
-                    Object.Destroy(moveTo.OccupiedUnit.getUnityObject().gameObject);
-                    moveTo.SetUnit(unit);
-                    return false; //Юнит файтится 1 раз. Если пофайтился, дальше не двигается
+                    return Fight(unit, moveTo.OccupiedUnit); //Юнит файтится 1 раз. Если пофайтился, дальше не двигается
                 }
             } else
             { //Клетка пустая, сдвигаемся
@@ -175,5 +171,21 @@ public class UnitLogic
         }
         //Сюда никогда не должны попадать. Как в С# написать эту часть безопасно, чтобы не было Exception пока не понял.
         throw new System.Exception("в эту ветку кода никогда не должны попадать");
+    }
+
+    private bool Fight(BaseUnit attackingUnit, BaseUnit defendingUnit)
+    {
+        float remainingHealth = defendingUnit.receiveDamage(attackingUnit.getAtack()).GetCurrentHealth();
+
+        if (remainingHealth <= 0)
+        {
+            unitsHolder.DeleteUnit(defendingUnit);
+            Object.Destroy(defendingUnit.getUnityObject().gameObject);
+            defendingUnit.OccupiedTile.SetUnit(attackingUnit);
+
+            return true;
+        }
+
+        return false;
     }
 }

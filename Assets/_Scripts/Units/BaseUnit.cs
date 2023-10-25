@@ -1,20 +1,26 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public abstract class BaseUnit
 {
     private string name;
     private Faction faction;
     private Health health;
+    private int atack;
     private MovePattern movePattern;
     private MonoBehaviour monoBehaviour;
+    private Image healthBar;
     
-    protected BaseUnit(string name, Faction faction, Health health, MovePattern movePattern, MonoBehaviour monoBehaviour)
+    protected BaseUnit(string name, Faction faction, Health health, int atack, MovePattern movePattern, MonoBehaviour monoBehaviour)
     {
         this.name = name;
         this.faction = faction;
         this.health = health;
+        this.atack = atack;
         this.movePattern = movePattern;
         this.monoBehaviour = monoBehaviour;
+        this.healthBar = monoBehaviour.transform.GetChild(0).GetChild(0).GetChild(0).
+            GetComponent<Image>();
     }
     public string getName()
     {
@@ -36,10 +42,22 @@ public abstract class BaseUnit
         return health;
     }
 
+    public int getAtack()
+    {
+        return atack;
+    }
+
     public Health receiveDamage(int damage)
     {
         health.GetDamage(damage);
+        UpdateUnitHealthBar();
+
         return health;
+    }
+
+    protected void UpdateUnitHealthBar()
+    {
+        healthBar.fillAmount = (float)health.GetCurrentHealth() / health.GetMaxHealth();
     }
 
     public MonoBehaviour getUnityObject()
