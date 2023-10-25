@@ -20,6 +20,12 @@ public class MenuManager : MonoBehaviour, IMenuManager {
     // Оно нужно для того, чтобы разместить healthBar ввиде дочернего объекта в Canvas по иерархии на сцене.
     [SerializeField] private Transform _canvas;
 
+    void Awake()
+    {
+        Instance = this;
+        Debug.Log("MenuManager awaked");
+    }
+
     public void DoDamageToMainHero(Faction unitFaction)
     {
         float currentHealth;
@@ -52,11 +58,6 @@ public class MenuManager : MonoBehaviour, IMenuManager {
         
         return sideHealthBar.transform.GetChild(0).GetComponent<Image>();
 
-    }
-
-    void Awake() {
-        Instance = this;
-        Debug.Log("MenuManager awaked");
     }
 
     public void ShowTileInfo(Tile tile) {
