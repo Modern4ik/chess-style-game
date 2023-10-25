@@ -19,7 +19,7 @@ public abstract class BaseUnit
         this.atack = atack;
         this.movePattern = movePattern;
         this.monoBehaviour = monoBehaviour;
-        this.healthBar = monoBehaviour.transform.GetChild(0).GetChild(0).GetChild(0).
+        this.healthBar = monoBehaviour.transform.Find("UnitCanvas/HealthBar/Foreground").
             GetComponent<Image>();
     }
     public string getName()

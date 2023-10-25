@@ -179,13 +179,18 @@ public class UnitLogic
 
         if (remainingHealth <= 0)
         {
-            unitsHolder.DeleteUnit(defendingUnit);
-            Object.Destroy(defendingUnit.getUnityObject().gameObject);
+            DestroyUnit(defendingUnit);
             defendingUnit.OccupiedTile.SetUnit(attackingUnit);
 
             return true;
         }
 
         return false;
+    }
+
+    private void DestroyUnit(BaseUnit unit)
+    {
+        unitsHolder.DeleteUnit(unit);
+        Object.Destroy(unit.getUnityObject().gameObject);
     }
 }
