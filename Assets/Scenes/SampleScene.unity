@@ -661,7 +661,7 @@ RectTransform:
   m_GameObject: {fileID: 1209031077}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.375, y: 1.375, z: 1.375}
+  m_LocalScale: {x: 0.017956654, y: 0.02475078, z: 1.375}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1140045125}
@@ -672,8 +672,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 550, y: 259.5}
-  m_SizeDelta: {x: 800, y: 377.45456}
+  m_AnchoredPosition: {x: 3.55, y: 3.45}
+  m_SizeDelta: {x: 750, y: 360}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1265194632
 GameObject:
@@ -991,7 +991,8 @@ MonoBehaviour:
   _selectedHeroObject: {fileID: 1140045124}
   _tileObject: {fileID: 1382292736}
   _tileUnitObject: {fileID: 1945248844}
-  _healthBarPrefab: {fileID: 9162822277943660580, guid: 370b14d92ae64124790e8b77ab9c3d45, type: 3}
+  _alliedHealthPrefab: {fileID: 9162822277943660580, guid: 370b14d92ae64124790e8b77ab9c3d45, type: 3}
+  _enemyHealthPrefab: {fileID: 3144271265107078301, guid: 72ef3402033fdde4d9b10c70451a946f, type: 3}
   _canvas: {fileID: 1209031081}
 --- !u!1 &1945248844
 GameObject:
