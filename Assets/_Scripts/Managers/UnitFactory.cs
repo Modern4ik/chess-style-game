@@ -15,6 +15,15 @@ public class UnitFactory
     public BaseUnit createUnit(Faction faction)
     {
         MonoBehaviour prefab = _unitPrefabLoader.getRandomPrefab(faction);
-        return new Pawn("new_pawn", faction, prefab);
+
+        switch (prefab.tag)
+        {
+            case "Horse": return new Horse("new_horse", faction, prefab);
+            case "Bishop": return new Bishop("new_bishop", faction, prefab);
+            case "Pawn": return new Pawn("new_pawn", faction, prefab);
+
+            default:
+                throw new Exception("Что-то пошло не так в unitFactory");
+        }
     }
 }

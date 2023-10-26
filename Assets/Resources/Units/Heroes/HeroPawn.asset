@@ -10,7 +10,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6e9ed4922ed0fc2408d4180802877f45, type: 3}
-  m_Name: Enemy 1
+  m_Name: HeroPawn
   m_EditorClassIdentifier: 
-  Faction: 1
-  UnitPrefab: {fileID: 5748937839038388397, guid: b44335a2b8004b3499d26c0a474c266d, type: 3}
+  UnitPrefab: {fileID: 3408921778896530988, guid: 272de6687b276d14a9f746c287d7c0a8, type: 3}
