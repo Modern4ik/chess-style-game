@@ -23,4 +23,9 @@ public class Health
     {
         return maxHealth;
     }
+
+    public int GetCurrentHealth()
+    {
+        return currentHealth;
+    }
 }

@@ -115,7 +115,7 @@ GameObject:
   - component: {fileID: 4711900676932876363}
   - component: {fileID: 4210176738279003275}
   m_Layer: 5
-  m_Name: EnemyHealthBar
+  m_Name: HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -282,13 +282,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8678702314547375176}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.991, y: 0.792, z: 0}
+  m_LocalPosition: {x: -8.569222, y: 0.98551786, z: 0}
   m_LocalScale: {x: 0.97348, y: 0.97348, z: 0.97348}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3007660726215029071}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1151425107150930963
 SpriteRenderer:

@@ -129,13 +129,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7212219438915768151}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.774555, y: 0.08637798, z: 0}
+  m_LocalPosition: {x: -7.5680323, y: -2.8540523, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2574744182437883319}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3014278560520043387
 SpriteRenderer:
@@ -289,7 +289,7 @@ GameObject:
   - component: {fileID: 1639656092275363220}
   - component: {fileID: 5611930141133340666}
   m_Layer: 5
-  m_Name: AlliedHealthBar
+  m_Name: HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
