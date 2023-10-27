@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UnityEditor;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using static UnityEngine.GameObject;
 
@@ -106,20 +107,19 @@ public class UnitLogic
     private bool TryMoveOrFight(Faction faction, BaseUnit unit, Coordinate step)
     {   
         Tile occupiedTile = unit.OccupiedTile;
-        int moveToX = occupiedTile.x + step.x;
         int moveToY = occupiedTile.y + step.y;
         //Определяем что делать, в зависимости от того что на следующем tile
         if (IsInTheEndZone(moveToY, faction))
         {
             menuManager.DoDamageToMainHero(faction);
-            unitsHolder.DeleteUnit(unit);
-            Object.Destroy(unit.getUnityObject().gameObject);
+            DestroyUnit(unit);
             occupiedTile.OccupiedUnit = null;
             return false;
         }
         else
         {
-            Tile moveTo = gridManager.GetTileAtPosition(new Vector2(moveToX, moveToY));
+            Tile moveTo = GetTileToMove(unit, step);
+            //Tile moveTo = gridManager.GetTileAtPosition(new Vector2(moveToX, moveToY));
             if (moveTo.OccupiedUnit != null) //Что делать, если кто-то уже есть на этом тайле
             {
                 if (moveTo.OccupiedUnit.getFaction() == faction)
@@ -192,5 +192,98 @@ public class UnitLogic
     {
         unitsHolder.DeleteUnit(unit);
         Object.Destroy(unit.getUnityObject().gameObject);
+    }
+    // TODO: Метод получился громосткий и возможно имеет возможность более простой реализации,
+    // нужно подумать, как разбить/улучшить.
+    private Tile GetTileToMove(BaseUnit unit, Coordinate step)
+    {
+        Tile startTile = unit.OccupiedTile;
+        List<Tile> tileVars = new List<Tile>();
+        
+        //Тут мы мэтчимся по Тагу, чтобы скрипт понял, для кого рассчитывать передвижение.
+        switch(unit.getUnityObject().tag)
+        {   
+            // Мы проверяем, не выходит ли мы за границы слева или справа у борды и добавляем соответсвующие
+            // варианты Tile для хода в список.
+            case "Horse":
+            case "Pawn":
+                int commonY = startTile.y + step.y;
+
+                if (!(startTile.x + step.x > GridSettings.WIDTH - 1))
+                {
+                    int moveToX = startTile.x + step.x;
+                    tileVars.Add(gridManager.GetTileAtPosition(new Vector2(moveToX, commonY)));
+                }
+                if (!(startTile.x - step.x < 0))
+                {
+                    int moveToX = startTile.x - step.x;
+                    tileVars.Add(gridManager.GetTileAtPosition(new Vector2(moveToX, commonY)));
+                }
+                break;
+            case "Bishop":
+                // Тут логика такая же, но мы также проверяем промежуточные Tile,
+                // так как слон может сходить не на 2 клетки, а на одну.
+                int unusualY = startTile.y + step.y;
+
+                if (!(startTile.x + step.x > GridSettings.WIDTH - 1))
+                {
+                    int moveToX = startTile.x + step.x;
+                    tileVars.Add(gridManager.GetTileAtPosition(new Vector2(moveToX, unusualY)));
+                    // Тут мы чекаем, занят ли промежуточный Tile. Если да, то удаляем предыдущий вариант хода.
+                    if (CheckPivotTile(moveToX - 1, unusualY + 1))
+                    {
+                        tileVars.RemoveAt(tileVars.Count - 1);
+                        tileVars.Add(gridManager.GetTileAtPosition(new Vector2(moveToX - 1, unusualY + 1)));
+                    }
+                }
+                else
+                {
+                    if (!(startTile.x + (step.x - 1) > GridSettings.WIDTH - 1))
+                    {
+                        int moveToX = startTile.x + (step.x - 1);
+                        int tempY = unusualY + 1;
+                        tileVars.Add(gridManager.GetTileAtPosition(new Vector2(moveToX, tempY)));
+                    }
+                }
+
+                if (!(startTile.x - step.x < 0))
+                {
+                    int moveToX = startTile.x - step.x;
+                    tileVars.Add(gridManager.GetTileAtPosition(new Vector2(moveToX, unusualY)));
+
+                    if (CheckPivotTile(moveToX + 1, unusualY + 1))
+                    {
+                        tileVars.RemoveAt(tileVars.Count - 1);
+                        tileVars.Add(gridManager.GetTileAtPosition(new Vector2(moveToX + 1, unusualY + 1)));
+                    }
+                }
+                else
+                {
+                    if (!(startTile.x - (step.x + 1) > 0))
+                    {
+                        int moveToX = startTile.x + (step.x - 1);
+                        int tempY = unusualY + 1;
+                        tileVars.Add(gridManager.GetTileAtPosition(new Vector2(moveToX, tempY)));
+                    }
+                }
+                
+                break;
+        }
+        // тут мы возвращаем рандомный tile из полученных для хода, аля 50/50
+        return tileVars.OrderBy(o => Random.value).First();
+    }
+
+    private bool CheckPivotTile(int coordX, int coordY)
+    {
+        Tile pivotTile = gridManager.GetTileAtPosition(new Vector2(coordX, coordY));
+        if (pivotTile == null) return false;
+        // если клетка занята, то нужно с ней либо подраться, либо ничего не делать,
+        // так как это союзник.
+        if (pivotTile.OccupiedUnit != null)
+        {
+            return true;
+        }
+
+        return false;
     }
 }

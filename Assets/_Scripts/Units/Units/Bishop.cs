@@ -7,9 +7,7 @@ public class Bishop : BaseUnit
     private static string bishopName = "Bishop ";
     private static MovePattern _movePattern = new MovePattern(
         new List<Coordinate>() {
-            new Coordinate(1, 1),
-            new Coordinate(1, 1),
-            new Coordinate(1, 1)
+            new Coordinate(2, 2)
         }
       );
 
