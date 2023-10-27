@@ -79,7 +79,7 @@ public class UnitLogic
         IEnumerable<BaseUnit> unitsEnumerator = unitsHolder.GetUnits(faction);
         foreach (BaseUnit unit in unitsEnumerator)
         {
-            List<Coordinate> movementSteps = factionDependentSteps(unit, faction);
+            List<Coordinate> movementSteps = unit.getMovePattern().moveSequence;
             Debug.Log($"moved units {faction} {unit.getName()}");
             foreach (Coordinate step in movementSteps)
             {
@@ -94,13 +94,13 @@ public class UnitLogic
     }
 
     //TODO: может быть это инкапсулировать внутри unit.movePattern? Т.к у юнита уже известна фракция?
-    private List<Coordinate> factionDependentSteps(BaseUnit unit, Faction faction)
-    {
-        int ySign = yMultiplier(faction);
-        MovePattern movePattern = unit.getMovePattern();
-        List<Coordinate> newSteps = movePattern.moveSequence.Select(coordinate => new Coordinate(coordinate.x, coordinate.y * ySign)).ToList();
-        return newSteps;
-    }
+    //private List<Coordinate> factionDependentSteps(BaseUnit unit, Faction faction)
+    //{
+    //    int ySign = yMultiplier(faction);
+    //    MovePattern movePattern = unit.getMovePattern();
+    //    List<Coordinate> newSteps = movePattern.moveSequence.Select(coordinate => new Coordinate(coordinate.x, coordinate.y * ySign)).ToList();
+    //    return newSteps;
+    //}
 
     //TODO: эту ф-ию явно можно упростить. Разбить на ф-ии попроще и часть унести в поведение юнита.
     private bool TryMoveOrFight(Faction faction, BaseUnit unit, Coordinate step)
@@ -141,20 +141,20 @@ public class UnitLogic
 
 
     //В зависимости от фракции юниты идут в разные стороны. Одни вниз, другие вверх. Для этого для врагов Y координату умножаю на 1
-    private int yMultiplier(Faction faction)
-    {
-        int yMultiplier = 1;
-        switch (faction)
-        {
-            case Faction.Hero:
-                yMultiplier = 1;
-                break;
-            case Faction.Enemy:
-                yMultiplier = -1;
-                break;
-        }
-        return yMultiplier;
-    }
+    //private int yMultiplier(Faction faction)
+    //{
+    //    int yMultiplier = 1;
+    //    switch (faction)
+    //    {
+    //        case Faction.Hero:
+    //            yMultiplier = 1;
+    //            break;
+    //        case Faction.Enemy:
+    //            yMultiplier = -1;
+    //            break;
+    //    }
+    //    return yMultiplier;
+    //}
 
     //Это можно вынести в модель фракции - какая куда стремится. Или в модель самого юнита зашить.
     private bool IsInTheEndZone(int y, Faction faction)

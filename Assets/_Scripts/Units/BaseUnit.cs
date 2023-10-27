@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,12 +13,21 @@ public abstract class BaseUnit
     private Image healthBar;
     
     protected BaseUnit(string name, Faction faction, Health health, int atack, MovePattern movePattern, MonoBehaviour monoBehaviour)
-    {
+    {   
+        switch (faction)
+        {
+            case Faction.Enemy:
+                this.movePattern = new MovePattern(movePattern.moveSequence.Select(coord => new Coordinate(coord.x, -coord.y)).ToList());
+                break;
+            case Faction.Hero:
+                this.movePattern = movePattern;
+                break;
+        }
+
         this.name = name;
         this.faction = faction;
         this.health = health;
         this.atack = atack;
-        this.movePattern = movePattern;
         this.monoBehaviour = monoBehaviour;
         this.healthBar = monoBehaviour.transform.Find("UnitCanvas/HealthBar/Foreground").
             GetComponent<Image>();
