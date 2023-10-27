@@ -1,4 +1,4 @@
-using System;
+п»їusing System;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
@@ -23,7 +23,7 @@ public class UnitFactory
             case "Pawn": return new Pawn("new_pawn", faction, prefab);
 
             default:
-                throw new Exception("Что-то пошло не так в unitFactory");
+                throw new Exception($"Unexpected prefab tag: {prefab.tag}");
         }
     }
 }
