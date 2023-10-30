@@ -3,49 +3,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UnityEditor;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using static UnityEngine.GameObject;
 
 public class UnitLogic
 {
-        //Делаю так, чтобы разбить зависимость singleton-ов, для того чтобы код можно было потестить по частям.
-        private IGridManager gridManager;
-        private IGameManager gameManager;
-        private IMenuManager menuManager;
+    //Делаю так, чтобы разбить зависимость singleton-ов, для того чтобы код можно было потестить по частям.
+    private IGridManager gridManager;
+    private IGameManager gameManager;
+    private IMenuManager menuManager;
       
-        private UnitsHolder unitsHolder;
-        private UnitFactory unitFactory;
+    private UnitsHolder unitsHolder;
+    private UnitFactory unitFactory;
         
-        public UnitLogic(IGridManager gridManager, IGameManager gameManager, IMenuManager menuManager, IUnitPrefabLoader unitPrefabLoader)
-        {
-                this.gridManager = gridManager;
-                this.gameManager = gameManager;
-                this.menuManager = menuManager;
+    public UnitLogic(IGridManager gridManager, IGameManager gameManager, IMenuManager menuManager, IUnitPrefabLoader unitPrefabLoader)
+    {
+        this.gridManager = gridManager;
+        this.gameManager = gameManager;
+        this.menuManager = menuManager;
                 
-                unitFactory = new UnitFactory(unitPrefabLoader);
-                unitsHolder = new UnitsHolderImpl();
-        }
-
-        // public BaseUnit SpawnUnit(Tile tile, BaseUnit unit)
-        // {
-        //     BaseUnit spawnedUnit = Object.Instantiate(unit);
-        //     tile.SetUnit(spawnedUnit);
-        //     unitsHolder.AddUnit(spawnedUnit);
-        //     
-        //     Faction faction = unit.Faction;
-        //     switch (faction)
-        //     {
-        //         case Faction.Hero:
-        //             gameManager.ChangeState(GameState.HeroesTurn);
-        //             break;
-        //         case Faction.Enemy:
-        //             gameManager.ChangeState(GameState.EnemiesTurn);
-        //             break;
-        //     }
-        //     
-        //     return spawnedUnit;
-        // }
+        unitFactory = new UnitFactory(unitPrefabLoader);
+        unitsHolder = new UnitsHolderImpl();
+    }
         
     public BaseUnit SpawnHero(Tile tile)
     {
@@ -94,15 +73,6 @@ public class UnitLogic
         unitsHolder.compact();
     }
 
-    //TODO: может быть это инкапсулировать внутри unit.movePattern? Т.к у юнита уже известна фракция?
-    //private List<Coordinate> factionDependentSteps(BaseUnit unit, Faction faction)
-    //{
-    //    int ySign = yMultiplier(faction);
-    //    MovePattern movePattern = unit.getMovePattern();
-    //    List<Coordinate> newSteps = movePattern.moveSequence.Select(coordinate => new Coordinate(coordinate.x, coordinate.y * ySign)).ToList();
-    //    return newSteps;
-    //}
-
     //TODO: эту ф-ию явно можно упростить. Разбить на ф-ии попроще и часть унести в поведение юнита.
     private bool TryMoveOrFight(Faction faction, BaseUnit unit, Coordinate step)
     {   
@@ -138,23 +108,6 @@ public class UnitLogic
             }
         }
     }
-
-
-    //В зависимости от фракции юниты идут в разные стороны. Одни вниз, другие вверх. Для этого для врагов Y координату умножаю на 1
-    //private int yMultiplier(Faction faction)
-    //{
-    //    int yMultiplier = 1;
-    //    switch (faction)
-    //    {
-    //        case Faction.Hero:
-    //            yMultiplier = 1;
-    //            break;
-    //        case Faction.Enemy:
-    //            yMultiplier = -1;
-    //            break;
-    //    }
-    //    return yMultiplier;
-    //}
 
     //Это можно вынести в модель фракции - какая куда стремится. Или в модель самого юнита зашить.
     private bool IsInTheEndZone(int y, Faction faction)
@@ -201,12 +154,12 @@ public class UnitLogic
         List<Tile> tileVars = new List<Tile>();
         
         //Тут мы мэтчимся по Тагу, чтобы скрипт понял, для кого рассчитывать передвижение.
-        switch(unit.getUnityObject().tag)
+        switch(unit)
         {   
             // Мы проверяем, не выходит ли мы за границы слева или справа у борды и добавляем соответсвующие
             // варианты Tile для хода в список.
-            case "Horse":
-            case "Pawn":
+            case Horse:
+            case Pawn:
                 int commonY = startTile.y + step.y;
 
                 if (!(startTile.x + step.x > GridSettings.WIDTH - 1))
@@ -220,7 +173,7 @@ public class UnitLogic
                     tileVars.Add(gridManager.GetTileAtPosition(new Vector2(moveToX, commonY)));
                 }
                 break;
-            case "Bishop":
+            case Bishop:
                 // Тут логика такая же, но мы также проверяем промежуточные Tile,
                 // так как слон может сходить не на 2 клетки, а на одну.
                 int unusualY = startTile.y + step.y;

@@ -22,6 +22,8 @@ public abstract class BaseUnit
             case Faction.Hero:
                 this.movePattern = movePattern;
                 break;
+            default:
+                throw new System.Exception($"Unexpected faction: {faction}");
         }
 
         this.name = name;
