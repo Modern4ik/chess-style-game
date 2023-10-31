@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 using static UnityEngine.GameObject;
@@ -59,16 +58,15 @@ public class UnitLogic
         IEnumerable<BaseUnit> unitsEnumerator = unitsHolder.GetUnits(faction);
         foreach (BaseUnit unit in unitsEnumerator)
         {
-            List<Coordinate> movementSteps = unit.getMovePattern().moveSequence;
+            List<Coordinate> validSequance = GetValidSequance(unit.getMoveSequances(), unit);
             Debug.Log($"moved units {faction} {unit.getName()}");
-            foreach (Coordinate step in movementSteps)
+            foreach (Coordinate step in validSequance)
             {
                 //TODO: порефакторить так чтобы не нужно было передавать так много параметров
                 Debug.Log($"{faction} {step.y}");
                 bool doNextMovement = TryMoveOrFight(faction, unit, step);
                 if (!doNextMovement) break;
             }
-            
         }
         unitsHolder.compact();
     }
@@ -78,6 +76,7 @@ public class UnitLogic
     {   
         Tile occupiedTile = unit.OccupiedTile;
         int moveToY = occupiedTile.y + step.y;
+        int moveToX = occupiedTile.x + step.x;
         //Определяем что делать, в зависимости от того что на следующем tile
         if (IsInTheEndZone(moveToY, faction))
         {
@@ -88,20 +87,13 @@ public class UnitLogic
         }
         else
         {
-            Tile moveTo = GetTileToMove(unit, step);
-            //Tile moveTo = gridManager.GetTileAtPosition(new Vector2(moveToX, moveToY));
+            Tile moveTo = gridManager.GetTileAtPosition(new Vector2(moveToX, moveToY));
             if (moveTo.OccupiedUnit != null) //Что делать, если кто-то уже есть на этом тайле
-            {
-                if (moveTo.OccupiedUnit.getFaction() == faction)
-                { //Это союзный юнит, просто туда не идём, остаёмся где есть.
-                    return false; //Юнит не смог сдвинуться, дальше не идёт.
-                }
-                else
-                {
-                    //Это чужой юнит, нужно с ним сражаться
-                    return Fight(unit, moveTo.OccupiedUnit); //Юнит файтится 1 раз. Если пофайтился, дальше не двигается
-                }
-            } else
+            {  
+                //Это чужой юнит, нужно с ним сражаться
+                return Fight(unit, moveTo.OccupiedUnit); //Юнит файтится 1 раз. Если пофайтился, дальше не двигается
+            }
+            else
             { //Клетка пустая, сдвигаемся
                 moveTo.SetUnit(unit);
                 return true;
@@ -146,96 +138,82 @@ public class UnitLogic
         unitsHolder.DeleteUnit(unit);
         Object.Destroy(unit.getUnityObject().gameObject);
     }
-    // TODO: Метод получился громосткий и возможно имеет возможность более простой реализации,
-    // нужно подумать, как разбить/улучшить.
-    private Tile GetTileToMove(BaseUnit unit, Coordinate step)
+
+    private List<Coordinate> GetValidSequance(List<List<Coordinate>> moveSequances, BaseUnit unit)
     {
-        Tile startTile = unit.OccupiedTile;
-        List<Tile> tileVars = new List<Tile>();
-        
-        //Тут мы мэтчимся по Тагу, чтобы скрипт понял, для кого рассчитывать передвижение.
-        switch(unit)
+        List<List<Coordinate>> validSequances = new List<List<Coordinate>>();
+
+        foreach (List<Coordinate> sequance in moveSequances)
         {   
-            // Мы проверяем, не выходит ли мы за границы слева или справа у борды и добавляем соответсвующие
-            // варианты Tile для хода в список.
-            case Horse:
-            case Pawn:
-                int commonY = startTile.y + step.y;
+            List<Coordinate> steps = GetValidSteps(sequance, unit.OccupiedTile, unit.getFaction());
 
-                if (!(startTile.x + step.x > GridSettings.WIDTH - 1))
-                {
-                    int moveToX = startTile.x + step.x;
-                    tileVars.Add(gridManager.GetTileAtPosition(new Vector2(moveToX, commonY)));
-                }
-                if (!(startTile.x - step.x < 0))
-                {
-                    int moveToX = startTile.x - step.x;
-                    tileVars.Add(gridManager.GetTileAtPosition(new Vector2(moveToX, commonY)));
-                }
-                break;
-            case Bishop:
-                // Тут логика такая же, но мы также проверяем промежуточные Tile,
-                // так как слон может сходить не на 2 клетки, а на одну.
-                int unusualY = startTile.y + step.y;
-
-                if (!(startTile.x + step.x > GridSettings.WIDTH - 1))
-                {
-                    int moveToX = startTile.x + step.x;
-                    tileVars.Add(gridManager.GetTileAtPosition(new Vector2(moveToX, unusualY)));
-                    // Тут мы чекаем, занят ли промежуточный Tile. Если да, то удаляем предыдущий вариант хода.
-                    if (CheckPivotTile(moveToX - 1, unusualY + 1))
-                    {
-                        tileVars.RemoveAt(tileVars.Count - 1);
-                        tileVars.Add(gridManager.GetTileAtPosition(new Vector2(moveToX - 1, unusualY + 1)));
-                    }
-                }
-                else
-                {
-                    if (!(startTile.x + (step.x - 1) > GridSettings.WIDTH - 1))
-                    {
-                        int moveToX = startTile.x + (step.x - 1);
-                        int tempY = unusualY + 1;
-                        tileVars.Add(gridManager.GetTileAtPosition(new Vector2(moveToX, tempY)));
-                    }
-                }
-
-                if (!(startTile.x - step.x < 0))
-                {
-                    int moveToX = startTile.x - step.x;
-                    tileVars.Add(gridManager.GetTileAtPosition(new Vector2(moveToX, unusualY)));
-
-                    if (CheckPivotTile(moveToX + 1, unusualY + 1))
-                    {
-                        tileVars.RemoveAt(tileVars.Count - 1);
-                        tileVars.Add(gridManager.GetTileAtPosition(new Vector2(moveToX + 1, unusualY + 1)));
-                    }
-                }
-                else
-                {
-                    if (!(startTile.x - (step.x + 1) > 0))
-                    {
-                        int moveToX = startTile.x + (step.x - 1);
-                        int tempY = unusualY + 1;
-                        tileVars.Add(gridManager.GetTileAtPosition(new Vector2(moveToX, tempY)));
-                    }
-                }
-                
-                break;
+            if (steps.Count > 0) validSequances.Add(steps);
         }
-        // тут мы возвращаем рандомный tile из полученных для хода, аля 50/50
-        return tileVars.OrderBy(o => Random.value).First();
+
+        return GetRandomSequance(validSequances);
     }
 
-    private bool CheckPivotTile(int coordX, int coordY)
+    private List<Coordinate> GetValidSteps (List<Coordinate> sequance, Tile startTile, Faction faction)
     {
-        Tile pivotTile = gridManager.GetTileAtPosition(new Vector2(coordX, coordY));
-        if (pivotTile == null) return false;
-        // если клетка занята, то нужно с ней либо подраться, либо ничего не делать,
-        // так как это союзник.
-        if (pivotTile.OccupiedUnit != null)
+        List<Coordinate> validSteps = new List<Coordinate>();
+        Tile currentTile = startTile;
+
+        foreach(Coordinate coord in sequance)
+        {
+            int moveToX = currentTile.x + coord.x;
+            int moveToY = currentTile.y + coord.y;
+            Tile tileMoveTo = gridManager.GetTileAtPosition(new Vector2(moveToX, moveToY));
+
+            if (CheckSideBorders(moveToX) && CheckTileOnAlly(tileMoveTo, faction))
+            {
+                if (CheckTileOnEnemy(tileMoveTo, faction))
+                {
+                    validSteps.Add(coord);
+                    break;
+                }
+                validSteps.Add(coord);
+            }
+            else break;
+
+            if (tileMoveTo != null)currentTile = tileMoveTo;
+        }
+        return validSteps;
+    }
+
+    private List<Coordinate> GetRandomSequance(List<List<Coordinate>> moveSequances)
+    {
+        if (moveSequances.Count > 0) return moveSequances.OrderBy(o => Random.value).First();
+
+        else return new List<Coordinate>();
+    }
+
+    private bool CheckTileOnAlly(Tile tileMoveTo, Faction faction)
+    {
+        if (tileMoveTo == null) return true;
+
+        if (tileMoveTo.OccupiedUnit != null && tileMoveTo.OccupiedUnit.getFaction() == faction)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    private bool CheckTileOnEnemy(Tile tileMoveTo, Faction faction)
+    {
+        if (tileMoveTo == null) return false;
+
+        if (tileMoveTo.OccupiedUnit != null && tileMoveTo.OccupiedUnit.getFaction() != faction)
         {
             return true;
         }
+
+        return false;
+    }
+
+    private bool CheckSideBorders(int coordX)
+    {
+        if (coordX >= 0 && coordX < GridSettings.WIDTH) return true;
 
         return false;
     }

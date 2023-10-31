@@ -8,11 +8,11 @@ public class MovePattern
 	 * В чём идея: тут будут записан порядок ходов, которые собирается сделать юнит.
 	 * Значения в List-e упорядочены.
 	 */
-	public List<Coordinate> moveSequence;
+	public List<List<Coordinate>> moveSequences;
 
-	public MovePattern(List<Coordinate> moveSequence)
+	public MovePattern(List<List<Coordinate>> moveSequences)
 	{
-		this.moveSequence = moveSequence;
+		this.moveSequences = moveSequences;
 	}
 }
 

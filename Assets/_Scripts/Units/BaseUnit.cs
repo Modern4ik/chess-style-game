@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,7 +18,7 @@ public abstract class BaseUnit
         switch (faction)
         {
             case Faction.Enemy:
-                this.movePattern = new MovePattern(movePattern.moveSequence.Select(coord => new Coordinate(coord.x, -coord.y)).ToList());
+                this.movePattern = new MovePattern(movePattern.moveSequences.Select(steps => steps.Select(coord => new Coordinate(coord.x, -coord.y)).ToList()).ToList());
                 break;
             case Faction.Hero:
                 this.movePattern = movePattern;
@@ -44,9 +45,9 @@ public abstract class BaseUnit
         return faction;
     }
 
-    public MovePattern getMovePattern()
+    public List<List<Coordinate>> getMoveSequances()
     {
-        return movePattern;
+        return movePattern.moveSequences;
     }
 
     public Health getHealth()
