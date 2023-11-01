@@ -12,6 +12,7 @@ public class MenuManager : MonoBehaviour, IMenuManager {
     [SerializeField] private GameObject _selectedHeroObject,_tileObject,_tileUnitObject;
     [SerializeField] private GameObject _alliedHealthPrefab;
     [SerializeField] private GameObject _enemyHealthPrefab;
+    [SerializeField] private GameObject _unitSelectMenu;
     // Поле ниже подтягивает Canvas(именно Transform Канваса) из иерархии в Unity.
     // Оно нужно для того, чтобы разместить healthBar ввиде дочернего объекта в Canvas по иерархии на сцене.
     [SerializeField] private Transform _canvas;
@@ -53,7 +54,11 @@ public class MenuManager : MonoBehaviour, IMenuManager {
         
         return sideHealthBar.transform.GetChild(0).GetComponent<Image>();
 
+    public void GenerateUnitSelectMenu()
+    {
+        Instantiate(_unitSelectMenu, _canvas.transform);
     }
+
 
     public void ShowTileInfo(Tile tile) {
 
