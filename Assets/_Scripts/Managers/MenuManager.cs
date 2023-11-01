@@ -54,7 +54,7 @@ public class MenuManager : MonoBehaviour, IMenuManager {
     private Image GenerateHealthBar(GameObject prefab, float coordinate)
     {
         GameObject sideHealthBar = Instantiate(prefab, _canvas.transform);
-        sideHealthBar.transform.localPosition = new Vector3(0, coordinate, 0);
+        //sideHealthBar.transform.localPosition = new Vector3(0, coordinate, 0);
         
         return sideHealthBar.transform.GetChild(0).GetComponent<Image>();
 

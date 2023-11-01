@@ -2,5 +2,6 @@ using UnityEngine;
 
 public abstract class IUnitPrefabLoader
 {
-        public abstract MonoBehaviour getRandomPrefab(Faction faction);
+    public abstract MonoBehaviour getUnitPrefab(Faction faction);
+    
 }

@@ -16,11 +16,20 @@ public class UnitPrefabLoader : IUnitPrefabLoader
         enemyUnits = Resources.LoadAll<ScriptableUnit>("Units/Enemies").ToList();
     }
 
-    public override MonoBehaviour getRandomPrefab(Faction faction)
-    {
-        var prefab = selectScriptableUnits(faction).OrderBy(o => Random.value).First().UnitPrefab;
-        MonoBehaviour instance = UnityEngine.Object.Instantiate(prefab);
-        return instance;
+    public override MonoBehaviour getUnitPrefab(Faction faction)
+    {   
+        if (faction == Faction.Hero)
+        {
+            var prefab = playerUnits.Find(pref => pref.UnitPrefab.tag == Tile.droppedUnitTag).UnitPrefab;
+            MonoBehaviour instance = UnityEngine.Object.Instantiate(prefab);
+            return instance;
+        }
+        else
+        {
+            var prefab = selectScriptableUnits(faction).OrderBy(o => Random.value).First().UnitPrefab;
+            MonoBehaviour instance = UnityEngine.Object.Instantiate(prefab);
+            return instance;
+        }  
     }
 
     private List<ScriptableUnit> selectScriptableUnits(Faction faction)

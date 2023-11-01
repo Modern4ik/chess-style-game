@@ -14,8 +14,8 @@ public class UnitFactory
 
     public BaseUnit createUnit(Faction faction)
     {
-        MonoBehaviour prefab = _unitPrefabLoader.getRandomPrefab(faction);
-
+        MonoBehaviour prefab = _unitPrefabLoader.getUnitPrefab(faction);
+        
         switch (prefab.tag)
         {
             case "Horse": return new Horse("new_horse", faction, prefab);
