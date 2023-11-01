@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 using static UnityEngine.GameObject;
@@ -58,9 +59,9 @@ public class UnitLogic
         IEnumerable<BaseUnit> unitsEnumerator = unitsHolder.GetUnits(faction);
         foreach (BaseUnit unit in unitsEnumerator)
         {
-            List<Coordinate> validSequance = GetValidSequance(unit.getMoveSequances(), unit);
+            List<Coordinate> validSequence = GetValidSequence(unit.getMoveSequences(), unit.OccupiedTile, unit.getFaction());
             Debug.Log($"moved units {faction} {unit.getName()}");
-            foreach (Coordinate step in validSequance)
+            foreach (Coordinate step in validSequence)
             {
                 //TODO: порефакторить так чтобы не нужно было передавать так много параметров
                 Debug.Log($"{faction} {step.y}");
@@ -139,55 +140,52 @@ public class UnitLogic
         Object.Destroy(unit.getUnityObject().gameObject);
     }
 
-    private List<Coordinate> GetValidSequance(List<List<Coordinate>> moveSequances, BaseUnit unit)
+    private List<Coordinate> GetValidSequence(List<List<Coordinate>> moveSequences, Tile occupiedTile, Faction faction)
     {
-        List<List<Coordinate>> validSequances = new List<List<Coordinate>>();
+        List<List<Coordinate>> validSequences = new List<List<Coordinate>>();
 
-        foreach (List<Coordinate> sequance in moveSequances)
+        foreach (List<Coordinate> sequence in moveSequences)
         {   
-            List<Coordinate> steps = GetValidSteps(sequance, unit.OccupiedTile, unit.getFaction());
+            List<Coordinate> steps = GetValidSteps(sequence, occupiedTile, faction);
 
-            if (steps.Count > 0) validSequances.Add(steps);
+            if (steps.Count > 0) validSequences.Add(steps);
         }
 
-        return GetRandomSequance(validSequances);
+        return GetRandomSequence(validSequences);
     }
 
-    private List<Coordinate> GetValidSteps (List<Coordinate> sequance, Tile startTile, Faction faction)
+    private List<Coordinate> GetValidSteps (List<Coordinate> sequence, Tile startTile, Faction faction)
     {
         List<Coordinate> validSteps = new List<Coordinate>();
         Tile currentTile = startTile;
 
-        foreach(Coordinate coord in sequance)
+        foreach(Coordinate coord in sequence)
         {
             int moveToX = currentTile.x + coord.x;
             int moveToY = currentTile.y + coord.y;
             Tile tileMoveTo = gridManager.GetTileAtPosition(new Vector2(moveToX, moveToY));
 
-            if (CheckSideBorders(moveToX) && CheckTileOnAlly(tileMoveTo, faction))
+            if (CheckSideBorders(moveToX) && IsAllyOnTile(tileMoveTo, faction))
             {
-                if (CheckTileOnEnemy(tileMoveTo, faction))
-                {
-                    validSteps.Add(coord);
-                    break;
-                }
                 validSteps.Add(coord);
+
+                if (IsEnemyOnTile(tileMoveTo, faction)) break;
             }
             else break;
 
-            if (tileMoveTo != null)currentTile = tileMoveTo;
+            if (tileMoveTo != null) currentTile = tileMoveTo;
         }
         return validSteps;
     }
 
-    private List<Coordinate> GetRandomSequance(List<List<Coordinate>> moveSequances)
+    private List<Coordinate> GetRandomSequence(List<List<Coordinate>> moveSequences)
     {
-        if (moveSequances.Count > 0) return moveSequances.OrderBy(o => Random.value).First();
+        if (moveSequences.Count > 0) return moveSequences.OrderBy(o => Random.value).First();
 
         else return new List<Coordinate>();
     }
 
-    private bool CheckTileOnAlly(Tile tileMoveTo, Faction faction)
+    private bool IsAllyOnTile(Tile tileMoveTo, Faction faction)
     {
         if (tileMoveTo == null) return true;
 
@@ -199,7 +197,7 @@ public class UnitLogic
         return true;
     }
 
-    private bool CheckTileOnEnemy(Tile tileMoveTo, Faction faction)
+    private bool IsEnemyOnTile(Tile tileMoveTo, Faction faction)
     {
         if (tileMoveTo == null) return false;
 
@@ -215,6 +213,6 @@ public class UnitLogic
     {
         if (coordX >= 0 && coordX < GridSettings.WIDTH) return true;
 
-        return false;
+        else return false;
     }
 }

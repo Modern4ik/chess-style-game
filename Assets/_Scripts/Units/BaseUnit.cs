@@ -45,7 +45,7 @@ public abstract class BaseUnit
         return faction;
     }
 
-    public List<List<Coordinate>> getMoveSequances()
+    public List<List<Coordinate>> getMoveSequences()
     {
         return movePattern.moveSequences;
     }
