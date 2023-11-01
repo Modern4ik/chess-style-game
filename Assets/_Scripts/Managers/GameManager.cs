@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour, IGameManager
         //TODO: Тут вызывается решение(скорее всего временное) для генерации HP бара.
         // Возможно стоит перенести в другое место.
         MenuManager.Instance.GenerateHealthBars();
+        MenuManager.Instance.GenerateUnitSelectMenu();
 
         ChangeState(GameState.GenerateGrid);
     }
