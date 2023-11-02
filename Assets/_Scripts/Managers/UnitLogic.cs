@@ -121,7 +121,7 @@ public class UnitLogic
 
     private bool Fight(BaseUnit attackingUnit, BaseUnit defendingUnit)
     {
-        float remainingHealth = defendingUnit.receiveDamage(attackingUnit.getAtack()).GetCurrentHealth();
+        float remainingHealth = defendingUnit.getHealth().RecieveDamage(attackingUnit.getAtack());
 
         if (remainingHealth <= 0)
         {

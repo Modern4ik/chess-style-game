@@ -7,13 +7,12 @@ public abstract class BaseUnit
 {
     private string name;
     private Faction faction;
-    private Health health;
+    private IHealth health;
     private int atack;
     private MovePattern movePattern;
     private MonoBehaviour monoBehaviour;
-    private Image healthBar;
     
-    protected BaseUnit(string name, Faction faction, Health health, int atack, MovePattern movePattern, MonoBehaviour monoBehaviour)
+    protected BaseUnit(string name, Faction faction, int maxHealth, int atack, MovePattern movePattern, MonoBehaviour monoBehaviour)
     {   
         switch (faction)
         {
@@ -26,14 +25,14 @@ public abstract class BaseUnit
             default:
                 throw new System.Exception($"Unexpected faction: {faction}");
         }
-
         this.name = name;
-        this.faction = faction;
-        this.health = health;
         this.atack = atack;
         this.monoBehaviour = monoBehaviour;
-        this.healthBar = monoBehaviour.transform.Find("UnitCanvas/HealthBar/Foreground").
+        
+        this.faction = faction;
+        Image healthBar = monoBehaviour.transform.Find("UnitCanvas/HealthBar/Foreground").
             GetComponent<Image>();
+        this.health = new Health(maxHealth, new HealthView(healthBar));
     }
     public string getName()
     {
@@ -50,7 +49,7 @@ public abstract class BaseUnit
         return movePattern.moveSequences;
     }
 
-    public Health getHealth()
+    public IHealth getHealth()
     {
         return health;
     }
@@ -58,19 +57,6 @@ public abstract class BaseUnit
     public int getAtack()
     {
         return atack;
-    }
-
-    public Health receiveDamage(int damage)
-    {
-        health.GetDamage(damage);
-        UpdateUnitHealthBar();
-
-        return health;
-    }
-
-    protected void UpdateUnitHealthBar()
-    {
-        healthBar.fillAmount = (float)health.GetCurrentHealth() / health.GetMaxHealth();
     }
 
     public MonoBehaviour getUnityObject()
