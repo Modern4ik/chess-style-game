@@ -44,7 +44,7 @@ public class Tile : MonoBehaviour {
     public void SetUnit(BaseUnit unit)
     {
         if (unit.OccupiedTile != null) unit.OccupiedTile.OccupiedUnit = null;
-        unit.getUnityObject().transform.position = transform.position;
+        unit.getUnityObject().SetPosition(transform.position);
         OccupiedUnit = unit;
         unit.OccupiedTile = this;
     }
