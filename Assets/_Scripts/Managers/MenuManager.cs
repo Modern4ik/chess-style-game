@@ -6,8 +6,6 @@ using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour, IMenuManager {
     public static MenuManager Instance;
-    private static int playerMaxHealth = 10;
-    private static int enemyMaxHealth = 10;
     private IHealth playerHealth;
     private IHealth enemyHealth;
     
@@ -26,8 +24,6 @@ public class MenuManager : MonoBehaviour, IMenuManager {
 
     public void DoDamageToMainHero(Faction unitFaction)
     {
-        float currentHealth;
-
         switch (unitFaction)
         {
             case Faction.Hero:

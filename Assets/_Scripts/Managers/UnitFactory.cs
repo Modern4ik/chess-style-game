@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
-using Random = UnityEngine.Random;
 
-public class UnitFactory
+public class UnitFactory : IUnitFactory
 {
     private IUnitPrefabLoader _unitPrefabLoader;
     public UnitFactory(IUnitPrefabLoader unitPrefabLoader)

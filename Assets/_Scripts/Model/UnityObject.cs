@@ -11,7 +11,7 @@ public class UnityObject : IUnityObject
     
     public void Destroy()
     {
-        Object.Destroy(_monoBehaviour);
+        Object.Destroy(_monoBehaviour.gameObject);
     }
 
     public void SetPosition(Vector3 position)
