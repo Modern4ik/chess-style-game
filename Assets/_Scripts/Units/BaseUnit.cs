@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,12 +14,23 @@ public abstract class BaseUnit
     private Image healthBar;
     
     protected BaseUnit(string name, Faction faction, Health health, int atack, MovePattern movePattern, MonoBehaviour monoBehaviour)
-    {
+    {   
+        switch (faction)
+        {
+            case Faction.Enemy:
+                this.movePattern = new MovePattern(movePattern.moveSequences.Select(steps => steps.Select(coord => new Coordinate(coord.x, -coord.y)).ToList()).ToList());
+                break;
+            case Faction.Hero:
+                this.movePattern = movePattern;
+                break;
+            default:
+                throw new System.Exception($"Unexpected faction: {faction}");
+        }
+
         this.name = name;
         this.faction = faction;
         this.health = health;
         this.atack = atack;
-        this.movePattern = movePattern;
         this.monoBehaviour = monoBehaviour;
         this.healthBar = monoBehaviour.transform.Find("UnitCanvas/HealthBar/Foreground").
             GetComponent<Image>();
@@ -32,9 +45,9 @@ public abstract class BaseUnit
         return faction;
     }
 
-    public MovePattern getMovePattern()
+    public List<List<Coordinate>> getMoveSequences()
     {
-        return movePattern;
+        return movePattern.moveSequences;
     }
 
     public Health getHealth()
