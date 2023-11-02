@@ -14,15 +14,14 @@ public class UnitLogic
     private IMenuManager menuManager;
       
     private UnitsHolder unitsHolder;
-    private UnitFactory unitFactory;
+    private IUnitFactory unitFactory;
         
-    public UnitLogic(IGridManager gridManager, IGameManager gameManager, IMenuManager menuManager, IUnitPrefabLoader unitPrefabLoader)
+    public UnitLogic(IGridManager gridManager, IGameManager gameManager, IMenuManager menuManager, IUnitFactory unitFactory)
     {
         this.gridManager = gridManager;
         this.gameManager = gameManager;
         this.menuManager = menuManager;
-                
-        unitFactory = new UnitFactory(unitPrefabLoader);
+        this.unitFactory = unitFactory;
         unitsHolder = new UnitsHolderImpl();
     }
         

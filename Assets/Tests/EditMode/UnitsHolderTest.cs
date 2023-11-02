@@ -1,19 +1,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
-using UnityEngine;
-using System;
 
 public class UnitsHolderTest
 {
-    private UnitFactory _unitFactory = new UnitFactory(new UnitPrefabLoaderStub());
-    
     [Test]
     public void CheckSingleElement()
     {
         UnitsHolder unitsHolder = new UnitsHolderImpl();
     
-        var enemy = _unitFactory.createUnit(Faction.Enemy);
+        var enemy = new Pawn("test pawn 1", Faction.Enemy, emptyUnitSettings());
         
         unitsHolder.AddUnit(enemy);
         IEnumerable<BaseUnit> enumerable = unitsHolder.GetAllUnits();
@@ -27,10 +23,10 @@ public class UnitsHolderTest
     public void DeleteElement()
     {
         UnitsHolder unitsHolder = new UnitsHolderImpl();
-    
-        var enemy1 = _unitFactory.createUnit(Faction.Enemy);
-        var enemy2 = _unitFactory.createUnit(Faction.Enemy);
-        var enemy3 = _unitFactory.createUnit(Faction.Enemy);
+
+        var enemy1 = new Pawn("test pawn 1", Faction.Enemy, emptyUnitSettings());
+        var enemy2 = new Pawn("test pawn 2", Faction.Enemy, emptyUnitSettings());
+        var enemy3 = new Pawn("test pawn 3", Faction.Enemy, emptyUnitSettings());
         
         unitsHolder.AddUnit(enemy1);
         unitsHolder.AddUnit(enemy2);
@@ -49,6 +45,9 @@ public class UnitsHolderTest
     
         Assert.AreEqual(expected, seen);
     }
-    
-    
+
+    private UnitSettings emptyUnitSettings()
+    {
+        return new UnitSettings(new UnityObjectStub(), new HealthViewStub());
+    }
 }
