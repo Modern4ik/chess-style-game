@@ -137,7 +137,7 @@ public class UnitLogic
     private void DestroyUnit(BaseUnit unit)
     {
         unitsHolder.DeleteUnit(unit);
-        Object.Destroy(unit.getUnityObject().gameObject);
+        unit.getUnityObject().Destroy();
     }
 
     private List<Coordinate> GetValidSequence(List<List<Coordinate>> moveSequences, Tile occupiedTile, Faction faction)

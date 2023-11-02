@@ -1,7 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
-using UnityEngine.UI;
 
 public abstract class BaseUnit
 {
@@ -10,9 +8,9 @@ public abstract class BaseUnit
     private IHealth health;
     private int atack;
     private MovePattern movePattern;
-    private MonoBehaviour monoBehaviour;
+    private IUnityObject _unityObject;
     
-    protected BaseUnit(string name, Faction faction, int maxHealth, int atack, MovePattern movePattern, MonoBehaviour monoBehaviour)
+    protected BaseUnit(string name, Faction faction, int maxHealth, int atack, MovePattern movePattern, UnitSettings unitSettings)
     {   
         switch (faction)
         {
@@ -27,13 +25,12 @@ public abstract class BaseUnit
         }
         this.name = name;
         this.atack = atack;
-        this.monoBehaviour = monoBehaviour;
+        this._unityObject = unitSettings.unityObject;
         
         this.faction = faction;
-        Image healthBar = monoBehaviour.transform.Find("UnitCanvas/HealthBar/Foreground").
-            GetComponent<Image>();
-        this.health = new Health(maxHealth, new HealthView(healthBar));
+        this.health = new Health(maxHealth, unitSettings.healthView);
     }
+    
     public string getName()
     {
         return name;
@@ -59,10 +56,11 @@ public abstract class BaseUnit
         return atack;
     }
 
-    public MonoBehaviour getUnityObject()
+    public IUnityObject getUnityObject()
     {
-        return monoBehaviour;
+        return _unityObject;
     }
     
     public Tile OccupiedTile { get; set; }
+    
 }
