@@ -8,10 +8,8 @@ public class MenuManager : MonoBehaviour, IMenuManager {
     public static MenuManager Instance;
     private static int playerMaxHealth = 10;
     private static int enemyMaxHealth = 10;
-    private Health playerHealth = new Health(playerMaxHealth);
-    private Health enemyHealth = new Health(enemyMaxHealth);
-    private Image playerHealthSprite;
-    private Image enemyHealthSprite;
+    private IHealth playerHealth;
+    private IHealth enemyHealth;
     
     [SerializeField] private GameObject _selectedHeroObject,_tileObject,_tileUnitObject;
     [SerializeField] private GameObject _alliedHealthPrefab;
@@ -33,12 +31,10 @@ public class MenuManager : MonoBehaviour, IMenuManager {
         switch (unitFaction)
         {
             case Faction.Hero:
-                currentHealth = enemyHealth.GetDamage(1);
-                enemyHealthSprite.fillAmount = currentHealth / enemyMaxHealth;
+                enemyHealth.RecieveDamage(1);
                 break;
             case Faction.Enemy:
-                currentHealth = playerHealth.GetDamage(1);
-                playerHealthSprite.fillAmount = currentHealth / playerMaxHealth;
+                playerHealth.RecieveDamage(1);
                 break;
         }
     }
@@ -47,8 +43,11 @@ public class MenuManager : MonoBehaviour, IMenuManager {
     {
         var canvasCoordY = _canvas.GetComponent<RectTransform>().sizeDelta.y / 2;
 
-        playerHealthSprite = GenerateHealthBar(_alliedHealthPrefab, -canvasCoordY);
-        enemyHealthSprite = GenerateHealthBar(_enemyHealthPrefab, canvasCoordY);
+        Image playerHealthSprite = GenerateHealthBar(_alliedHealthPrefab, -canvasCoordY);
+        Image enemyHealthSprite = GenerateHealthBar(_enemyHealthPrefab, canvasCoordY);
+
+        this.playerHealth = new Health(10, new HealthView(playerHealthSprite));
+        this.enemyHealth = new Health(10, new HealthView(enemyHealthSprite));
     }
 
     private Image GenerateHealthBar(GameObject prefab, float coordinate)
