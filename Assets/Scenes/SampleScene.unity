@@ -994,6 +994,9 @@ MonoBehaviour:
   _alliedHealthPrefab: {fileID: 6675898107712014106, guid: 4bca3ea30ae7b73428a5c18c24c23b64, type: 3}
   _enemyHealthPrefab: {fileID: 1469223095963543316, guid: 72ef3402033fdde4d9b10c70451a946f, type: 3}
   _unitSelectMenu: {fileID: 7518855748393853959, guid: 41a85455f93fab14586f2fd5ebdf0c62, type: 3}
+  _endGameMenuPrefab: {fileID: 2233876579425780365, guid: 9a2649f8d80833042bf05b6c6ba9ff2c, type: 3}
+  _winEndMenuText: {fileID: 600190887686835945, guid: 351fa2769e7e16749af09f1604043fc0, type: 3}
+  _loseEndMenuText: {fileID: 530876562275020311, guid: b9b1017ef185cdf49b8a0ce0dd26e4a5, type: 3}
   _canvas: {fileID: 1209031081}
 --- !u!1 &1945248844
 GameObject:

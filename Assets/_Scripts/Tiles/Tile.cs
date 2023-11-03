@@ -23,7 +23,7 @@ public class Tile : MonoBehaviour, IDropHandler {
 
     void OnMouseEnter()
     {
-        if (MenuManager.Instance.endMenu) return;
+        if (GameManager.Instance.GameState == GameState.GameEnd) return;
 
         _highlight.SetActive(true);
         MenuManager.Instance.ShowTileInfo(this);
@@ -31,7 +31,7 @@ public class Tile : MonoBehaviour, IDropHandler {
 
     void OnMouseExit()
     {
-        if (MenuManager.Instance.endMenu) return;
+        if (GameManager.Instance.GameState == GameState.GameEnd) return;
 
         _highlight.SetActive(false);
         MenuManager.Instance.ShowTileInfo(null);
