@@ -1,8 +1,6 @@
-using Codice.Client.Common.GameUI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour, IGameManager
