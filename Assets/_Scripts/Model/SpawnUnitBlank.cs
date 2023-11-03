@@ -4,14 +4,14 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class UnitSpawnObject : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class SpawnUnitBlank : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     public Image image;
     Transform parentAfterDrag;
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        Debug.Log("Begin Drag");
+        Debug.Log($"Begin Drag {image.name}");
         parentAfterDrag = transform.parent;
         transform.SetParent(transform.root);
         transform.SetAsLastSibling();
@@ -20,13 +20,13 @@ public class UnitSpawnObject : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 
     public void OnDrag(PointerEventData eventData)
     {
-        Debug.Log("Dragging");
+        Debug.Log($"Dragging {image.name}");
         transform.position = Input.mousePosition;
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        Debug.Log("EndDrag");
+        Debug.Log($"EndDrag {image.name}");
         transform.SetParent(parentAfterDrag);
         image.raycastTarget = true;
     }

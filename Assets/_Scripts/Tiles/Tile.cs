@@ -35,12 +35,13 @@ public class Tile : MonoBehaviour, IDropHandler {
 
     public void OnDrop(PointerEventData eventData)
     {
-        GameObject droppedUnit = eventData.pointerDrag;
-        droppedUnitTag = droppedUnit.tag;
-        
         if (GameManager.Instance.GameState != GameState.SpawnHeroes) return;
+
         if (OccupiedUnit == null && y == 0)
         {
+            GameObject droppedUnit = eventData.pointerDrag;
+            droppedUnitTag = droppedUnit.tag;
+
             //Generate and set unit
             //End turn
             UnitManager.Instance.SpawnHero(this);
