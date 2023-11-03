@@ -22,13 +22,17 @@ public class Tile : MonoBehaviour, IDropHandler {
     }
 
     void OnMouseEnter()
-    {;
+    {
+        if (GameManager.Instance.IsGameEnded()) return;
+
         _highlight.SetActive(true);
         MenuManager.Instance.ShowTileInfo(this);
     }
 
     void OnMouseExit()
     {
+        if (GameManager.Instance.IsGameEnded()) return;
+
         _highlight.SetActive(false);
         MenuManager.Instance.ShowTileInfo(null);
     }
