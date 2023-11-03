@@ -13,6 +13,8 @@ public class MenuManager : MonoBehaviour, IMenuManager {
     [SerializeField] private GameObject _alliedHealthPrefab;
     [SerializeField] private GameObject _enemyHealthPrefab;
     [SerializeField] private GameObject _unitSelectMenu;
+    [SerializeField] private GameObject _endGameMenuPrefab;
+    [SerializeField] private GameObject _winEndMenuText, _loseEndMenuText;
     // Поле ниже подтягивает Canvas(именно Transform Канваса) из иерархии в Unity.
     // Оно нужно для того, чтобы разместить healthBar ввиде дочернего объекта в Canvas по иерархии на сцене.
     [SerializeField] private Transform _canvas;
@@ -28,10 +30,10 @@ public class MenuManager : MonoBehaviour, IMenuManager {
         switch (unitFaction)
         {
             case Faction.Hero:
-                enemyHealth.RecieveDamage(1);
+                if (enemyHealth.RecieveDamage(1) == 0) GenerateEndGameMenu(_endGameMenuPrefab, _winEndMenuText);
                 break;
             case Faction.Enemy:
-                playerHealth.RecieveDamage(1);
+                if (playerHealth.RecieveDamage(1) == 0) GenerateEndGameMenu(_endGameMenuPrefab, _loseEndMenuText);
                 break;
         }
     }
@@ -55,6 +57,12 @@ public class MenuManager : MonoBehaviour, IMenuManager {
     public void GenerateUnitSelectMenu()
     {
         Instantiate(_unitSelectMenu, _canvas.transform);
+    }
+
+    private void GenerateEndGameMenu(GameObject menuPrefab, GameObject menuText)
+    {
+        GameObject endMenu = Instantiate(menuPrefab, _canvas.transform);
+        Instantiate(menuText, endMenu.transform);
     }
 
 
