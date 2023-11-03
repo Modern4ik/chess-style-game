@@ -65,7 +65,7 @@ public class MenuManager : MonoBehaviour, IMenuManager {
         GameObject endMenu = Instantiate(_endGameMenuPrefab, _canvas.transform);
         Instantiate(menuText, endMenu.transform);
 
-        GameManager.Instance.ChangeState(GameState.GameEnd);
+        GameManager.Instance.ChangeState(GameState.GameEnded);
     }
 
     public void ShowTileInfo(Tile tile) {
