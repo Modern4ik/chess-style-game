@@ -26,14 +26,14 @@ public class MenuManager : MonoBehaviour, IMenuManager {
     }
 
     public void DoDamageToMainHero(Faction unitFaction)
-    {
+    {   
         switch (unitFaction)
         {
             case Faction.Hero:
-                if (enemyHealth.RecieveDamage(1) == 0) GenerateEndGameMenu(_endGameMenuPrefab, _winEndMenuText);
+                if (enemyHealth.RecieveDamage(1) == 0) GenerateEndGameMenu(_winEndMenuText);
                 break;
             case Faction.Enemy:
-                if (playerHealth.RecieveDamage(1) == 0) GenerateEndGameMenu(_endGameMenuPrefab, _loseEndMenuText);
+                if (playerHealth.RecieveDamage(1) == 0) GenerateEndGameMenu(_loseEndMenuText);
                 break;
         }
     }
@@ -59,9 +59,9 @@ public class MenuManager : MonoBehaviour, IMenuManager {
         Instantiate(_unitSelectMenu, _canvas.transform);
     }
 
-    private void GenerateEndGameMenu(GameObject menuPrefab, GameObject menuText)
+    private void GenerateEndGameMenu(GameObject menuText)
     {
-        GameObject endMenu = Instantiate(menuPrefab, _canvas.transform);
+        GameObject endMenu = Instantiate(_endGameMenuPrefab, _canvas.transform);
         Instantiate(menuText, endMenu.transform);
     }
 
