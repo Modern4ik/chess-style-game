@@ -12,6 +12,7 @@ public class MenuManager : MonoBehaviour, IMenuManager {
     [SerializeField] private GameObject _selectedHeroObject,_tileObject,_tileUnitObject;
     [SerializeField] private GameObject _alliedHealthPrefab;
     [SerializeField] private GameObject _enemyHealthPrefab;
+    [SerializeField] private GameObject _unitSelectMenu;
     // Поле ниже подтягивает Canvas(именно Transform Канваса) из иерархии в Unity.
     // Оно нужно для того, чтобы разместить healthBar ввиде дочернего объекта в Canvas по иерархии на сцене.
     [SerializeField] private Transform _canvas;
@@ -37,23 +38,25 @@ public class MenuManager : MonoBehaviour, IMenuManager {
 
     public void GenerateHealthBars()
     {
-        var canvasCoordY = _canvas.GetComponent<RectTransform>().sizeDelta.y / 2;
-
-        Image playerHealthSprite = GenerateHealthBar(_alliedHealthPrefab, -canvasCoordY);
-        Image enemyHealthSprite = GenerateHealthBar(_enemyHealthPrefab, canvasCoordY);
+        Image playerHealthSprite = GenerateHealthBar(_alliedHealthPrefab);
+        Image enemyHealthSprite = GenerateHealthBar(_enemyHealthPrefab);
 
         this.playerHealth = new Health(10, new HealthView(playerHealthSprite));
         this.enemyHealth = new Health(10, new HealthView(enemyHealthSprite));
     }
 
-    private Image GenerateHealthBar(GameObject prefab, float coordinate)
+    private Image GenerateHealthBar(GameObject prefab)
     {
         GameObject sideHealthBar = Instantiate(prefab, _canvas.transform);
-        sideHealthBar.transform.localPosition = new Vector3(0, coordinate, 0);
-        
-        return sideHealthBar.transform.GetChild(0).GetComponent<Image>();
 
+        return sideHealthBar.transform.GetChild(0).GetComponent<Image>();
     }
+
+    public void GenerateUnitSelectMenu()
+    {
+        Instantiate(_unitSelectMenu, _canvas.transform);
+    }
+
 
     public void ShowTileInfo(Tile tile) {
 

@@ -11,7 +11,7 @@ public class UnitFactory : IUnitFactory
 
     public BaseUnit createUnit(Faction faction)
     {
-        MonoBehaviour prefab = _unitPrefabLoader.getRandomPrefab(faction);
+        MonoBehaviour prefab = _unitPrefabLoader.getUnitPrefab(faction);
         UnitSettings unitSettings = UnitSettingsCreator.createUnitSettings(prefab);
 
         switch (prefab.tag)

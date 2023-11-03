@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 //TODO: этот класс был абстрактным. Временно убрано из-за unit-тестов.
-public class Tile : MonoBehaviour {
+public class Tile : MonoBehaviour, IDropHandler {
     public string TileName;
     [SerializeField] protected SpriteRenderer _renderer;
     [SerializeField] private GameObject _highlight;
@@ -12,6 +13,7 @@ public class Tile : MonoBehaviour {
     public bool Walkable => _isWalkable && OccupiedUnit == null;
     public int x;
     public int y;
+    public static string droppedUnitTag;
     
     public virtual void Init(int x, int y)
     {
@@ -20,7 +22,7 @@ public class Tile : MonoBehaviour {
     }
 
     void OnMouseEnter()
-    {
+    {;
         _highlight.SetActive(true);
         MenuManager.Instance.ShowTileInfo(this);
     }
@@ -31,10 +33,15 @@ public class Tile : MonoBehaviour {
         MenuManager.Instance.ShowTileInfo(null);
     }
 
-    void OnMouseDown() {
-        if(GameManager.Instance.GameState != GameState.SpawnHeroes) return;
-        if (OccupiedUnit == null)
+    public void OnDrop(PointerEventData eventData)
+    {
+        if (GameManager.Instance.GameState != GameState.SpawnHeroes) return;
+
+        if (OccupiedUnit == null && y == 0)
         {
+            GameObject droppedUnit = eventData.pointerDrag;
+            droppedUnitTag = droppedUnit.tag;
+
             //Generate and set unit
             //End turn
             UnitManager.Instance.SpawnHero(this);
