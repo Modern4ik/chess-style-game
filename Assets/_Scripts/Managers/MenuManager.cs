@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour, IMenuManager {
     public static MenuManager Instance;
+
+    public GameObject endMenu { get; private set; }
     private IHealth playerHealth;
     private IHealth enemyHealth;
     
@@ -61,7 +63,7 @@ public class MenuManager : MonoBehaviour, IMenuManager {
 
     private void GenerateEndGameMenu(GameObject menuText)
     {
-        GameObject endMenu = Instantiate(_endGameMenuPrefab, _canvas.transform);
+        endMenu = Instantiate(_endGameMenuPrefab, _canvas.transform);
         Instantiate(menuText, endMenu.transform);
     }
 
