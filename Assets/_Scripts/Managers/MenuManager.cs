@@ -38,21 +38,19 @@ public class MenuManager : MonoBehaviour, IMenuManager {
 
     public void GenerateHealthBars()
     {
-        var canvasCoordY = _canvas.GetComponent<RectTransform>().sizeDelta.y / 2;
-
-        Image playerHealthSprite = GenerateHealthBar(_alliedHealthPrefab, -canvasCoordY);
-        Image enemyHealthSprite = GenerateHealthBar(_enemyHealthPrefab, canvasCoordY);
+        Image playerHealthSprite = GenerateHealthBar(_alliedHealthPrefab);
+        Image enemyHealthSprite = GenerateHealthBar(_enemyHealthPrefab);
 
         this.playerHealth = new Health(10, new HealthView(playerHealthSprite));
         this.enemyHealth = new Health(10, new HealthView(enemyHealthSprite));
     }
 
-    private Image GenerateHealthBar(GameObject prefab, float coordinate)
+    private Image GenerateHealthBar(GameObject prefab)
     {
         GameObject sideHealthBar = Instantiate(prefab, _canvas.transform);
-        //sideHealthBar.transform.localPosition = new Vector3(0, coordinate, 0);
-        
+
         return sideHealthBar.transform.GetChild(0).GetComponent<Image>();
+    }
 
     public void GenerateUnitSelectMenu()
     {
