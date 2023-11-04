@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -31,8 +32,16 @@ public class UnitManager : MonoBehaviour {
 
     public async void MoveUnitsAsync(Faction faction)
     {
-        Debug.Log($"move units {faction}");
-        await Task.Delay(500);
-        unitLogic.MoveUnits(faction);
+        await unitLogic.MoveUnits(faction);
+        switch (faction)
+        {
+            case Faction.Hero:
+                GameManager.Instance.ChangeState(GameState.SpawnEnemies);
+                break;
+            case Faction.Enemy:
+                GameManager.Instance.ChangeState(GameState.SpawnHeroes);
+                break;
+        }
     }
+    
 }
