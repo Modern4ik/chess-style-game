@@ -54,7 +54,7 @@ public class UnitLogic
         return unit;
     }
 
-    public async Task MoveUnits(Faction faction)
+    public async void MoveUnits(Faction faction)
     {
         IEnumerable<BaseUnit> unitsEnumerator = unitsHolder.GetUnits(faction);
         foreach (BaseUnit unit in unitsEnumerator)
@@ -65,7 +65,7 @@ public class UnitLogic
             {
                 await Task.Delay(750);
                 Debug.Log($"{faction} {step.y}");
-                var doNextMovement = TryMoveOrFight(faction, unit, step);
+                bool doNextMovement = TryMoveOrFight(faction, unit, step);
                 if (!doNextMovement) break;
             }
         }
@@ -97,7 +97,7 @@ public class UnitLogic
             else
             { //Клетка пустая, сдвигаемся
                 moveTo.SetUnit(unit);
-                return false;
+                return true;
             }
         }
     }
