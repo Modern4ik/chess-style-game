@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour, IGameManager
 {
     public static GameManager Instance;
     public GameState GameState;
-    
+
 
     void Awake()
     {
@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour, IGameManager
     }
 
     void Start()
-    {   
+    {
         //TODO: Тут вызывается решение(скорее всего временное) для генерации HP бара.
         // Возможно стоит перенести в другое место.
         MenuManager.Instance.GenerateHealthBars();
@@ -53,7 +53,7 @@ public class GameManager : MonoBehaviour, IGameManager
                  * На первой линии
                  */
                 //Стейт переключается в Tile, т.к нужно реагировать на нажатие мыши
-                
+
                 break;
             case GameState.HeroesTurn:
                 /*
@@ -62,7 +62,7 @@ public class GameManager : MonoBehaviour, IGameManager
                  */
                 UnitManager.Instance.MoveUnitsAsync(Faction.Hero);
                 break;
-            case GameState.GameEnd:
+            case GameState.GameEnded:
                 /* 
                  * Когда закончилось ХП у кого-то, игра заканчивается
                  */
@@ -71,6 +71,11 @@ public class GameManager : MonoBehaviour, IGameManager
                 throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
         }
 
+    }
+
+    public bool IsGameEnded()
+    {
+        return GameState == GameState.GameEnded;
     }
 }
 
@@ -81,5 +86,5 @@ public enum GameState
     SpawnEnemies = 2,
     HeroesTurn = 3,
     EnemiesTurn = 4,
-    GameEnd = 5
+    GameEnded = 5
 }
