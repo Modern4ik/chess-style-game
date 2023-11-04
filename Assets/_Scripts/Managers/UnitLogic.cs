@@ -54,7 +54,7 @@ public class UnitLogic
         return unit;
     }
 
-    public async void MoveUnits(Faction faction)
+    public async Task MoveUnits(Faction faction)
     {
         IEnumerable<BaseUnit> unitsEnumerator = unitsHolder.GetUnits(faction);
         foreach (BaseUnit unit in unitsEnumerator)
