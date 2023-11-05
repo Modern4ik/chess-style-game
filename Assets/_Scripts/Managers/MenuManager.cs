@@ -57,7 +57,12 @@ public class MenuManager : MonoBehaviour, IMenuManager {
 
     public void GenerateUnitSelectMenu()
     {
-        Instantiate(_unitSelectMenu, _canvas.transform);
+        Transform unitMenu = Instantiate(_unitSelectMenu, _canvas.transform).transform;
+
+        for (int i = 1; i <= unitMenu.childCount; i++)
+        {
+            unitMenu.Find($"UnitSlot{i}/UnitBlank").GetComponent<Image>().color = UnitManager.Instance.SetRandomColor();
+        }
     }
 
     private void GenerateEndGameMenu(GameObject menuText)

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 //TODO: этот класс был абстрактным. Временно убрано из-за unit-тестов.
 public class Tile : MonoBehaviour, IDropHandler {
     public string TileName;
@@ -14,6 +15,7 @@ public class Tile : MonoBehaviour, IDropHandler {
     public int x;
     public int y;
     public static string droppedUnitTag;
+    public static Color droppedUnitColor;
     
     public virtual void Init(int x, int y)
     {
@@ -45,7 +47,7 @@ public class Tile : MonoBehaviour, IDropHandler {
         {
             GameObject droppedUnit = eventData.pointerDrag;
             droppedUnitTag = droppedUnit.tag;
-
+            droppedUnitColor = droppedUnit.GetComponent<Image>().color;
             //Generate and set unit
             //End turn
             UnitManager.Instance.SpawnHero(this);

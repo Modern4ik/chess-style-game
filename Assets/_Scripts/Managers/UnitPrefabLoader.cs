@@ -21,12 +21,16 @@ public class UnitPrefabLoader : IUnitPrefabLoader
         if (faction == Faction.Hero)
         {
             var prefab = playerUnits.Find(pref => pref.UnitPrefab.tag == Tile.droppedUnitTag).UnitPrefab;
+            prefab.transform.GetComponent<SpriteRenderer>().color = Tile.droppedUnitColor;
+
             MonoBehaviour instance = UnityEngine.Object.Instantiate(prefab);
             return instance;
         }
         else
         {
             var prefab = selectScriptableUnits(faction).OrderBy(o => Random.value).First().UnitPrefab;
+            prefab.transform.GetComponent<SpriteRenderer>().color = UnitManager.Instance.SetRandomColor();
+
             MonoBehaviour instance = UnityEngine.Object.Instantiate(prefab);
             return instance;
         }  

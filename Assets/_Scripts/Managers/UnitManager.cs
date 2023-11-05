@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using UnityEditor;
 using UnityEngine;
 
 public class UnitManager : MonoBehaviour {
@@ -34,5 +33,16 @@ public class UnitManager : MonoBehaviour {
         Debug.Log($"move units {faction}");
         await Task.Delay(500);
         unitLogic.MoveUnits(faction);
+    }
+
+    public Color SetRandomColor()
+    {
+        switch (Random.Range(0, 3))
+        {
+            case 0: return Color.red;
+            case 1: return Color.blue;
+            case 2: return Color.green;
+            default: throw new System.Exception("Unexpected error");
+        }
     }
 }

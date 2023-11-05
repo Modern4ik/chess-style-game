@@ -8,7 +8,6 @@ public class GameManager : MonoBehaviour, IGameManager
     public static GameManager Instance;
     public GameState GameState;
 
-
     void Awake()
     {
         Instance = this;
@@ -61,6 +60,8 @@ public class GameManager : MonoBehaviour, IGameManager
                  * Сдвигаются все наши юниты
                  * Если дошли до конца, они наносят урон 
                  */
+                MenuManager.Instance.GenerateUnitSelectMenu();
+
                 UnitManager.Instance.MoveUnitsAsync(Faction.Hero);
                 ChangeState(GameState.SpawnEnemies);
                 break;

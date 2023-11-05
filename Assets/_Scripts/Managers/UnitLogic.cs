@@ -1,10 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using UnityEditor;
 using UnityEngine;
-using static UnityEngine.GameObject;
 
 public class UnitLogic
 {
@@ -120,7 +117,7 @@ public class UnitLogic
 
     private bool Fight(BaseUnit attackingUnit, BaseUnit defendingUnit)
     {
-        float remainingHealth = defendingUnit.getHealth().RecieveDamage(attackingUnit.getAtack());
+        float remainingHealth = defendingUnit.getHealth().RecieveDamage(attackingUnit.GetAttack(defendingUnit.GetElement()));
 
         if (remainingHealth <= 0)
         {

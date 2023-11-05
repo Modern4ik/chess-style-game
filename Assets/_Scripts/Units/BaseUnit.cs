@@ -5,12 +5,13 @@ public abstract class BaseUnit
 {
     private string name;
     private Faction faction;
+    private Element unitElement;
     private IHealth health;
-    private int atack;
+    private int attack;
     private MovePattern movePattern;
     private IUnityObject _unityObject;
     
-    protected BaseUnit(string name, Faction faction, int maxHealth, int atack, MovePattern movePattern, UnitSettings unitSettings)
+    protected BaseUnit(string name, Faction faction, int maxHealth, int attack, MovePattern movePattern, UnitSettings unitSettings)
     {   
         switch (faction)
         {
@@ -24,10 +25,11 @@ public abstract class BaseUnit
                 throw new System.Exception($"Unexpected faction: {faction}");
         }
         this.name = name;
-        this.atack = atack;
         this._unityObject = unitSettings.unityObject;
         
         this.faction = faction;
+        this.unitElement = unitSettings.unitElement;
+        this.attack = attack;
         this.health = new Health(maxHealth, unitSettings.healthView);
     }
     
@@ -41,6 +43,11 @@ public abstract class BaseUnit
         return faction;
     }
 
+    public Element GetElement()
+    {
+        return unitElement;
+    }
+
     public List<List<Coordinate>> getMoveSequences()
     {
         return movePattern.moveSequences;
@@ -51,9 +58,22 @@ public abstract class BaseUnit
         return health;
     }
 
-    public int getAtack()
+    public int GetAttack(Element defendingUnitElem)
     {
-        return atack;
+       switch(defendingUnitElem)
+        {
+            case Element.Fire:
+                if (this.unitElement == Element.Water) return this.attack + 1;
+                else return this.attack;
+            case Element.Water:
+                if (this.unitElement == Element.Nature) return this.attack + 1;
+                else return this.attack;
+            case Element.Nature:
+                if (this.unitElement == Element.Fire) return this.attack + 1;
+                else return this.attack;
+            default:
+                throw new System.Exception($"Unexpected defending unit elem: {defendingUnitElem}");
+        }
     }
 
     public IUnityObject getUnityObject()
