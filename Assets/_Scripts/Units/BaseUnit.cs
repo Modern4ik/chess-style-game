@@ -63,13 +63,13 @@ public abstract class BaseUnit
        switch(defendingUnitElem)
         {
             case Element.Fire:
-                if (this.unitElement == Element.Water) return this.attack + 1;
+                if (this.unitElement == Element.Water) return this.attack * 2;
                 else return this.attack;
             case Element.Water:
-                if (this.unitElement == Element.Nature) return this.attack + 1;
+                if (this.unitElement == Element.Nature) return this.attack * 2;
                 else return this.attack;
             case Element.Nature:
-                if (this.unitElement == Element.Fire) return this.attack + 1;
+                if (this.unitElement == Element.Fire) return this.attack * 2;
                 else return this.attack;
             default:
                 throw new System.Exception($"Unexpected defending unit elem: {defendingUnitElem}");
