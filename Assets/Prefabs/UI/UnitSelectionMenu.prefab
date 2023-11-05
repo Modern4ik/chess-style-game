@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 356391950831258176}
   - component: {fileID: 7442883333300277242}
   m_Layer: 5
-  m_Name: Pawn
+  m_Name: UnitBlank
   m_TagString: Pawn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -103,7 +103,7 @@ GameObject:
   - component: {fileID: 2358760598472831140}
   - component: {fileID: 8648366162247331384}
   m_Layer: 5
-  m_Name: HorseSlot
+  m_Name: UnitSlot3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -205,7 +205,7 @@ GameObject:
   - component: {fileID: 4249479698335283608}
   - component: {fileID: 7089348772018259271}
   m_Layer: 5
-  m_Name: BishopSlot
+  m_Name: UnitSlot2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -307,7 +307,7 @@ GameObject:
   - component: {fileID: 2953036650600648055}
   - component: {fileID: 9084335565959663757}
   m_Layer: 5
-  m_Name: PawnSlot
+  m_Name: UnitSlot1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -409,7 +409,7 @@ GameObject:
   - component: {fileID: 7261748225863141733}
   - component: {fileID: 1571878052159608871}
   m_Layer: 5
-  m_Name: Bishop
+  m_Name: UnitBlank
   m_TagString: Bishop
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -499,7 +499,7 @@ GameObject:
   - component: {fileID: 5753683288553407232}
   - component: {fileID: 1566468935323704416}
   m_Layer: 5
-  m_Name: Horse
+  m_Name: UnitBlank
   m_TagString: Horse
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
