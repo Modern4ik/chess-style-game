@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 using static UnityEngine.GameObject;
+using UnityEngine;
 
 public class UnitLogic
 {
@@ -53,7 +54,7 @@ public class UnitLogic
         return unit;
     }
 
-    public void MoveUnits(Faction faction)
+    public async Task MoveUnits(Faction faction)
     {
         IEnumerable<BaseUnit> unitsEnumerator = unitsHolder.GetUnits(faction);
         foreach (BaseUnit unit in unitsEnumerator)
@@ -62,7 +63,7 @@ public class UnitLogic
             Debug.Log($"moved units {faction} {unit.getName()}");
             foreach (Coordinate step in validSequence)
             {
-                //TODO: порефакторить так чтобы не нужно было передавать так много параметров
+                await Task.Delay(750);
                 Debug.Log($"{faction} {step.y}");
                 bool doNextMovement = TryMoveOrFight(faction, unit, step);
                 if (!doNextMovement) break;
@@ -73,7 +74,7 @@ public class UnitLogic
 
     //TODO: эту ф-ию явно можно упростить. Разбить на ф-ии попроще и часть унести в поведение юнита.
     private bool TryMoveOrFight(Faction faction, BaseUnit unit, Coordinate step)
-    {   
+    {  
         Tile occupiedTile = unit.OccupiedTile;
         int moveToY = occupiedTile.y + step.y;
         int moveToX = occupiedTile.x + step.x;
@@ -100,6 +101,9 @@ public class UnitLogic
             }
         }
     }
+    
+    
+    
 
     //Это можно вынести в модель фракции - какая куда стремится. Или в модель самого юнита зашить.
     private bool IsInTheEndZone(int y, Faction faction)

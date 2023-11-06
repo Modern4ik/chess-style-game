@@ -46,7 +46,6 @@ public class GameManager : MonoBehaviour, IGameManager
                  * Если дошли до конца, наносят нам урон
                  */
                 UnitManager.Instance.MoveUnitsAsync(Faction.Enemy);
-                ChangeState(GameState.SpawnHeroes);
                 break;
             case GameState.SpawnHeroes:
                 /* 
@@ -62,7 +61,6 @@ public class GameManager : MonoBehaviour, IGameManager
                  * Если дошли до конца, они наносят урон 
                  */
                 UnitManager.Instance.MoveUnitsAsync(Faction.Hero);
-                ChangeState(GameState.SpawnEnemies);
                 break;
             case GameState.GameEnded:
                 /* 
