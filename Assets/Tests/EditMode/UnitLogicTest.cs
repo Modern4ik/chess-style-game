@@ -37,6 +37,6 @@ public class UnitLogicTest
     
     private UnitSettings emptyUnitSettings()
     {
-        return new UnitSettings(new UnityObjectStub(), new HealthViewStub(), new Element());
+        return new UnitSettings(new UnityObjectStub(), new HealthViewStub(), new ElementalType());
     }
 }

@@ -2,9 +2,9 @@ public class UnitSettings
 {
     public IUnityObject unityObject;
     public IHealthView healthView;
-    public Element unitElement;
+    public ElementalType unitElement;
 
-    public UnitSettings(IUnityObject unityObject, IHealthView healthView, Element unitElement)
+    public UnitSettings(IUnityObject unityObject, IHealthView healthView, ElementalType unitElement)
     {
         this.unityObject = unityObject;
         this.healthView = healthView;

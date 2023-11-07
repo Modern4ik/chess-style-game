@@ -5,9 +5,9 @@ public abstract class BaseUnit
 {
     private string name;
     private Faction faction;
-    private Element unitElement;
+    private ElementalType unitElement;
     private IHealth health;
-    private int attack;
+    private Attack attack;
     private MovePattern movePattern;
     private IUnityObject _unityObject;
     
@@ -29,8 +29,8 @@ public abstract class BaseUnit
         
         this.faction = faction;
         this.unitElement = unitSettings.unitElement;
-        this.attack = attack;
-        this.health = new Health(maxHealth, unitSettings.healthView);
+        this.attack = new Attack(unitSettings.unitElement, attack);
+        this.health = new Health(maxHealth, unitElement, unitSettings.healthView);
     }
     
     public string getName()
@@ -43,7 +43,7 @@ public abstract class BaseUnit
         return faction;
     }
 
-    public Element GetElement()
+    public ElementalType GetElement()
     {
         return unitElement;
     }
@@ -58,22 +58,9 @@ public abstract class BaseUnit
         return health;
     }
 
-    public int GetAttack(Element defendingUnitElem)
+    public Attack GetAttack()
     {
-       switch(defendingUnitElem)
-        {
-            case Element.Fire:
-                if (this.unitElement == Element.Water) return this.attack * 2;
-                else return this.attack;
-            case Element.Water:
-                if (this.unitElement == Element.Nature) return this.attack * 2;
-                else return this.attack;
-            case Element.Nature:
-                if (this.unitElement == Element.Fire) return this.attack * 2;
-                else return this.attack;
-            default:
-                throw new System.Exception($"Unexpected defending unit elem: {defendingUnitElem}");
-        }
+        return attack;
     }
 
     public IUnityObject getUnityObject()

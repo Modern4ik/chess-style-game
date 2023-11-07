@@ -29,7 +29,7 @@ public class UnitPrefabLoader : IUnitPrefabLoader
         else
         {
             var prefab = selectScriptableUnits(faction).OrderBy(o => Random.value).First().UnitPrefab;
-            prefab.transform.GetComponent<SpriteRenderer>().color = UnitManager.Instance.SetRandomColor();
+            prefab.transform.GetComponent<SpriteRenderer>().color = PrefabSettingsChanger.SetRandomColor();
 
             MonoBehaviour instance = UnityEngine.Object.Instantiate(prefab);
             return instance;

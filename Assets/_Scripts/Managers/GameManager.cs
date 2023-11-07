@@ -59,7 +59,7 @@ public class GameManager : MonoBehaviour, IGameManager
                  * Сдвигаются все наши юниты
                  * Если дошли до конца, они наносят урон 
                  */
-                MenuManager.Instance.GenerateUnitSelectMenu();
+                MenuManager.Instance.UpdateUnitSelectMenu();
 
                 UnitManager.Instance.MoveUnitsAsync(Faction.Hero);
                 break;

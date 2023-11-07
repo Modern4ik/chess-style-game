@@ -9,15 +9,15 @@ public static class UnitSettingsCreator
         Image healthBar = monoBehaviour.transform.Find("UnitCanvas/HealthBar/Foreground").
             GetComponent<Image>();
         IHealthView healthView = new HealthView(healthBar);
-        Element unitElement = GetUnitElement(monoBehaviour.GetComponent<SpriteRenderer>().color);
+        ElementalType unitElement = GetUnitElement(monoBehaviour.GetComponent<SpriteRenderer>().color);
         return new UnitSettings(unityObject, healthView, unitElement);
     }
     
-    private static Element GetUnitElement(Color unitColor)
+    private static ElementalType GetUnitElement(Color unitColor)
     {   
-        if (unitColor == Color.red) return Element.Fire;
-        else if (unitColor == Color.blue) return Element.Water;
-        else if (unitColor == Color.green) return Element.Nature;
+        if (unitColor == Color.red) return ElementalType.Fire;
+        else if (unitColor == Color.blue) return ElementalType.Water;
+        else if (unitColor == Color.green) return ElementalType.Nature;
         else throw new System.Exception($"Unexpected unit color: {unitColor}");
     }
 }

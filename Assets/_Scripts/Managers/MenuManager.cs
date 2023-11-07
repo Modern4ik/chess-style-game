@@ -9,6 +9,7 @@ public class MenuManager : MonoBehaviour, IMenuManager {
 
     private IHealth playerHealth;
     private IHealth enemyHealth;
+    private GameObject unitMenu;
     
     [SerializeField] private GameObject _selectedHeroObject,_tileObject,_tileUnitObject;
     [SerializeField] private GameObject _alliedHealthPrefab;
@@ -26,15 +27,15 @@ public class MenuManager : MonoBehaviour, IMenuManager {
         Debug.Log("MenuManager awaked");
     }
 
-    public void DoDamageToMainHero(Faction unitFaction)
+    public void DoDamageToMainHero(Faction unitFaction, Attack unitAttack)
     {   
         switch (unitFaction)
         {
             case Faction.Hero:
-                if (enemyHealth.RecieveDamage(1) == 0) GenerateEndGameMenu(_winEndMenuText);
+                if (enemyHealth.RecieveDamage(unitAttack) == 0) GenerateEndGameMenu(_winEndMenuText);
                 break;
             case Faction.Enemy:
-                if (playerHealth.RecieveDamage(1) == 0) GenerateEndGameMenu(_loseEndMenuText);
+                if (playerHealth.RecieveDamage(unitAttack) == 0) GenerateEndGameMenu(_loseEndMenuText);
                 break;
         }
     }
@@ -44,8 +45,8 @@ public class MenuManager : MonoBehaviour, IMenuManager {
         Image playerHealthSprite = GenerateHealthBar(_alliedHealthPrefab);
         Image enemyHealthSprite = GenerateHealthBar(_enemyHealthPrefab);
 
-        this.playerHealth = new Health(10, new HealthView(playerHealthSprite));
-        this.enemyHealth = new Health(10, new HealthView(enemyHealthSprite));
+        this.playerHealth = new Health(10, new Defense(1, 1, 1, 1), new HealthView(playerHealthSprite));
+        this.enemyHealth = new Health(10, new Defense(1, 1, 1, 1),new HealthView(enemyHealthSprite));
     }
 
     private Image GenerateHealthBar(GameObject prefab)
@@ -57,11 +58,15 @@ public class MenuManager : MonoBehaviour, IMenuManager {
 
     public void GenerateUnitSelectMenu()
     {
-        Transform unitMenu = Instantiate(_unitSelectMenu, _canvas.transform).transform;
+        unitMenu = Instantiate(_unitSelectMenu, _canvas.transform);
+        UpdateUnitSelectMenu();
+    }
 
-        for (int i = 1; i <= unitMenu.childCount; i++)
+    public void UpdateUnitSelectMenu()
+    {
+        for (int i = 1; i <= unitMenu.transform.childCount; i++)
         {
-            unitMenu.Find($"UnitSlot{i}/UnitBlank").GetComponent<Image>().color = UnitManager.Instance.SetRandomColor();
+            GameObject.Find($"UnitBlank{i}").GetComponent<Image>().color = PrefabSettingsChanger.SetRandomColor();
         }
     }
 

@@ -1,6 +1,6 @@
 public class MenuManagerStub : IMenuManager
 {
-    public void DoDamageToMainHero(Faction unitFaction)
+    public void DoDamageToMainHero(Faction unitFaction, Attack unitAttack)
     {
         throw new System.NotImplementedException();
     }
