@@ -1,11 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 using System.Threading.Tasks;
-using UnityEditor;
-using UnityEngine;
-using static UnityEngine.GameObject;
-using UnityEngine;
 
 public class UnitLogic
 {
@@ -66,7 +63,7 @@ public class UnitLogic
                 await Task.Delay(750);
                 Debug.Log($"{faction} {step.y}");
                 bool doNextMovement = TryMoveOrFight(faction, unit, step);
-                if (!doNextMovement) break;
+                if (!doNextMovement || GameManager.Instance.IsGameEnded()) break;
             }
         }
         unitsHolder.compact();
@@ -81,7 +78,7 @@ public class UnitLogic
         //Определяем что делать, в зависимости от того что на следующем tile
         if (IsInTheEndZone(moveToY, faction))
         {
-            menuManager.DoDamageToMainHero(faction);
+            menuManager.DoDamageToMainHero(unit.getFaction(), unit.GetAttack());
             DestroyUnit(unit);
             occupiedTile.OccupiedUnit = null;
             return false;
@@ -124,7 +121,7 @@ public class UnitLogic
 
     private bool Fight(BaseUnit attackingUnit, BaseUnit defendingUnit)
     {
-        float remainingHealth = defendingUnit.getHealth().RecieveDamage(attackingUnit.getAtack());
+        float remainingHealth = defendingUnit.getHealth().RecieveDamage(attackingUnit.GetAttack());
 
         if (remainingHealth <= 0)
         {

@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using UnityEditor;
 using UnityEngine;
 
 public class UnitManager : MonoBehaviour {
@@ -33,6 +32,13 @@ public class UnitManager : MonoBehaviour {
     public async void MoveUnitsAsync(Faction faction)
     {
         await unitLogic.MoveUnits(faction);
+
+        /*
+         * Это временный(может и постоянный) костыль, чтобы игра останавливалась при появлении EndGameMenu,
+         * иначе данный метод в асинхронее продолжает менять стейты.
+         */
+        if (GameManager.Instance.IsGameEnded()) return;
+
         switch (faction)
         {
             case Faction.Hero:
@@ -43,5 +49,4 @@ public class UnitManager : MonoBehaviour {
                 break;
         }
     }
-    
 }

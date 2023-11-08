@@ -2,7 +2,7 @@
 
 public class Bishop : BaseUnit
 {
-    public Bishop(string name, Faction faction, UnitSettings unitSettings) : base(bishopName + name, faction, 2, 1, _movePattern, unitSettings) { }
+    public Bishop(string name, Faction faction, UnitSettings unitSettings) : base(bishopName + name, faction, 2, 2, _movePattern, unitSettings) { }
     private static string bishopName = "Bishop ";
     private static MovePattern _movePattern = new MovePattern(
         new List<List<Coordinate>>()

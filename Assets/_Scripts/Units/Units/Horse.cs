@@ -2,7 +2,7 @@
 
 public class Horse : BaseUnit
 {
-    public Horse(string name, Faction faction, UnitSettings unitSettings) : base(horseName + name, faction, 2, 1, _movePattern, unitSettings) { }
+    public Horse(string name, Faction faction, UnitSettings unitSettings) : base(horseName + name, faction, 2, 2, _movePattern, unitSettings) { }
     private static string horseName = "Horse ";
     private static MovePattern _movePattern = new MovePattern(
         new List<List<Coordinate>>() {
