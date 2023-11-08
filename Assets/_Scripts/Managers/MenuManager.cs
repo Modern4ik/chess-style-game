@@ -45,8 +45,8 @@ public class MenuManager : MonoBehaviour, IMenuManager {
         Image playerHealthSprite = GenerateHealthBar(_alliedHealthPrefab);
         Image enemyHealthSprite = GenerateHealthBar(_enemyHealthPrefab);
 
-        this.playerHealth = new Health(10, new Defense(1, 1, 1, 1), new HealthView(playerHealthSprite));
-        this.enemyHealth = new Health(10, new Defense(1, 1, 1, 1),new HealthView(enemyHealthSprite));
+        this.playerHealth = new Health(10, new Defense(1, 1, 1), new HealthView(playerHealthSprite));
+        this.enemyHealth = new Health(10, new Defense(1, 1, 1),new HealthView(enemyHealthSprite));
     }
 
     private Image GenerateHealthBar(GameObject prefab)

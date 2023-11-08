@@ -60,10 +60,10 @@ public class UnitLogic
             Debug.Log($"moved units {faction} {unit.getName()}");
             foreach (Coordinate step in validSequence)
             {
-                await Task.Delay(750);
+                await Task.Delay(300);
                 Debug.Log($"{faction} {step.y}");
                 bool doNextMovement = TryMoveOrFight(faction, unit, step);
-                if (!doNextMovement) break;
+                if (!doNextMovement || GameManager.Instance.IsGameEnded()) break;
             }
         }
         unitsHolder.compact();

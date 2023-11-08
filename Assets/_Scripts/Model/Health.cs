@@ -15,42 +15,9 @@ public class Health : IHealth
         this._healthView = healthView;
     }
 
-    public Health(int maxHealth, ElementalType elementalType, IHealthView healthView)
-    {
-        this.maxHealth = maxHealth;
-        this.currentHealth = maxHealth;
-        this._healthView = healthView;
-
-        switch (elementalType)
-        {
-            case ElementalType.Fire:
-                this.defense = new Defense(0, 1, 0, 0);
-                break;
-            case ElementalType.Water:
-                this.defense = new Defense(0, 0, 1, 0);
-                break;
-            case ElementalType.Nature:
-                this.defense = new Defense(0, 0, 0, 1);
-                break;
-        }
-    }
-
     public int RecieveDamage(Attack unitAttack)
     {
-        int health = 0;
-
-        switch(unitAttack.elementalType)
-        {
-            case ElementalType.Fire:
-                health = currentHealth - (unitAttack.attackPower - this.defense.fireResist);
-                break;
-            case ElementalType.Water:
-                health = currentHealth - (unitAttack.attackPower - this.defense.waterResist);
-                break;
-            case ElementalType.Nature:
-                health = currentHealth - (unitAttack.attackPower - this.defense.natureResist);
-                break;
-        }
+        int health = currentHealth - (unitAttack.attackPower - GetResist(unitAttack.elementalType));
 
         if (health < 0) health = 0;
         currentHealth = health;
@@ -66,5 +33,16 @@ public class Health : IHealth
     public int GetCurrentHealth()
     {
         return currentHealth;
+    }
+
+    private int GetResist(ElementalType unitElemType)
+    {
+        switch (unitElemType)
+        {
+            case ElementalType.Fire: return this.defense.fireResist;
+            case ElementalType.Water: return this.defense.waterResist;
+            case ElementalType.Nature: return this.defense.natureResist;
+            default: throw new System.Exception($"Unexpected unit element type: {unitElemType}");
+        }
     }
 }

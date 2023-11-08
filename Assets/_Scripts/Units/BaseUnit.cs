@@ -6,31 +6,21 @@ public abstract class BaseUnit
     private string name;
     private Faction faction;
     private ElementalType unitElement;
-    private IHealth health;
     private Attack attack;
+    private IHealth health;
     private MovePattern movePattern;
     private IUnityObject _unityObject;
     
     protected BaseUnit(string name, Faction faction, int maxHealth, int attack, MovePattern movePattern, UnitSettings unitSettings)
-    {   
-        switch (faction)
-        {
-            case Faction.Enemy:
-                this.movePattern = new MovePattern(movePattern.moveSequences.Select(steps => steps.Select(coord => new Coordinate(coord.x, -coord.y)).ToList()).ToList());
-                break;
-            case Faction.Hero:
-                this.movePattern = movePattern;
-                break;
-            default:
-                throw new System.Exception($"Unexpected faction: {faction}");
-        }
+    {
         this.name = name;
-        this._unityObject = unitSettings.unityObject;
-        
         this.faction = faction;
         this.unitElement = unitSettings.unitElement;
-        this.attack = new Attack(unitSettings.unitElement, attack);
-        this.health = new Health(maxHealth, unitElement, unitSettings.healthView);
+        this._unityObject = unitSettings.unityObject;
+        
+        this.attack = new Attack(unitElement, attack);
+        this.health = new Health(maxHealth, CreateDefenseStats(unitElement), unitSettings.healthView);
+        this.movePattern = CreateMovePattern(faction, movePattern);
     }
     
     public string getName()
@@ -69,5 +59,29 @@ public abstract class BaseUnit
     }
     
     public Tile OccupiedTile { get; set; }
+
+    private MovePattern CreateMovePattern(Faction unitFaction, MovePattern movePattern)
+    {
+        switch (unitFaction)
+        {
+            case Faction.Enemy:
+                return new MovePattern(movePattern.moveSequences.Select(steps => steps.Select(coord => new Coordinate(coord.x, -coord.y)).ToList()).ToList());
+            case Faction.Hero:
+                return movePattern;
+            default:
+                throw new System.Exception($"Unexpected faction: {unitFaction}");
+        }
+    }
+
+    private Defense CreateDefenseStats(ElementalType unitElemType)
+    {
+        switch(unitElemType)
+        {
+            case ElementalType.Fire: return new Defense(1, 0, 0);
+            case ElementalType.Water: return new Defense(0, 1, 0);
+            case ElementalType.Nature: return new Defense(0, 0, 1);
+            default: throw new System.Exception($"Unexpected unit elemental type: {unitElemType}");
+        }
+    }
     
 }
