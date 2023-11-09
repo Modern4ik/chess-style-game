@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -26,7 +27,7 @@ public class MenuManager : MonoBehaviour, IMenuManager {
         Debug.Log("MenuManager awaked");
     }
 
-    public async void DoDamageToMainHero(Faction unitFaction, Attack unitAttack)
+    public async Task DoDamageToMainHero(Faction unitFaction, Attack unitAttack)
     {   
         switch (unitFaction)
         {

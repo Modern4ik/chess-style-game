@@ -78,7 +78,7 @@ public class UnitLogic
         //Определяем что делать, в зависимости от того что на следующем tile
         if (IsInTheEndZone(moveToY, faction))
         {
-            menuManager.DoDamageToMainHero(unit.getFaction(), unit.GetAttack());
+            await menuManager.DoDamageToMainHero(unit.getFaction(), unit.GetAttack());
             DestroyUnit(unit);
             occupiedTile.OccupiedUnit = null;
             return false;
