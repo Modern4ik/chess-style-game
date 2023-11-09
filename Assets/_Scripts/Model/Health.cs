@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class Health : IHealth
 {
@@ -15,13 +16,13 @@ public class Health : IHealth
         this._healthView = healthView;
     }
 
-    public int RecieveDamage(Attack unitAttack)
+    public async Task<int> RecieveDamage(Attack unitAttack)
     {
         int health = currentHealth - (unitAttack.attackPower - GetResist(unitAttack.elementalType));
 
         if (health < 0) health = 0;
         currentHealth = health;
-        _healthView.UpdateUnitHealthBar(maxHealth, currentHealth);
+        await _healthView.UpdateHealthBar(maxHealth, currentHealth);
         return currentHealth;
     }
 

@@ -62,7 +62,7 @@ public class UnitLogic
             {
                 await Task.Delay(750);
                 Debug.Log($"{faction} {step.y}");
-                bool doNextMovement = TryMoveOrFight(faction, unit, step);
+                bool doNextMovement = await TryMoveOrFight(faction, unit, step);
                 if (!doNextMovement || GameManager.Instance.IsGameEnded()) break;
             }
         }
@@ -70,7 +70,7 @@ public class UnitLogic
     }
 
     //TODO: эту ф-ию явно можно упростить. Разбить на ф-ии попроще и часть унести в поведение юнита.
-    private bool TryMoveOrFight(Faction faction, BaseUnit unit, Coordinate step)
+    private async Task<bool> TryMoveOrFight(Faction faction, BaseUnit unit, Coordinate step)
     {  
         Tile occupiedTile = unit.OccupiedTile;
         int moveToY = occupiedTile.y + step.y;
@@ -89,7 +89,7 @@ public class UnitLogic
             if (moveTo.OccupiedUnit != null) //Что делать, если кто-то уже есть на этом тайле
             {  
                 //Это чужой юнит, нужно с ним сражаться
-                return Fight(unit, moveTo.OccupiedUnit); //Юнит файтится 1 раз. Если пофайтился, дальше не двигается
+                return await Fight(unit, moveTo.OccupiedUnit); //Юнит файтится 1 раз. Если пофайтился, дальше не двигается
             }
             else
             { //Клетка пустая, сдвигаемся
@@ -119,9 +119,9 @@ public class UnitLogic
         throw new System.Exception("в эту ветку кода никогда не должны попадать");
     }
 
-    private bool Fight(BaseUnit attackingUnit, BaseUnit defendingUnit)
+    private async Task<bool> Fight(BaseUnit attackingUnit, BaseUnit defendingUnit)
     {
-        float remainingHealth = defendingUnit.getHealth().RecieveDamage(attackingUnit.GetAttack());
+        float remainingHealth = await defendingUnit.getHealth().RecieveDamage(attackingUnit.GetAttack());
 
         if (remainingHealth <= 0)
         {

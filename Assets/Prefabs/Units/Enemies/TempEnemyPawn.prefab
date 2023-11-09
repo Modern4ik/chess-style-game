@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 35d8802c68f96424590a9c91ce093247, type: 3}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 0, g: 1, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -129,7 +129,7 @@ RectTransform:
   m_LocalScale: {x: 0.015627429, y: 0.003655884, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2791406536192532298}
+  - {fileID: 2396500527495795275}
   m_Father: {fileID: 7027987924459240490}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -201,7 +201,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!1001 &7634364648342403184
+--- !u!1001 &7930192216854001009
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -211,7 +211,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1288051748475067924, guid: 3d86c503704c6534e8a3f5c35d9e8c3e, type: 3}
       propertyPath: m_Name
-      value: EnemyUnitHealthBar
+      value: HealthBar
       objectReference: {fileID: 0}
     - target: {fileID: 5714970373180237626, guid: 3d86c503704c6534e8a3f5c35d9e8c3e, type: 3}
       propertyPath: m_Pivot.x
@@ -283,7 +283,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5714970373180237626, guid: 3d86c503704c6534e8a3f5c35d9e8c3e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 2.7591
+      value: 2.7590942
       objectReference: {fileID: 0}
     - target: {fileID: 5714970373180237626, guid: 3d86c503704c6534e8a3f5c35d9e8c3e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -302,8 +302,8 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3d86c503704c6534e8a3f5c35d9e8c3e, type: 3}
---- !u!224 &2791406536192532298 stripped
+--- !u!224 &2396500527495795275 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5714970373180237626, guid: 3d86c503704c6534e8a3f5c35d9e8c3e, type: 3}
-  m_PrefabInstance: {fileID: 7634364648342403184}
+  m_PrefabInstance: {fileID: 7930192216854001009}
   m_PrefabAsset: {fileID: 0}

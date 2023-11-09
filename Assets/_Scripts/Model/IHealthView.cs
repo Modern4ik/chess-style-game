@@ -1,4 +1,6 @@
+using System.Threading.Tasks;
+
 public interface IHealthView
 {
-    void UpdateUnitHealthBar(int maxHealth, int currentHealth);
+    Task UpdateHealthBar(float maxHealth, float currentHealth);
 }

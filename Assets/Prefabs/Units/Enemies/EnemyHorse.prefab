@@ -31,7 +31,7 @@ RectTransform:
   m_LocalScale: {x: 0.01562743, y: 0.003655884, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 177320933535504850}
+  - {fileID: 2716685517960658122}
   m_Father: {fileID: 225300235128987705}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -201,7 +201,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 273eb08d05c44434a72a3d29f1849712, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1001 &5564864972516097768
+--- !u!1001 &7709102992337935344
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -211,7 +211,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1288051748475067924, guid: 3d86c503704c6534e8a3f5c35d9e8c3e, type: 3}
       propertyPath: m_Name
-      value: EnemyUnitHealthBar
+      value: HealthBar
       objectReference: {fileID: 0}
     - target: {fileID: 5714970373180237626, guid: 3d86c503704c6534e8a3f5c35d9e8c3e, type: 3}
       propertyPath: m_Pivot.x
@@ -283,7 +283,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5714970373180237626, guid: 3d86c503704c6534e8a3f5c35d9e8c3e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 2.7591
+      value: 2.7590942
       objectReference: {fileID: 0}
     - target: {fileID: 5714970373180237626, guid: 3d86c503704c6534e8a3f5c35d9e8c3e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -302,8 +302,8 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3d86c503704c6534e8a3f5c35d9e8c3e, type: 3}
---- !u!224 &177320933535504850 stripped
+--- !u!224 &2716685517960658122 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5714970373180237626, guid: 3d86c503704c6534e8a3f5c35d9e8c3e, type: 3}
-  m_PrefabInstance: {fileID: 5564864972516097768}
+  m_PrefabInstance: {fileID: 7709102992337935344}
   m_PrefabAsset: {fileID: 0}

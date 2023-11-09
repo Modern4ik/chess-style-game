@@ -87,6 +87,7 @@ GameObject:
   - component: {fileID: 9172694103632230038}
   - component: {fileID: 5419932786504984140}
   - component: {fileID: 5669706358116810056}
+  - component: {fileID: 5526578294276373802}
   m_Layer: 5
   m_Name: HeroHealthBar
   m_TagString: Untagged
@@ -108,7 +109,7 @@ RectTransform:
   m_Children:
   - {fileID: 4335336144971864530}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -153,3 +154,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &5526578294276373802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6675898107712014106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fbad43b10d1723479de49d82438282d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _reduceSpeed: 0.1
+  _target: 1
+  _healthBarSprite: {fileID: 5992046699535966746}

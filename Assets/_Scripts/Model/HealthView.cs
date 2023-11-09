@@ -1,16 +1,16 @@
-using UnityEngine.UI;
+using System.Threading.Tasks;
 
 public class HealthView : IHealthView
 {
-    private Image healthBar;
+    private HealthBar healthBar;
 
-    public HealthView(Image healthBar)
+    public HealthView(HealthBar healthBar)
     {
         this.healthBar = healthBar;
     }
 
-    public void UpdateUnitHealthBar(int maxHealth, int currentHealth)
+    public async Task UpdateHealthBar(float maxHealth, float currentHealth)
     {
-        healthBar.fillAmount = (float) currentHealth / maxHealth;
+        await healthBar.UpdateHealthBarSprite(maxHealth, currentHealth);
     }
 }
