@@ -4,6 +4,6 @@ public class HealthViewStub : IHealthView
 {
     public Task UpdateHealthBar(float maxHealth, float currentHealth)
     {
-        throw new System.NotImplementedException();
+        return Task.CompletedTask;
     }
 }

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 118484134240974379}
   - component: {fileID: 1786791157477710515}
   - component: {fileID: 1111688999465205823}
-  - component: {fileID: 7498157780091078032}
+  - component: {fileID: 2251868656788809829}
   m_Layer: 5
   m_Name: OpponentHealthBar
   m_TagString: Untagged
@@ -78,7 +78,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &7498157780091078032
+--- !u!114 &2251868656788809829
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -87,11 +87,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1469223095963543316}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7fbad43b10d1723479de49d82438282d, type: 3}
+  m_Script: {fileID: 11500000, guid: d0c1e19e70604663838147c77da94157, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _reduceSpeed: 0.1
-  _target: 1
   _healthBarSprite: {fileID: 7946914832108559018}
 --- !u!1 &3598239409297701994
 GameObject:

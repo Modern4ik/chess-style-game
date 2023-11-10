@@ -42,18 +42,18 @@ public class MenuManager : MonoBehaviour, IMenuManager {
 
     public void GenerateHealthBars()
     {
-        HealthBar playerHealthBar = GenerateHealthBar(_alliedHealthPrefab);
-        HealthBar enemyHealthBar = GenerateHealthBar(_enemyHealthPrefab);
+        HealthView playerHealthView = GenerateHealthBar(_alliedHealthPrefab);
+        HealthView enemyHealthView = GenerateHealthBar(_enemyHealthPrefab);
 
-        this.playerHealth = new Health(10, new Defense(1, 1, 1), new HealthView(playerHealthBar));
-        this.enemyHealth = new Health(10, new Defense(1, 1, 1),new HealthView(enemyHealthBar));
+        this.playerHealth = new Health(10, new Defense(1, 1, 1), playerHealthView);
+        this.enemyHealth = new Health(10, new Defense(1, 1, 1), enemyHealthView);
     }
 
-    private HealthBar GenerateHealthBar(GameObject prefab)
+    private HealthView GenerateHealthBar(GameObject prefab)
     {
         GameObject sideHealthBar = Instantiate(prefab, _canvas.transform);
 
-        return sideHealthBar.transform.GetComponent<HealthBar>();
+        return sideHealthBar.transform.GetComponent<HealthView>();
     }
 
     public void GenerateUnitSelectMenu()

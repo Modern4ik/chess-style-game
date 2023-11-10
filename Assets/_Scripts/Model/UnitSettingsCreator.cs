@@ -6,8 +6,7 @@ public static class UnitSettingsCreator
     public static UnitSettings createUnitSettings(MonoBehaviour monoBehaviour)
     {
         IUnityObject unityObject = new UnityObject(monoBehaviour);
-        HealthBar healthBar = monoBehaviour.transform.Find("UnitCanvas/HealthBar").GetComponent<HealthBar>();
-        IHealthView healthView = new HealthView(healthBar);
+        HealthView healthView = monoBehaviour.transform.Find("UnitCanvas/HealthBar").GetComponent<HealthView>();
         ElementalType unitElement = GetUnitElement(monoBehaviour.GetComponent<SpriteRenderer>().color);
         return new UnitSettings(unityObject, healthView, unitElement);
     }
