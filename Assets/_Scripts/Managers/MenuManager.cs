@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -27,33 +27,33 @@ public class MenuManager : MonoBehaviour, IMenuManager {
         Debug.Log("MenuManager awaked");
     }
 
-    public void DoDamageToMainHero(Faction unitFaction, Attack unitAttack)
+    public async Task DoDamageToMainHero(Faction unitFaction, Attack unitAttack)
     {   
         switch (unitFaction)
         {
             case Faction.Hero:
-                if (enemyHealth.RecieveDamage(unitAttack) == 0) GenerateEndGameMenu(_winEndMenuText);
+                if (await enemyHealth.RecieveDamage(unitAttack) == 0) GenerateEndGameMenu(_winEndMenuText);
                 break;
             case Faction.Enemy:
-                if (playerHealth.RecieveDamage(unitAttack) == 0) GenerateEndGameMenu(_loseEndMenuText);
+                if (await playerHealth.RecieveDamage(unitAttack) == 0) GenerateEndGameMenu(_loseEndMenuText);
                 break;
         }
     }
 
     public void GenerateHealthBars()
     {
-        Image playerHealthSprite = GenerateHealthBar(_alliedHealthPrefab);
-        Image enemyHealthSprite = GenerateHealthBar(_enemyHealthPrefab);
+        HealthView playerHealthView = GenerateHealthBar(_alliedHealthPrefab);
+        HealthView enemyHealthView = GenerateHealthBar(_enemyHealthPrefab);
 
-        this.playerHealth = new Health(10, new Defense(1, 1, 1), new HealthView(playerHealthSprite));
-        this.enemyHealth = new Health(10, new Defense(1, 1, 1),new HealthView(enemyHealthSprite));
+        this.playerHealth = new Health(10, new Defense(1, 1, 1), playerHealthView);
+        this.enemyHealth = new Health(10, new Defense(1, 1, 1), enemyHealthView);
     }
 
-    private Image GenerateHealthBar(GameObject prefab)
+    private HealthView GenerateHealthBar(GameObject prefab)
     {
         GameObject sideHealthBar = Instantiate(prefab, _canvas.transform);
 
-        return sideHealthBar.transform.GetChild(0).GetComponent<Image>();
+        return sideHealthBar.transform.GetComponent<HealthView>();
     }
 
     public void GenerateUnitSelectMenu()

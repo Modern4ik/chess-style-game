@@ -1,16 +1,29 @@
+using System.Threading.Tasks;
+using UnityEngine;
 using UnityEngine.UI;
 
-public class HealthView : IHealthView
+public class HealthView : MonoBehaviour, IHealthView
 {
-    private Image healthBar;
+    private float _targetHealth = 1;
+    private float _reduceSpeed = 0.7f;
 
-    public HealthView(Image healthBar)
+    [SerializeField] private Image _healthBarSprite;
+
+    public async Task UpdateHealthBar(float maxHealth, float currentHealth)
     {
-        this.healthBar = healthBar;
+        _targetHealth = currentHealth / maxHealth;
+
+        bool isEqualsValues = false;
+
+        while (!isEqualsValues)
+        {
+            isEqualsValues = _healthBarSprite.fillAmount == _targetHealth;
+            await Task.Delay(25);
+        }
     }
 
-    public void UpdateUnitHealthBar(int maxHealth, int currentHealth)
+    private void Update()
     {
-        healthBar.fillAmount = (float) currentHealth / maxHealth;
+        _healthBarSprite.fillAmount = Mathf.MoveTowards(_healthBarSprite.fillAmount, _targetHealth, _reduceSpeed * Time.deltaTime);
     }
 }

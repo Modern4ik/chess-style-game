@@ -1,6 +1,8 @@
+using System.Threading.Tasks;
+
 public interface IHealth
 {
     public int GetMaxHealth();
-    public int RecieveDamage(Attack unitAttack);
+    public Task<int> RecieveDamage(Attack unitAttack);
     public int GetCurrentHealth();
 }
