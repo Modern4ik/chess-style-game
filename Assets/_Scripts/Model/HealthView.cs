@@ -17,7 +17,7 @@ public class HealthView : MonoBehaviour, IHealthView
 
         while (!isEqualsValues)
         {
-            isEqualsValues = await Task.Run(() => _healthBarSprite.fillAmount == _targetHealth);
+            isEqualsValues = _healthBarSprite.fillAmount == _targetHealth;
             await Task.Delay(25);
         }
     }
