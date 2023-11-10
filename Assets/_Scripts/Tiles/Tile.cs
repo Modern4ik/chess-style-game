@@ -16,6 +16,7 @@ public class Tile : MonoBehaviour, IDropHandler {
     public int y;
     public static string droppedUnitTag;
     public static Color droppedUnitColor;
+    private List<Tile> validTiles = new List<Tile>();
     
     public virtual void Init(int x, int y)
     {
@@ -27,16 +28,20 @@ public class Tile : MonoBehaviour, IDropHandler {
     {
         if (GameManager.Instance.IsGameEnded()) return;
 
-        _highlight.SetActive(true);
-        MenuManager.Instance.ShowTileInfo(this);
+        if (this.OccupiedUnit != null) HighlightTilesToMoveOn();
+        
+         _highlight.SetActive(true);
+         MenuManager.Instance.ShowTileInfo(this); 
     }
 
     void OnMouseExit()
     {
         if (GameManager.Instance.IsGameEnded()) return;
 
-        _highlight.SetActive(false);
-        MenuManager.Instance.ShowTileInfo(null);
+        if (validTiles.Count > 0) HighlightTilesToMoveOff();
+        
+         _highlight.SetActive(false);
+         MenuManager.Instance.ShowTileInfo(null);
     }
 
     public void OnDrop(PointerEventData eventData)
@@ -60,5 +65,27 @@ public class Tile : MonoBehaviour, IDropHandler {
         unit.getUnityObject().SetPosition(transform.position);
         OccupiedUnit = unit;
         unit.OccupiedTile = this;
+    }
+
+    private void HighlightTilesToMoveOn()
+    {
+        validTiles = SequenceValidator.GetValidTiles(this.OccupiedUnit);
+
+        foreach (Tile validTile in validTiles)
+        {
+            if (validTile.OccupiedUnit != null) validTile._highlight.GetComponent<SpriteRenderer>().color = Color.red;
+            else validTile._highlight.GetComponent<SpriteRenderer>().color = Color.green;
+
+            validTile._highlight.SetActive(true);
+        }
+    }
+
+    private void HighlightTilesToMoveOff()
+    {
+        foreach (Tile tile in validTiles)
+        {
+            tile._highlight.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 0.35f);
+            tile._highlight.SetActive(false);
+        }
     }
 }
