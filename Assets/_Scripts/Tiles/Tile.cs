@@ -31,7 +31,10 @@ public class Tile : MonoBehaviour, IDropHandler {
         if (this.OccupiedUnit != null) HighlightTilesToMoveOn();
         
          _highlight.SetActive(true);
-         MenuManager.Instance.ShowTileInfo(this); 
+
+        MenuManager.Instance.EnableHeroAttackMark(SequenceValidator.isHeroAttackMarkActive);
+        MenuManager.Instance.EnableEnemyAttackMark(SequenceValidator.isEnemyAttackMarkActive);
+        MenuManager.Instance.ShowTileInfo(this); 
     }
 
     void OnMouseExit()
@@ -41,7 +44,10 @@ public class Tile : MonoBehaviour, IDropHandler {
         if (validTiles.Count > 0) HighlightTilesToMoveOff();
         
          _highlight.SetActive(false);
-         MenuManager.Instance.ShowTileInfo(null);
+
+        MenuManager.Instance.EnableHeroAttackMark(SequenceValidator.isHeroAttackMarkActive = false);
+        MenuManager.Instance.EnableEnemyAttackMark(SequenceValidator.isEnemyAttackMarkActive = false);
+        MenuManager.Instance.ShowTileInfo(null);
     }
 
     public void OnDrop(PointerEventData eventData)

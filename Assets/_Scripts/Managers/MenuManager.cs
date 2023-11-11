@@ -9,11 +9,15 @@ public class MenuManager : MonoBehaviour, IMenuManager {
 
     private IHealth playerHealth;
     private IHealth enemyHealth;
+    private GameObject heroAttackMark;
+    private GameObject enemyAttackMark;
     private GameObject unitMenu;
     
     [SerializeField] private GameObject _selectedHeroObject,_tileObject,_tileUnitObject;
     [SerializeField] private GameObject _alliedHealthPrefab;
     [SerializeField] private GameObject _enemyHealthPrefab;
+    [SerializeField] private GameObject _heroAttackMarkPrefab;
+    [SerializeField] private GameObject _enemyAttackMarkPrefab;
     [SerializeField] private GameObject _unitSelectMenu;
     [SerializeField] private GameObject _endGameMenuPrefab;
     [SerializeField] private GameObject _winEndMenuText, _loseEndMenuText;
@@ -24,6 +28,12 @@ public class MenuManager : MonoBehaviour, IMenuManager {
     void Awake()
     {
         Instance = this;
+
+        GenerateHealthBars();
+        GenerateUnitSelectMenu();
+        heroAttackMark = GenerateAttackMark(_heroAttackMarkPrefab);
+        enemyAttackMark = GenerateAttackMark(_enemyAttackMarkPrefab);
+
         Debug.Log("MenuManager awaked");
     }
 
@@ -56,6 +66,8 @@ public class MenuManager : MonoBehaviour, IMenuManager {
         return sideHealthBar.transform.GetComponent<HealthView>();
     }
 
+    private GameObject GenerateAttackMark(GameObject markPrefab) => Instantiate(markPrefab, _canvas.transform);
+   
     public void GenerateUnitSelectMenu()
     {
         unitMenu = Instantiate(_unitSelectMenu, _canvas.transform);
@@ -69,6 +81,9 @@ public class MenuManager : MonoBehaviour, IMenuManager {
             GameObject.Find($"UnitBlank{i}").GetComponent<Image>().color = PrefabSettingsChanger.SetRandomColor();
         }
     }
+
+    public void EnableHeroAttackMark(bool isEnable) => this.heroAttackMark.SetActive(isEnable);
+    public void EnableEnemyAttackMark(bool isEnable) => this.enemyAttackMark.SetActive(isEnable);
 
     private void GenerateEndGameMenu(GameObject menuText)
     {

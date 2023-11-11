@@ -4,6 +4,9 @@ using UnityEngine;
 
 public static class SequenceValidator
 {
+    public static bool isHeroAttackMarkActive;
+    public static bool isEnemyAttackMarkActive;
+
     private static List<Tile> validTiles = new List<Tile>();
     public static List<Coordinate> GetValidSequence(List<List<Coordinate>> moveSequences, Tile occupiedTile, Faction faction)
     {
@@ -54,6 +57,11 @@ public static class SequenceValidator
             {
                 validTiles.Add(tileMoveTo);
                 currentTile = tileMoveTo;
+            }
+            else
+            {
+                if (moveToY > GridSettings.HEIGHT - 1) isEnemyAttackMarkActive = true;
+                else if (moveToY < 0) isHeroAttackMarkActive = true;
             }
         }
         return validSteps;
