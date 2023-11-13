@@ -96,8 +96,8 @@ public class Tile : MonoBehaviour, IDropHandler {
                     move.validTileToMove._highlight.SetActive(true);
                 }
 
-                MenuManager.Instance.EnableHeroAttackMark(move.isAttackHeroMainHealth);
-                MenuManager.Instance.EnableEnemyAttackMark(move.isAttackOpponentMainHealth);
+                if (move.isAttackHeroMainHealth) MenuManager.Instance.EnableHeroAttackMark(move.isAttackHeroMainHealth);
+                if (move.isAttackOpponentMainHealth) MenuManager.Instance.EnableEnemyAttackMark(move.isAttackOpponentMainHealth);
             }
         }
     }
