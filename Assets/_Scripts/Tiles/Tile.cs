@@ -16,7 +16,7 @@ public class Tile : MonoBehaviour, IDropHandler {
     public int y;
     public static string droppedUnitTag;
     public static Color droppedUnitColor;
-    private List<Tile> validTiles = new List<Tile>();
+    private List<List<UnitMove>> unitOnTileMoves = new List<List<UnitMove>>();
     
     public virtual void Init(int x, int y)
     {
@@ -29,11 +29,8 @@ public class Tile : MonoBehaviour, IDropHandler {
         if (GameManager.Instance.IsGameEnded()) return;
 
         if (this.OccupiedUnit != null) HighlightTilesToMoveOn();
-        
-         _highlight.SetActive(true);
-
-        MenuManager.Instance.EnableHeroAttackMark(SequenceValidator.isHeroAttackMarkActive);
-        MenuManager.Instance.EnableEnemyAttackMark(SequenceValidator.isEnemyAttackMarkActive);
+            
+        _highlight.SetActive(true);
         MenuManager.Instance.ShowTileInfo(this); 
     }
 
@@ -41,12 +38,12 @@ public class Tile : MonoBehaviour, IDropHandler {
     {
         if (GameManager.Instance.IsGameEnded()) return;
 
-        if (validTiles.Count > 0) HighlightTilesToMoveOff();
+        if (unitOnTileMoves.Count > 0) HighlightTilesToMoveOff();
         
          _highlight.SetActive(false);
 
-        MenuManager.Instance.EnableHeroAttackMark(SequenceValidator.isHeroAttackMarkActive = false);
-        MenuManager.Instance.EnableEnemyAttackMark(SequenceValidator.isEnemyAttackMarkActive = false);
+        MenuManager.Instance.EnableHeroAttackMark(false);
+        MenuManager.Instance.EnableEnemyAttackMark(false);
         MenuManager.Instance.ShowTileInfo(null);
     }
 
@@ -73,25 +70,50 @@ public class Tile : MonoBehaviour, IDropHandler {
         unit.OccupiedTile = this;
     }
 
+    private void GetUnitOnTileMoves(BaseUnit unitOnTile)
+    {
+        if (unitOnTileMoves.Count > 0) unitOnTileMoves.Clear();
+
+        foreach (List<Coordinate> sequence in unitOnTile.getMoveSequences())
+        {
+            unitOnTileMoves.Add(SequenceValidator.GetValidUnitMove(sequence, this, unitOnTile.getFaction()));
+        }
+    }
+
     private void HighlightTilesToMoveOn()
     {
-        validTiles = SequenceValidator.GetValidTiles(this.OccupiedUnit);
+        GetUnitOnTileMoves(this.OccupiedUnit);
 
-        foreach (Tile validTile in validTiles)
-        {
-            if (validTile.OccupiedUnit != null) validTile._highlight.GetComponent<SpriteRenderer>().color = Color.red;
-            else validTile._highlight.GetComponent<SpriteRenderer>().color = Color.green;
+        foreach (List<UnitMove> unitMoves in unitOnTileMoves)
+        {   
+            foreach (UnitMove move in unitMoves)
+            {
+                if (move.validTileToMove != null)
+                {
+                    if (move.validTileToMove.OccupiedUnit != null) move.validTileToMove._highlight.GetComponent<SpriteRenderer>().color = Color.red;
+                    else move.validTileToMove._highlight.GetComponent<SpriteRenderer>().color = Color.green;
 
-            validTile._highlight.SetActive(true);
+                    move.validTileToMove._highlight.SetActive(true);
+                }
+
+                MenuManager.Instance.EnableHeroAttackMark(move.isAttackHeroMainHealth);
+                MenuManager.Instance.EnableEnemyAttackMark(move.isAttackOpponentMainHealth);
+            }
         }
     }
 
     private void HighlightTilesToMoveOff()
     {
-        foreach (Tile tile in validTiles)
-        {
-            tile._highlight.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 0.35f);
-            tile._highlight.SetActive(false);
+        foreach (List<UnitMove> unitMoves in unitOnTileMoves)
+        {   
+            foreach (UnitMove move in unitMoves)
+            {   
+                if (move.validTileToMove != null)
+                {
+                    move.validTileToMove._highlight.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 0.35f);
+                    move.validTileToMove._highlight.SetActive(false);
+                }  
+            }
         }
     }
 }

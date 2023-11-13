@@ -4,36 +4,24 @@ using UnityEngine;
 
 public static class SequenceValidator
 {
-    public static bool isHeroAttackMarkActive;
-    public static bool isEnemyAttackMarkActive;
-
-    private static List<Tile> validTiles = new List<Tile>();
-    public static List<Coordinate> GetValidSequence(List<List<Coordinate>> moveSequences, Tile occupiedTile, Faction faction)
+    public static List<UnitMove> GetValidRandomUnitMove(List<List<Coordinate>> moveSequences, Tile occupiedTile, Faction faction)
     {
-        List<List<Coordinate>> validSequences = new List<List<Coordinate>>();
+        List<List<UnitMove>> validUnitMoves = new List<List<UnitMove>>();
 
         foreach (List<Coordinate> sequence in moveSequences)
         {
-            List<Coordinate> steps = GetValidSteps(sequence, occupiedTile, faction);
+            List<UnitMove> unitMove = GetValidUnitMove(sequence, occupiedTile, faction);
 
-            if (steps.Count > 0) validSequences.Add(steps);
+            if (unitMove.Count > 0) validUnitMoves.Add(unitMove);
         }
-
-        return GetRandomSequence(validSequences);
+        
+        return GetRandomMove(validUnitMoves);
     }
 
-    public static List<Tile> GetValidTiles(BaseUnit unitOnTile)
-    {
-        if (validTiles.Count > 0) validTiles.Clear();
-
-        GetValidSequence(unitOnTile.getMoveSequences(), unitOnTile.OccupiedTile, unitOnTile.getFaction());
-        return validTiles;
-    }
-
-    private static List<Coordinate> GetValidSteps(List<Coordinate> sequence, Tile startTile, Faction faction)
+    public static List<UnitMove> GetValidUnitMove(List<Coordinate> sequence, Tile startTile, Faction faction)
     {
         Tile currentTile = startTile;
-        List<Coordinate> validSteps = new List<Coordinate>();
+        List<UnitMove> unitMoves = new List<UnitMove>();
 
         foreach (Coordinate coord in sequence)
         {
@@ -43,11 +31,11 @@ public static class SequenceValidator
 
             if (CheckSideBorders(moveToX) && IsAllyOnTile(tileMoveTo, faction))
             {
-                validSteps.Add(coord);
+                unitMoves.Add(new UnitMove(coord));
 
                 if (IsEnemyOnTile(tileMoveTo, faction))
                 {
-                    validTiles.Add(tileMoveTo);
+                    unitMoves.Last().validTileToMove = tileMoveTo;
                     break;
                 }
             }
@@ -55,23 +43,23 @@ public static class SequenceValidator
 
             if (tileMoveTo != null)
             {
-                validTiles.Add(tileMoveTo);
+                unitMoves.Last().validTileToMove = tileMoveTo;
                 currentTile = tileMoveTo;
             }
             else
             {
-                if (moveToY > GridSettings.HEIGHT - 1) isEnemyAttackMarkActive = true;
-                else if (moveToY < 0) isHeroAttackMarkActive = true;
+                if (moveToY > GridSettings.HEIGHT - 1) unitMoves.Last().isAttackOpponentMainHealth = true;
+                else if (moveToY < 0) unitMoves.Last().isAttackHeroMainHealth = true;
             }
         }
-        return validSteps;
+        return unitMoves;
     }
 
-    private static List<Coordinate> GetRandomSequence(List<List<Coordinate>> moveSequences)
+    private static List<UnitMove> GetRandomMove(List<List<UnitMove>> validUnitMoves)
     {
-        if (moveSequences.Count > 0) return moveSequences.OrderBy(o => Random.value).First();
+        if (validUnitMoves.Count > 0) return validUnitMoves.OrderBy(o => Random.value).First();
 
-        else return new List<Coordinate>();
+        else return new List<UnitMove>();
     }
 
     private static bool IsAllyOnTile(Tile tileMoveTo, Faction faction)

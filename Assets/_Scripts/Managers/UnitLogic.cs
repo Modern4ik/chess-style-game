@@ -56,13 +56,13 @@ public class UnitLogic
         IEnumerable<BaseUnit> unitsEnumerator = unitsHolder.GetUnits(faction);
         foreach (BaseUnit unit in unitsEnumerator)
         {
-            List<Coordinate> validSequence = SequenceValidator.GetValidSequence(unit.getMoveSequences(), unit.OccupiedTile, unit.getFaction());
+            List<UnitMove> validUnitMove = SequenceValidator.GetValidRandomUnitMove(unit.getMoveSequences(), unit.OccupiedTile, unit.getFaction());
             Debug.Log($"moved units {faction} {unit.getName()}");
-            foreach (Coordinate step in validSequence)
+            foreach (UnitMove unitMove in validUnitMove)
             {
                 await Task.Delay(750);
-                Debug.Log($"{faction} {step.y}");
-                bool doNextMovement = await TryMoveOrFight(faction, unit, step);
+                Debug.Log($"{faction} {unitMove.step.y}");
+                bool doNextMovement = await TryMoveOrFight(faction, unit, unitMove);
                 if (!doNextMovement || GameManager.Instance.IsGameEnded()) break;
             }
         }
@@ -70,13 +70,12 @@ public class UnitLogic
     }
 
     //TODO: эту ф-ию явно можно упростить. Разбить на ф-ии попроще и часть унести в поведение юнита.
-    private async Task<bool> TryMoveOrFight(Faction faction, BaseUnit unit, Coordinate step)
+    private async Task<bool> TryMoveOrFight(Faction faction, BaseUnit unit, UnitMove unitMove)
     {  
         Tile occupiedTile = unit.OccupiedTile;
-        int moveToY = occupiedTile.y + step.y;
-        int moveToX = occupiedTile.x + step.x;
+        Tile tileMoveTo = unitMove.validTileToMove;
         //Определяем что делать, в зависимости от того что на следующем tile
-        if (IsInTheEndZone(moveToY, faction))
+        if (unitMove.isAttackHeroMainHealth || unitMove.isAttackOpponentMainHealth)
         {
             await menuManager.DoDamageToMainHero(unit.getFaction(), unit.GetAttack());
             DestroyUnit(unit);
@@ -85,35 +84,17 @@ public class UnitLogic
         }
         else
         {
-            Tile moveTo = gridManager.GetTileAtPosition(new Vector2(moveToX, moveToY));
-            if (moveTo.OccupiedUnit != null) //Что делать, если кто-то уже есть на этом тайле
+            if (tileMoveTo.OccupiedUnit != null) //Что делать, если кто-то уже есть на этом тайле
             {  
                 //Это чужой юнит, нужно с ним сражаться
-                return await Fight(unit, moveTo.OccupiedUnit); //Юнит файтится 1 раз. Если пофайтился, дальше не двигается
+                return await Fight(unit, tileMoveTo.OccupiedUnit); //Юнит файтится 1 раз. Если пофайтился, дальше не двигается
             }
             else
             { //Клетка пустая, сдвигаемся
-                moveTo.SetUnit(unit);
+                tileMoveTo.SetUnit(unit);
                 return true;
             }
         }
-    }
-
-    //Это можно вынести в модель фракции - какая куда стремится. Или в модель самого юнита зашить.
-    private bool IsInTheEndZone(int y, Faction faction)
-    {
-        switch (faction)
-        {
-            case Faction.Hero:
-                //TODO: размер доски должен быть в конструкторе класса.
-                if (y > GridSettings.HEIGHT - 1) return true;
-                else return false;
-            case Faction.Enemy:
-                if (y < 0) return true;
-                else return false;
-        }
-        //Сюда никогда не должны попадать. Как в С# написать эту часть безопасно, чтобы не было Exception пока не понял.
-        throw new System.Exception("в эту ветку кода никогда не должны попадать");
     }
 
     private async Task<bool> Fight(BaseUnit attackingUnit, BaseUnit defendingUnit)
