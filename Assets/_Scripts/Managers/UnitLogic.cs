@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using System.Threading.Tasks;
 
@@ -56,48 +54,49 @@ public class UnitLogic
         IEnumerable<BaseUnit> unitsEnumerator = unitsHolder.GetUnits(faction);
         foreach (BaseUnit unit in unitsEnumerator)
         {
-            List<UnitMove> validUnitMove = SequenceValidator.GetValidRandomUnitMove(unit.getMoveSequences(), unit.OccupiedTile, unit.getFaction());
+            List<UnitMove> validUnitMove = SequenceValidator.GetValidRandomUnitMoves(unit.getMoveSequences(), unit.OccupiedTile, unit.getFaction());
             Debug.Log($"moved units {faction} {unit.getName()}");
             foreach (UnitMove unitMove in validUnitMove)
             {
                 await Task.Delay(750);
-                Debug.Log($"{faction} {unitMove.step.y}");
-                bool doNextMovement = await TryMoveOrFight(faction, unit, unitMove);
-                if (!doNextMovement || GameManager.Instance.IsGameEnded()) break;
+                await StartUnitAction(unit, unitMove);
+                if (GameManager.Instance.IsGameEnded()) break;
             }
         }
         unitsHolder.compact();
     }
 
-    //TODO: эту ф-ию явно можно упростить. Разбить на ф-ии попроще и часть унести в поведение юнита.
-    private async Task<bool> TryMoveOrFight(Faction faction, BaseUnit unit, UnitMove unitMove)
-    {  
-        Tile occupiedTile = unit.OccupiedTile;
-        Tile tileMoveTo = unitMove.validTileToMove;
-        //Определяем что делать, в зависимости от того что на следующем tile
-        if (unitMove.isAttackHeroMainHealth || unitMove.isAttackOpponentMainHealth)
+    private async Task StartUnitAction(BaseUnit unit, UnitMove unitMove)
+    {
+        switch (unitMove)
         {
-            await menuManager.DoDamageToMainHero(unit.getFaction(), unit.GetAttack());
-            DestroyUnit(unit);
-            occupiedTile.OccupiedUnit = null;
-            return false;
-        }
-        else
-        {
-            if (tileMoveTo.OccupiedUnit != null) //Что делать, если кто-то уже есть на этом тайле
-            {  
-                //Это чужой юнит, нужно с ним сражаться
-                return await Fight(unit, tileMoveTo.OccupiedUnit); //Юнит файтится 1 раз. Если пофайтился, дальше не двигается
-            }
-            else
-            { //Клетка пустая, сдвигаемся
-                tileMoveTo.SetUnit(unit);
-                return true;
-            }
+            case MoveTo: 
+                await TryMoveOrFight(unit, (MoveTo)unitMove);
+                break;
+            case AttackMain: 
+                await TryAttackMainSide(unit, (AttackMain)unitMove);
+                break;
         }
     }
 
-    private async Task<bool> Fight(BaseUnit attackingUnit, BaseUnit defendingUnit)
+    private async Task TryMoveOrFight(BaseUnit unit, MoveTo unitAction)
+    {  
+        Tile tileMoveTo = unitAction.validTileToMove;
+        Debug.Log($"{unit.getFaction()} moved {unitAction.validTileToMove.y}");
+
+        //Что делать, если кто-то уже есть на этом тайле
+        if (tileMoveTo.OccupiedUnit != null) await Fight(unit, tileMoveTo.OccupiedUnit); //Если противник, то сражаемся.
+        else tileMoveTo.SetUnit(unit); // Если клетка пустая, то юнит сдвигается на нёё
+    }
+
+    private async Task TryAttackMainSide(BaseUnit unit, AttackMain unitAction)
+    {
+        await menuManager.DoDamageToMainHero(unit.getFaction(), unit.GetAttack());
+        DestroyUnit(unit);
+        unit.OccupiedTile.OccupiedUnit = null;
+    }
+
+    private async Task Fight(BaseUnit attackingUnit, BaseUnit defendingUnit)
     {
         float remainingHealth = await defendingUnit.getHealth().RecieveDamage(attackingUnit.GetAttack());
 
@@ -105,11 +104,7 @@ public class UnitLogic
         {
             DestroyUnit(defendingUnit);
             defendingUnit.OccupiedTile.SetUnit(attackingUnit);
-
-            return true;
         }
-
-        return false;
     }
 
     private void DestroyUnit(BaseUnit unit)

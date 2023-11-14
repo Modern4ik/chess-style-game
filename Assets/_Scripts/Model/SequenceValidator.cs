@@ -4,21 +4,21 @@ using UnityEngine;
 
 public static class SequenceValidator
 {
-    public static List<UnitMove> GetValidRandomUnitMove(List<List<Coordinate>> moveSequences, Tile occupiedTile, Faction faction)
+    public static List<UnitMove> GetValidRandomUnitMoves(List<List<Coordinate>> moveSequences, Tile occupiedTile, Faction faction)
     {
         List<List<UnitMove>> validUnitMoves = new List<List<UnitMove>>();
 
         foreach (List<Coordinate> sequence in moveSequences)
         {
-            List<UnitMove> unitMove = GetValidUnitMove(sequence, occupiedTile, faction);
+            List<UnitMove> unitMoves = GetValidUnitMoves(sequence, occupiedTile, faction);
 
-            if (unitMove.Count > 0) validUnitMoves.Add(unitMove);
+            if (unitMoves.Count > 0) validUnitMoves.Add(unitMoves);
         }
         
-        return GetRandomMove(validUnitMoves);
+        return GetRandomMoves(validUnitMoves);
     }
 
-    public static List<UnitMove> GetValidUnitMove(List<Coordinate> sequence, Tile startTile, Faction faction)
+    public static List<UnitMove> GetValidUnitMoves(List<Coordinate> sequence, Tile startTile, Faction faction)
     {
         Tile currentTile = startTile;
         List<UnitMove> unitMoves = new List<UnitMove>();
@@ -29,33 +29,24 @@ public static class SequenceValidator
             int moveToY = currentTile.y + coord.y;
             Tile tileMoveTo = GridManager.Instance.GetTileAtPosition(new Vector2(moveToX, moveToY));
 
-            if (CheckSideBorders(moveToX) && IsAllyOnTile(tileMoveTo, faction))
+            if (tileMoveTo != null && IsAllyOnTile(tileMoveTo, faction))
             {
-                unitMoves.Add(new UnitMove(coord));
+                unitMoves.Add(new MoveTo(coord, tileMoveTo));
 
-                if (IsEnemyOnTile(tileMoveTo, faction))
-                {
-                    unitMoves.Last().validTileToMove = tileMoveTo;
-                    break;
-                }
-            }
-            else break;
+                if (IsEnemyOnTile(tileMoveTo, faction)) break;
 
-            if (tileMoveTo != null)
-            {
-                unitMoves.Last().validTileToMove = tileMoveTo;
                 currentTile = tileMoveTo;
             }
-            else
+            else if (isAttackMainSideBorders(moveToY))
             {
-                if (moveToY > GridSettings.HEIGHT - 1) unitMoves.Last().isAttackOpponentMainHealth = true;
-                else if (moveToY < 0) unitMoves.Last().isAttackHeroMainHealth = true;
+                unitMoves.Add(new AttackMain(moveToY));
+                break;
             }
         }
         return unitMoves;
     }
 
-    private static List<UnitMove> GetRandomMove(List<List<UnitMove>> validUnitMoves)
+    private static List<UnitMove> GetRandomMoves(List<List<UnitMove>> validUnitMoves)
     {
         if (validUnitMoves.Count > 0) return validUnitMoves.OrderBy(o => Random.value).First();
 
@@ -64,8 +55,6 @@ public static class SequenceValidator
 
     private static bool IsAllyOnTile(Tile tileMoveTo, Faction faction)
     {
-        if (tileMoveTo == null) return true;
-
         if (tileMoveTo.OccupiedUnit != null && tileMoveTo.OccupiedUnit.getFaction() == faction)
         {
             return false;
@@ -76,8 +65,6 @@ public static class SequenceValidator
 
     private static bool IsEnemyOnTile(Tile tileMoveTo, Faction faction)
     {
-        if (tileMoveTo == null) return false;
-
         if (tileMoveTo.OccupiedUnit != null && tileMoveTo.OccupiedUnit.getFaction() != faction)
         {
             return true;
@@ -86,10 +73,6 @@ public static class SequenceValidator
         return false;
     }
 
-    private static bool CheckSideBorders(int coordX)
-    {
-        if (coordX >= 0 && coordX < GridSettings.WIDTH) return true;
-
-        else return false;
-    }
+    private static bool isAttackMainSideBorders(int coordY) => coordY < 0 || coordY > GridSettings.HEIGHT - 1;
+    
 }
