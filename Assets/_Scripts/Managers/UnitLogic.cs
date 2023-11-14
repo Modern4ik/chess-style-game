@@ -74,7 +74,7 @@ public class UnitLogic
                 await TryMoveOrFight(unit, (MoveTo)unitMove);
                 break;
             case AttackMain: 
-                await TryAttackMainSide(unit, (AttackMain)unitMove);
+                await TryAttackMainSide(unit);
                 break;
         }
     }
@@ -89,7 +89,7 @@ public class UnitLogic
         else tileMoveTo.SetUnit(unit); // Если клетка пустая, то юнит сдвигается на нёё
     }
 
-    private async Task TryAttackMainSide(BaseUnit unit, AttackMain unitAction)
+    private async Task TryAttackMainSide(BaseUnit unit)
     {
         await menuManager.DoDamageToMainHero(unit.getFaction(), unit.GetAttack());
         DestroyUnit(unit);
