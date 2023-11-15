@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using System.Threading.Tasks;
 
@@ -56,70 +54,49 @@ public class UnitLogic
         IEnumerable<BaseUnit> unitsEnumerator = unitsHolder.GetUnits(faction);
         foreach (BaseUnit unit in unitsEnumerator)
         {
-            List<Coordinate> validSequence = GetValidSequence(unit.getMoveSequences(), unit.OccupiedTile, unit.getFaction());
+            List<UnitMove> validUnitMove = SequenceValidator.GetValidRandomUnitMoves(unit.getMoveSequences(), unit.OccupiedTile, unit.getFaction());
             Debug.Log($"moved units {faction} {unit.getName()}");
-            foreach (Coordinate step in validSequence)
+            foreach (UnitMove unitMove in validUnitMove)
             {
                 await Task.Delay(750);
-                Debug.Log($"{faction} {step.y}");
-                bool doNextMovement = await TryMoveOrFight(faction, unit, step);
-                if (!doNextMovement || GameManager.Instance.IsGameEnded()) break;
+                await StartUnitAction(unit, unitMove);
+                if (GameManager.Instance.IsGameEnded()) break;
             }
         }
         unitsHolder.compact();
     }
 
-    //TODO: эту ф-ию явно можно упростить. Разбить на ф-ии попроще и часть унести в поведение юнита.
-    private async Task<bool> TryMoveOrFight(Faction faction, BaseUnit unit, Coordinate step)
-    {  
-        Tile occupiedTile = unit.OccupiedTile;
-        int moveToY = occupiedTile.y + step.y;
-        int moveToX = occupiedTile.x + step.x;
-        //Определяем что делать, в зависимости от того что на следующем tile
-        if (IsInTheEndZone(moveToY, faction))
-        {
-            await menuManager.DoDamageToMainHero(unit.getFaction(), unit.GetAttack());
-            DestroyUnit(unit);
-            occupiedTile.OccupiedUnit = null;
-            return false;
-        }
-        else
-        {
-            Tile moveTo = gridManager.GetTileAtPosition(new Vector2(moveToX, moveToY));
-            if (moveTo.OccupiedUnit != null) //Что делать, если кто-то уже есть на этом тайле
-            {  
-                //Это чужой юнит, нужно с ним сражаться
-                return await Fight(unit, moveTo.OccupiedUnit); //Юнит файтится 1 раз. Если пофайтился, дальше не двигается
-            }
-            else
-            { //Клетка пустая, сдвигаемся
-                moveTo.SetUnit(unit);
-                return true;
-            }
-        }
-    }
-    
-    
-    
-
-    //Это можно вынести в модель фракции - какая куда стремится. Или в модель самого юнита зашить.
-    private bool IsInTheEndZone(int y, Faction faction)
+    private async Task StartUnitAction(BaseUnit unit, UnitMove unitMove)
     {
-        switch (faction)
+        switch (unitMove)
         {
-            case Faction.Hero:
-                //TODO: размер доски должен быть в конструкторе класса.
-                if (y > GridSettings.HEIGHT - 1) return true;
-                else return false;
-            case Faction.Enemy:
-                if (y < 0) return true;
-                else return false;
+            case MoveTo: 
+                await TryMoveOrFight(unit, (MoveTo)unitMove);
+                break;
+            case AttackMain: 
+                await TryAttackMainSide(unit);
+                break;
         }
-        //Сюда никогда не должны попадать. Как в С# написать эту часть безопасно, чтобы не было Exception пока не понял.
-        throw new System.Exception("в эту ветку кода никогда не должны попадать");
     }
 
-    private async Task<bool> Fight(BaseUnit attackingUnit, BaseUnit defendingUnit)
+    private async Task TryMoveOrFight(BaseUnit unit, MoveTo unitAction)
+    {  
+        Tile tileMoveTo = unitAction.validTileToMove;
+        Debug.Log($"{unit.getFaction()} moved {unitAction.validTileToMove.y}");
+
+        //Что делать, если кто-то уже есть на этом тайле
+        if (tileMoveTo.OccupiedUnit != null) await Fight(unit, tileMoveTo.OccupiedUnit); //Если противник, то сражаемся.
+        else tileMoveTo.SetUnit(unit); // Если клетка пустая, то юнит сдвигается на нёё
+    }
+
+    private async Task TryAttackMainSide(BaseUnit unit)
+    {
+        await menuManager.DoDamageToMainHero(unit.getFaction(), unit.GetAttack());
+        DestroyUnit(unit);
+        unit.OccupiedTile.OccupiedUnit = null;
+    }
+
+    private async Task Fight(BaseUnit attackingUnit, BaseUnit defendingUnit)
     {
         float remainingHealth = await defendingUnit.getHealth().RecieveDamage(attackingUnit.GetAttack());
 
@@ -127,92 +104,12 @@ public class UnitLogic
         {
             DestroyUnit(defendingUnit);
             defendingUnit.OccupiedTile.SetUnit(attackingUnit);
-
-            return true;
         }
-
-        return false;
     }
 
     private void DestroyUnit(BaseUnit unit)
     {
         unitsHolder.DeleteUnit(unit);
         unit.getUnityObject().Destroy();
-    }
-
-    private List<Coordinate> GetValidSequence(List<List<Coordinate>> moveSequences, Tile occupiedTile, Faction faction)
-    {
-        List<List<Coordinate>> validSequences = new List<List<Coordinate>>();
-
-        foreach (List<Coordinate> sequence in moveSequences)
-        {   
-            List<Coordinate> steps = GetValidSteps(sequence, occupiedTile, faction);
-
-            if (steps.Count > 0) validSequences.Add(steps);
-        }
-
-        return GetRandomSequence(validSequences);
-    }
-
-    private List<Coordinate> GetValidSteps (List<Coordinate> sequence, Tile startTile, Faction faction)
-    {
-        List<Coordinate> validSteps = new List<Coordinate>();
-        Tile currentTile = startTile;
-
-        foreach(Coordinate coord in sequence)
-        {
-            int moveToX = currentTile.x + coord.x;
-            int moveToY = currentTile.y + coord.y;
-            Tile tileMoveTo = gridManager.GetTileAtPosition(new Vector2(moveToX, moveToY));
-
-            if (CheckSideBorders(moveToX) && IsAllyOnTile(tileMoveTo, faction))
-            {
-                validSteps.Add(coord);
-
-                if (IsEnemyOnTile(tileMoveTo, faction)) break;
-            }
-            else break;
-
-            if (tileMoveTo != null) currentTile = tileMoveTo;
-        }
-        return validSteps;
-    }
-
-    private List<Coordinate> GetRandomSequence(List<List<Coordinate>> moveSequences)
-    {
-        if (moveSequences.Count > 0) return moveSequences.OrderBy(o => Random.value).First();
-
-        else return new List<Coordinate>();
-    }
-
-    private bool IsAllyOnTile(Tile tileMoveTo, Faction faction)
-    {
-        if (tileMoveTo == null) return true;
-
-        if (tileMoveTo.OccupiedUnit != null && tileMoveTo.OccupiedUnit.getFaction() == faction)
-        {
-            return false;
-        }
-
-        return true;
-    }
-
-    private bool IsEnemyOnTile(Tile tileMoveTo, Faction faction)
-    {
-        if (tileMoveTo == null) return false;
-
-        if (tileMoveTo.OccupiedUnit != null && tileMoveTo.OccupiedUnit.getFaction() != faction)
-        {
-            return true;
-        }
-
-        return false;
-    }
-
-    private bool CheckSideBorders(int coordX)
-    {
-        if (coordX >= 0 && coordX < GridSettings.WIDTH) return true;
-
-        else return false;
     }
 }
