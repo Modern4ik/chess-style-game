@@ -114,6 +114,8 @@ GameObject:
   - component: {fileID: 5618377804813593777}
   - component: {fileID: 9220163428639531480}
   - component: {fileID: 3408921778896530988}
+  - component: {fileID: 2083045289763843780}
+  - component: {fileID: -774949967141386140}
   m_Layer: 0
   m_Name: HeroPawn
   m_TagString: Pawn
@@ -179,7 +181,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 35d8802c68f96424590a9c91ce093247, type: 3}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 0, g: 1, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -201,6 +203,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 273eb08d05c44434a72a3d29f1849712, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2083045289763843780
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8839075385656319515}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41bed8d9d94cd5f49bf26a598ae2fc2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!95 &-774949967141386140
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8839075385656319515}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e621e30e3e3bf5640b57f01817ec1b1f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &1678524320690480803
 PrefabInstance:
   m_ObjectHideFlags: 0

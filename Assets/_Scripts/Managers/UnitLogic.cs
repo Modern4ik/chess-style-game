@@ -86,7 +86,11 @@ public class UnitLogic
 
         //Что делать, если кто-то уже есть на этом тайле
         if (tileMoveTo.OccupiedUnit != null) await Fight(unit, tileMoveTo.OccupiedUnit); //Если противник, то сражаемся.
-        else tileMoveTo.SetUnit(unit); // Если клетка пустая, то юнит сдвигается на нёё
+        else
+        {    
+            await UnitView.Instance.StartMoveAnimation(unit, tileMoveTo.x, tileMoveTo.y); 
+            tileMoveTo.SetUnit(unit); // Если клетка пустая, то юнит сдвигается на нёё
+        }
     }
 
     private async Task TryAttackMainSide(BaseUnit unit)
@@ -98,11 +102,13 @@ public class UnitLogic
 
     private async Task Fight(BaseUnit attackingUnit, BaseUnit defendingUnit)
     {
+        await UnitView.Instance.StartFightAnimation(attackingUnit, defendingUnit);
         float remainingHealth = await defendingUnit.getHealth().RecieveDamage(attackingUnit.GetAttack());
 
         if (remainingHealth <= 0)
         {
             DestroyUnit(defendingUnit);
+            await UnitView.Instance.StartMoveAnimation(attackingUnit, defendingUnit.OccupiedTile.x, defendingUnit.OccupiedTile.y);
             defendingUnit.OccupiedTile.SetUnit(attackingUnit);
         }
     }

@@ -18,4 +18,6 @@ public class UnityObject : IUnityObject
     {
         _monoBehaviour.transform.position = position;
     }
+
+    public Transform GetTransform() => _monoBehaviour.transform;
 }
