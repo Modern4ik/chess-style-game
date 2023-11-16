@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,13 +12,12 @@ public class MenuManager : MonoBehaviour, IMenuManager {
     private GameObject unitMenu;
     
     [SerializeField] private GameObject _selectedHeroObject,_tileObject,_tileUnitObject;
-    [SerializeField] private GameObject _alliedHealthPrefab;
-    [SerializeField] private GameObject _enemyHealthPrefab;
-    [SerializeField] private GameObject _heroAttackMarkPrefab;
-    [SerializeField] private GameObject _enemyAttackMarkPrefab;
+    [SerializeField] private GameObject _alliedHealthPrefab, _enemyHealthPrefab;
+    [SerializeField] private GameObject _heroAttackMarkPrefab, _enemyAttackMarkPrefab;
     [SerializeField] private GameObject _unitSelectMenu;
     [SerializeField] private GameObject _endGameMenuPrefab;
     [SerializeField] private GameObject _winEndMenuText, _loseEndMenuText;
+    [SerializeField] private GameObject _turnNotificationPrefab;
     // Поле ниже подтягивает Canvas(именно Transform Канваса) из иерархии в Unity.
     // Оно нужно для того, чтобы разместить healthBar ввиде дочернего объекта в Canvas по иерархии на сцене.
     [SerializeField] private Transform _canvas;
@@ -91,6 +88,16 @@ public class MenuManager : MonoBehaviour, IMenuManager {
         Instantiate(menuText, endMenu.transform);
 
         GameManager.Instance.ChangeState(GameState.GameEnded);
+    }
+
+    public async Task GenerateTurnNotification()
+    {
+        await Task.Delay(1500);
+
+        GameObject turnNotification = Instantiate(_turnNotificationPrefab, _canvas.transform);
+        await NotificationView.Instance.StartNotificationAnimation();
+
+        Destroy(turnNotification);    
     }
 
     public void ShowTileInfo(Tile tile) {
