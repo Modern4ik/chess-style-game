@@ -6,16 +6,20 @@ public static class SequenceValidator
 {
     public static List<UnitMove> GetValidRandomUnitMoves(List<List<Coordinate>> moveSequences, Tile occupiedTile, Faction faction)
     {
-        List<List<UnitMove>> validUnitMoves = new List<List<UnitMove>>();
+        List<List<UnitMove>> validMovesTo = new List<List<UnitMove>>();
+        List<List<UnitMove>> validAttacksUnit = new List<List<UnitMove>>();
 
         foreach (List<Coordinate> sequence in moveSequences)
         {
             List<UnitMove> unitMoves = GetValidUnitMoves(sequence, occupiedTile, faction);
+            
+            if (unitMoves.Find(move => move.GetType() == typeof(AttackUnit)) != null) validAttacksUnit.Add(unitMoves);
 
-            if (unitMoves.Count > 0) validUnitMoves.Add(unitMoves);
+            else if (unitMoves.Count > 0) validMovesTo.Add(unitMoves);
         }
-        
-        return GetRandomMoves(validUnitMoves);
+
+        if (validAttacksUnit.Count > 0) return GetRandomActions(validAttacksUnit);
+        else return GetRandomActions(validMovesTo);
     }
 
     public static List<UnitMove> GetValidUnitMoves(List<Coordinate> sequence, Tile startTile, Faction faction)
@@ -31,9 +35,12 @@ public static class SequenceValidator
 
             if (tileMoveTo != null && IsAllyOnTile(tileMoveTo, faction))
             {
-                unitMoves.Add(new MoveTo(coord, tileMoveTo));
-
-                if (IsEnemyOnTile(tileMoveTo, faction)) break;
+                if (IsEnemyOnTile(tileMoveTo, faction))
+                {
+                    unitMoves.Add(new AttackUnit(coord, tileMoveTo));
+                    break;
+                }
+                else unitMoves.Add(new MoveTo(coord, tileMoveTo));
 
                 currentTile = tileMoveTo;
             }
@@ -46,9 +53,9 @@ public static class SequenceValidator
         return unitMoves;
     }
 
-    private static List<UnitMove> GetRandomMoves(List<List<UnitMove>> validUnitMoves)
+    private static List<UnitMove> GetRandomActions(List<List<UnitMove>> validUnitActions)
     {
-        if (validUnitMoves.Count > 0) return validUnitMoves.OrderBy(o => Random.value).First();
+        if (validUnitActions.Count > 0) return validUnitActions.OrderBy(o => Random.value).First();
 
         else return new List<UnitMove>();
     }

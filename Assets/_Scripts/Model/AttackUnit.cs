@@ -1,8 +1,8 @@
-public class MoveTo : UnitMove
+public class AttackUnit : UnitMove
 {
     public Coordinate step { get; }
 
-    public MoveTo(Coordinate step, Tile validTileToMove)
+    public AttackUnit(Coordinate step, Tile validTileToMove)
     {
         this.step = step;
         this.validTileToMove = validTileToMove;
