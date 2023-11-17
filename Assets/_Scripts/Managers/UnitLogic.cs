@@ -71,29 +71,26 @@ public class UnitLogic
         switch (unitMove)
         {
             case MoveTo: 
-                await TryMoveOrFight(unit, (MoveTo)unitMove);
+                StartMove(unit, (MoveTo)unitMove);
+                break;
+            case AttackUnit:
+                await StartFight(unit, (AttackUnit)unitMove);
                 break;
             case AttackMain: 
-                await TryAttackMainSide(unit);
+                await StartAttackMainSide(unit);
                 break;
         }
     }
 
-    private async Task TryMoveOrFight(BaseUnit unit, MoveTo unitAction)
+    private void StartMove(BaseUnit unit, MoveTo unitAction)
     {  
-        Tile tileMoveTo = unitAction.validTileToMove;
         Debug.Log($"{unit.getFaction()} moved {unitAction.validTileToMove.y}");
-
-        //Что делать, если кто-то уже есть на этом тайле
-        if (tileMoveTo.OccupiedUnit != null) await Fight(unit, tileMoveTo.OccupiedUnit); //Если противник, то сражаемся.
-        else
-        {    
-            await UnitView.Instance.StartMoveAnimation(unit, tileMoveTo.x, tileMoveTo.y); 
-            tileMoveTo.SetUnit(unit); // Если клетка пустая, то юнит сдвигается на нёё
-        }
+        unitAction.validTileToMove.SetUnit(unit); 
     }
 
-    private async Task TryAttackMainSide(BaseUnit unit)
+    private async Task StartFight(BaseUnit unit, AttackUnit unitAction) => await Fight(unit, unitAction.validTileToMove.OccupiedUnit);
+
+    private async Task StartAttackMainSide(BaseUnit unit)
     {
         await menuManager.DoDamageToMainHero(unit.getFaction(), unit.GetAttack());
         DestroyUnit(unit);

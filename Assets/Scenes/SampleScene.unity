@@ -628,7 +628,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!223 &1209031080
 Canvas:
   m_ObjectHideFlags: 0
@@ -999,6 +999,7 @@ MonoBehaviour:
   _endGameMenuPrefab: {fileID: 2233876579425780365, guid: 9a2649f8d80833042bf05b6c6ba9ff2c, type: 3}
   _winEndMenuText: {fileID: 600190887686835945, guid: 351fa2769e7e16749af09f1604043fc0, type: 3}
   _loseEndMenuText: {fileID: 530876562275020311, guid: b9b1017ef185cdf49b8a0ce0dd26e4a5, type: 3}
+  _turnNotificationPrefab: {fileID: 8813985198792088352, guid: ba93145e776c64e44b8a9d0b171d0d5d, type: 3}
   _canvas: {fileID: 1209031081}
 --- !u!1 &1945248844
 GameObject:
