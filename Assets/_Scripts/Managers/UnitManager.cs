@@ -45,8 +45,6 @@ public class UnitManager : MonoBehaviour {
                 GameManager.Instance.ChangeState(GameState.SpawnEnemies);
                 break;
             case Faction.Enemy:
-                await MenuManager.Instance.GenerateTurnNotification();
-
                 GameManager.Instance.ChangeState(GameState.SpawnHeroes);
                 break;
         }
