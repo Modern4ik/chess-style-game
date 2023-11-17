@@ -59,38 +59,38 @@ public class UnitLogic
             foreach (UnitMove unitMove in validUnitMove)
             {
                 await Task.Delay(750);
-                await StartUnitAction(unit, unitMove);
+                await ApplyUnitAction(unit, unitMove);
                 if (GameManager.Instance.IsGameEnded()) break;
             }
         }
         unitsHolder.compact();
     }
 
-    private async Task StartUnitAction(BaseUnit unit, UnitMove unitMove)
+    private async Task ApplyUnitAction(BaseUnit unit, UnitMove unitMove)
     {
         switch (unitMove)
         {
             case MoveTo: 
-                StartMove(unit, (MoveTo)unitMove);
+                await Move(unit, (MoveTo)unitMove);
                 break;
             case AttackUnit:
-                await StartFight(unit, (AttackUnit)unitMove);
+                await Fight(unit, unitMove.validTileToMove.OccupiedUnit);
                 break;
             case AttackMain: 
-                await StartAttackMainSide(unit);
+                await AttackMainSide(unit);
                 break;
         }
     }
 
-    private void StartMove(BaseUnit unit, MoveTo unitAction)
+    private async Task Move(BaseUnit unit, MoveTo unitAction)
     {  
         Debug.Log($"{unit.getFaction()} moved {unitAction.validTileToMove.y}");
+
+        await UnitView.Instance.StartMoveAnimation(unit, unitAction.validTileToMove.x, unitAction.validTileToMove.y);
         unitAction.validTileToMove.SetUnit(unit); 
     }
 
-    private async Task StartFight(BaseUnit unit, AttackUnit unitAction) => await Fight(unit, unitAction.validTileToMove.OccupiedUnit);
-
-    private async Task StartAttackMainSide(BaseUnit unit)
+    private async Task AttackMainSide(BaseUnit unit)
     {
         await menuManager.DoDamageToMainHero(unit.getFaction(), unit.GetAttack());
         DestroyUnit(unit);
