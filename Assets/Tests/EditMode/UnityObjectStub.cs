@@ -7,13 +7,12 @@ public class UnityObjectStub : IUnityObject
             
     }
 
-    public void SetPosition(Vector3 position)
+    public void SetPosition(Vector2 position)
     {
             
     }
 
-    public Transform GetTransform()
-    {
-        return null;
-    }
+    public Animator GetAnimator() => null;
+    public float GetCoordX() => 0;
+    public float GetCoordY() => 0;
 }
