@@ -114,6 +114,8 @@ GameObject:
   - component: {fileID: 225300235128987705}
   - component: {fileID: 8838183377188438608}
   - component: {fileID: 2799780831324583611}
+  - component: {fileID: 2903058880029508945}
+  - component: {fileID: -870784412869128572}
   m_Layer: 0
   m_Name: EnemyHorse
   m_TagString: Horse
@@ -201,6 +203,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 273eb08d05c44434a72a3d29f1849712, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2903058880029508945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6578811125134880334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41bed8d9d94cd5f49bf26a598ae2fc2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!95 &-870784412869128572
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6578811125134880334}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e621e30e3e3bf5640b57f01817ec1b1f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &7709102992337935344
 PrefabInstance:
   m_ObjectHideFlags: 0

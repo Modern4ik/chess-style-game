@@ -14,8 +14,12 @@ public class UnityObject : IUnityObject
         Object.Destroy(_monoBehaviour.gameObject);
     }
 
-    public void SetPosition(Vector3 position)
+    public void SetPosition(Vector2 position)
     {
         _monoBehaviour.transform.position = position;
     }
+
+    public Animator GetAnimator() => _monoBehaviour.transform.GetComponent<Animator>();
+    public float GetCoordX() => _monoBehaviour.transform.position.x;
+    public float GetCoordY() => _monoBehaviour.transform.position.y;
 }

@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 7027987924459240490}
   - component: {fileID: 6781251383154637275}
   - component: {fileID: 8054659614976779177}
+  - component: {fileID: -5299506414105701364}
+  - component: {fileID: 6676320982593655746}
   m_Layer: 0
   m_Name: TempEnemyPawn
   m_TagString: Pawn
@@ -27,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 373149325691101701}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.70981884, y: 0.71137685, z: 0}
-  m_LocalScale: {x: 0.75932807, y: 0.63995004, z: 0.97348}
+  m_LocalScale: {x: 0.7593281, y: 0.63995, z: 0.97348}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4758423617420166787}
@@ -98,6 +100,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 273eb08d05c44434a72a3d29f1849712, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-5299506414105701364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 373149325691101701}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41bed8d9d94cd5f49bf26a598ae2fc2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!95 &6676320982593655746
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 373149325691101701}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e621e30e3e3bf5640b57f01817ec1b1f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &5616396735178437968
 GameObject:
   m_ObjectHideFlags: 0
