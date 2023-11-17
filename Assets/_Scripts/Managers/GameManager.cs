@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour, IGameManager
@@ -19,7 +20,7 @@ public class GameManager : MonoBehaviour, IGameManager
         ChangeState(GameState.GenerateGrid);
     }
 
-    public void ChangeState(GameState newState)
+    public async void ChangeState(GameState newState)
     {
         GameState = newState;
         Debug.Log($"state {newState}");
@@ -32,6 +33,8 @@ public class GameManager : MonoBehaviour, IGameManager
                 /*
                  * Должны появляться враги на последней линии
                  */
+                await MenuManager.Instance.GenerateTurnNotification();
+
                 UnitManager.Instance.SpawnEnemies();
                 break;
             case GameState.EnemiesTurn:
@@ -47,7 +50,6 @@ public class GameManager : MonoBehaviour, IGameManager
                  * На первой линии
                  */
                 //Стейт переключается в Tile, т.к нужно реагировать на нажатие мыши
-
                 break;
             case GameState.HeroesTurn:
                 /*
