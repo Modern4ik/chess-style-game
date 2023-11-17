@@ -71,27 +71,27 @@ public class UnitLogic
         switch (unitMove)
         {
             case MoveTo: 
-                TryToMove(unit, (MoveTo)unitMove);
+                StartMove(unit, (MoveTo)unitMove);
                 break;
             case AttackUnit:
-                await TryToFight(unit, (AttackUnit)unitMove);
+                await StartFight(unit, (AttackUnit)unitMove);
                 break;
             case AttackMain: 
-                await TryToAttackMainSide(unit);
+                await StartAttackMainSide(unit);
                 break;
         }
     }
 
-    private void TryToMove(BaseUnit unit, MoveTo unitAction)
+    private void StartMove(BaseUnit unit, MoveTo unitAction)
     {  
         Debug.Log($"{unit.getFaction()} moved {unitAction.validTileToMove.y}");
 
         unitAction.validTileToMove.SetUnit(unit); 
     }
 
-    private async Task TryToFight(BaseUnit unit, AttackUnit unitAction) => await Fight(unit, unitAction.validTileToMove.OccupiedUnit);
+    private async Task StartFight(BaseUnit unit, AttackUnit unitAction) => await Fight(unit, unitAction.validTileToMove.OccupiedUnit);
 
-    private async Task TryToAttackMainSide(BaseUnit unit)
+    private async Task StartAttackMainSide(BaseUnit unit)
     {
         await menuManager.DoDamageToMainHero(unit.getFaction(), unit.GetAttack());
         DestroyUnit(unit);
