@@ -100,6 +100,9 @@ public class Tile : MonoBehaviour, IDropHandler {
             case MoveTo:
                 HighlightTileToMoveOn((MoveTo) unitMove);
                 break;
+            case AttackUnit:
+                HighlightTileToFightOn((AttackUnit) unitMove);
+                break;
             case AttackMain:
                 HighlightMainAttackMarkers((AttackMain) unitMove);
                 break;
@@ -108,8 +111,14 @@ public class Tile : MonoBehaviour, IDropHandler {
 
     private void HighlightTileToMoveOn(MoveTo unitAction)
     {
-        if (unitAction.validTileToMove.OccupiedUnit != null) unitAction.validTileToMove._highlight.GetComponent<SpriteRenderer>().color = Color.red;
-        else unitAction.validTileToMove._highlight.GetComponent<SpriteRenderer>().color = Color.green;
+        unitAction.validTileToMove._highlight.GetComponent<SpriteRenderer>().color = Color.green;
+
+        unitAction.validTileToMove._highlight.SetActive(true);
+    }
+
+    private void HighlightTileToFightOn(AttackUnit unitAction)
+    {
+        unitAction.validTileToMove._highlight.GetComponent<SpriteRenderer>().color = Color.red;
 
         unitAction.validTileToMove._highlight.SetActive(true);
     }
@@ -120,12 +129,11 @@ public class Tile : MonoBehaviour, IDropHandler {
         {   
             foreach (UnitMove move in unitMoves)
             {   
-                if (move.GetType() == typeof(MoveTo))
+                if (move.GetType() == typeof(MoveTo) || move.GetType() == typeof(AttackUnit))
                 {   
-                    MoveTo moveTo = (MoveTo) move;
-                    moveTo.validTileToMove._highlight.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 0.35f);
-                    moveTo.validTileToMove._highlight.SetActive(false);
-                }  
+                    move.validTileToMove._highlight.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 0.35f);
+                    move.validTileToMove._highlight.SetActive(false);
+                }
             }
         }
     }
