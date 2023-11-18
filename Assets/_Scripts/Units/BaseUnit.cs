@@ -9,14 +9,14 @@ public abstract class BaseUnit
     private Attack attack;
     private IHealth health;
     private MovePattern movePattern;
-    private IUnityObject _unityObject;
+    private IUnitView _unitView;
     
     protected BaseUnit(string name, Faction faction, int maxHealth, int attack, MovePattern movePattern, UnitSettings unitSettings)
     {
         this.name = name;
         this.faction = faction;
         this.unitElement = unitSettings.unitElement;
-        this._unityObject = unitSettings.unityObject;
+        this._unitView = unitSettings.unitView;
         
         this.attack = new Attack(unitElement, attack);
         this.health = new Health(maxHealth, CreateDefenseStats(unitElement), unitSettings.healthView);
@@ -53,9 +53,9 @@ public abstract class BaseUnit
         return attack;
     }
 
-    public IUnityObject getUnityObject()
+    public IUnitView getUnitView()
     {
-        return _unityObject;
+        return _unitView;
     }
     
     public Tile OccupiedTile { get; set; }

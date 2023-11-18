@@ -3,70 +3,68 @@ using UnityEngine;
 
 public class UnitView : MonoBehaviour, IUnitView
 {
-    public static UnitView Instance;
     public const string isFighting = "isFighting";
     public const string isMoving = "isMoving";
 
     private float _targetX;
     private float _targetY;
     private float _reduceSpeed = 2f;
-    private bool isStartMoving = false;
-    private IUnityObject unitToAnimate;
-    private Animator unitAnimator;
-    private Animator defendUnitAnimator;
+    private bool isMovingProcess = false;
+    private bool isFightingProcess = false;
 
-    private void Awake()
-    {
-        Instance = this;
-    }
+    [SerializeField] private Animator unitAnimator;
+
     private void Update()
     {
-        if (isStartMoving)
+        if (isMovingProcess)
         {
-            unitToAnimate.SetPosition(new Vector2(Mathf.MoveTowards(unitToAnimate.GetCoordX(), _targetX, _reduceSpeed * Time.deltaTime),
-                                        Mathf.MoveTowards(unitToAnimate.GetCoordY(), _targetY, _reduceSpeed * Time.deltaTime)));
+           this.transform.position = new Vector2(Mathf.MoveTowards(this.transform.position.x, _targetX, _reduceSpeed * Time.deltaTime),
+                                        Mathf.MoveTowards(this.transform.position.y, _targetY, _reduceSpeed * Time.deltaTime));
         }
     }
 
-    public async Task StartMoveAnimation(BaseUnit unit, int moveToX, int moveToY)
+    public async Task StartMoveAnimation(int moveToX, int moveToY)
     {
         _targetX = moveToX;
         _targetY = moveToY;
 
-        unitToAnimate = unit.getUnityObject();
-        unitAnimator = unitToAnimate.GetAnimator();
-
         bool isEqualsValues = false;
-        isStartMoving = true;
-        unitAnimator.SetBool(isMoving, isStartMoving);
+        isMovingProcess = true;
+        unitAnimator.SetBool(isMoving, isMovingProcess);
 
         while (!isEqualsValues)
         {
-            isEqualsValues = unitToAnimate.GetCoordX() == moveToX && unitToAnimate.GetCoordY() == moveToY;
+            isEqualsValues = this.transform.position.x == moveToX && this.transform.position.y == moveToY;
             await Task.Delay(25);
         }
 
-        isStartMoving = false;
-        unitAnimator.SetBool(isMoving, isStartMoving);
+        isMovingProcess = false;
+        unitAnimator.SetBool(isMoving, isMovingProcess);
     }
-    public async Task StartFightAnimation(BaseUnit attackingunit, BaseUnit defendingUnit)
+    public async Task StartFightAnimation(BaseUnit defendingUnit)
     {
-        unitAnimator = attackingunit.getUnityObject().GetAnimator();
-        defendUnitAnimator = defendingUnit.getUnityObject().GetAnimator();
+        this.StartFight();
+        defendingUnit.getUnitView().StartFight();
 
-        bool isAnimPlaying = true;
-        unitAnimator.SetBool(isFighting, isAnimPlaying);
-        defendUnitAnimator.SetBool(isFighting, isAnimPlaying);
-
-        while (isAnimPlaying)
+        while (isFightingProcess)
         {
-            isAnimPlaying = unitAnimator.GetBool(isFighting);
+            isFightingProcess = unitAnimator.GetBool(isFighting);
             await Task.Delay(25);
         }
+    }
+    public void StartFight()
+    {
+        isFightingProcess = true;
+        this.unitAnimator.SetBool(isFighting, isFightingProcess);
     }
 
     public void DisableFightAnimation()
     {
         unitAnimator.SetBool(isFighting, false);
     }
+
+    public void Destroy() => Destroy(gameObject);
+    public void SetPosition(Vector2 position) => this.transform.position = position;
+
+    
 }
