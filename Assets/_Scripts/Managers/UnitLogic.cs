@@ -86,7 +86,7 @@ public class UnitLogic
     {  
         Debug.Log($"{unit.getFaction()} moved {unitAction.validTileToMove.y}");
 
-        await UnitView.Instance.StartMoveAnimation(unit, unitAction.validTileToMove.x, unitAction.validTileToMove.y);
+        await unit.getUnitView().StartMoveAnimation(unitAction.validTileToMove.x, unitAction.validTileToMove.y);
         unitAction.validTileToMove.SetUnit(unit); 
     }
 
@@ -99,13 +99,13 @@ public class UnitLogic
 
     private async Task Fight(BaseUnit attackingUnit, BaseUnit defendingUnit)
     {
-        await UnitView.Instance.StartFightAnimation(attackingUnit, defendingUnit);
+        await attackingUnit.getUnitView().StartFightAnimation(defendingUnit);
         float remainingHealth = await defendingUnit.getHealth().RecieveDamage(attackingUnit.GetAttack());
 
         if (remainingHealth <= 0)
         {
             DestroyUnit(defendingUnit);
-            await UnitView.Instance.StartMoveAnimation(attackingUnit, defendingUnit.OccupiedTile.x, defendingUnit.OccupiedTile.y);
+            await attackingUnit.getUnitView().StartMoveAnimation(defendingUnit.OccupiedTile.x, defendingUnit.OccupiedTile.y);
             defendingUnit.OccupiedTile.SetUnit(attackingUnit);
         }
     }
@@ -113,6 +113,6 @@ public class UnitLogic
     private void DestroyUnit(BaseUnit unit)
     {
         unitsHolder.DeleteUnit(unit);
-        unit.getUnityObject().Destroy();
+        unit.getUnitView().Destroy();
     }
 }

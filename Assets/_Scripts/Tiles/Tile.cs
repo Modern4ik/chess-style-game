@@ -65,7 +65,7 @@ public class Tile : MonoBehaviour, IDropHandler {
     public void SetUnit(BaseUnit unit)
     {
         if (unit.OccupiedTile != null) unit.OccupiedTile.OccupiedUnit = null;
-        unit.getUnityObject().SetPosition(transform.position);
+        unit.getUnitView().SetPosition(transform.position);
         OccupiedUnit = unit;
         unit.OccupiedTile = this;
     }
