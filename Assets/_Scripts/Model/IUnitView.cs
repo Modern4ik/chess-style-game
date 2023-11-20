@@ -3,8 +3,8 @@ using UnityEngine;
 
 public interface IUnitView
 {
-    Task StartMoveAnimation(int moveToX, int moveToY);
-    Task StartFightAnimation(BaseUnit defendingUnit);
+    Task MoveAnimation(int moveToX, int moveToY);
+    Task FightAnimation(BaseUnit defendingUnit);
     void DisableFightAnimation();
     void Destroy();
     void SetPosition(Vector2 position);

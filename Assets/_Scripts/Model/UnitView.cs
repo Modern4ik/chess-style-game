@@ -23,7 +23,7 @@ public class UnitView : MonoBehaviour, IUnitView
         }
     }
 
-    public async Task StartMoveAnimation(int moveToX, int moveToY)
+    public async Task MoveAnimation(int moveToX, int moveToY)
     {
         _targetX = moveToX;
         _targetY = moveToY;
@@ -41,7 +41,7 @@ public class UnitView : MonoBehaviour, IUnitView
         isMovingProcess = false;
         unitAnimator.SetBool(isMoving, isMovingProcess);
     }
-    public async Task StartFightAnimation(BaseUnit defendingUnit)
+    public async Task FightAnimation(BaseUnit defendingUnit)
     {
         this.StartFight();
         defendingUnit.getUnitView().StartFight();
