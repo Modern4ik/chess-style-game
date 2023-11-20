@@ -398,3 +398,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5fd8c19954af264389b60f8f6bf5dc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _reduceTransparencySpeed: 0.5
+  _notificationDelay: 300

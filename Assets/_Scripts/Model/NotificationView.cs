@@ -8,11 +8,12 @@ public class NotificationView : MonoBehaviour, INotificationView
     public static NotificationView Instance;
 
     private float _targetTransparency = 0f;
-    private float _reduceSpeed = 0.5f;
     private bool isShowing = false;
-
     private Image _notificationBorder;
     private TextMeshProUGUI _notificationText;
+
+    [SerializeField] private float _reduceTransparencySpeed;
+    [SerializeField] private int _notificationDelay;
 
     private void Awake()
     {
@@ -24,10 +25,10 @@ public class NotificationView : MonoBehaviour, INotificationView
         if (isShowing)
         {
             _notificationBorder.color = new Color(
-                1f, 1f, 1f, Mathf.MoveTowards(_notificationBorder.color.a, _targetTransparency, _reduceSpeed * Time.deltaTime));
+                1f, 1f, 1f, Mathf.MoveTowards(_notificationBorder.color.a, _targetTransparency, _reduceTransparencySpeed * Time.deltaTime));
 
             _notificationText.color = new Color(
-                _notificationText.color.r, _notificationText.color.g, _notificationText.color.b, Mathf.MoveTowards(_notificationText.color.a, _targetTransparency, _reduceSpeed * Time.deltaTime));
+                _notificationText.color.r, _notificationText.color.g, _notificationText.color.b, Mathf.MoveTowards(_notificationText.color.a, _targetTransparency, _reduceTransparencySpeed * Time.deltaTime));
         }    
     }
 
@@ -35,7 +36,7 @@ public class NotificationView : MonoBehaviour, INotificationView
     {
         _notificationBorder = this.transform.Find("Border").GetComponent<Image>();
         _notificationText = GetNotificationText();
-        await Task.Delay(1500);
+        await Task.Delay(_notificationDelay);
 
         bool isEqualsValues = false;
         isShowing = true;
@@ -53,7 +54,7 @@ public class NotificationView : MonoBehaviour, INotificationView
     {
         switch (GameManager.Instance.GameState)
         {
-            case GameState.EnemiesTurn:
+            case GameState.SpawnHeroes:
                 GameObject playerText = this.transform.Find("PlayerTurnText").gameObject;
                 playerText.SetActive(true);
 
