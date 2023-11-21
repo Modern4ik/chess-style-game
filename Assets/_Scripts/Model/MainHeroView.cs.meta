@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 41814cb399df9704da17a8fc37f08341
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - playerHeroPrefab: {fileID: 7617996363861280509, guid: 694b61cb3e2db9c4b9dcd54e7185d84f, type: 3}
+  - opponentHeroPrefab: {fileID: 8024662118861466328, guid: 56c1825995d2ab14c891af2ba3c34bb7, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

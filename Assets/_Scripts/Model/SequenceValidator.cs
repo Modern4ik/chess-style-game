@@ -46,7 +46,7 @@ public static class SequenceValidator
             }
             else if (isAttackMainSideBorders(moveToY))
             {
-                unitMoves.Add(new AttackMain(moveToY));
+                unitMoves.Add(new AttackMain(GetMainSideToAttack(faction)));
                 break;
             }
         }
@@ -78,6 +78,16 @@ public static class SequenceValidator
         }
 
         return false;
+    }
+
+    private static IMainHeroView GetMainSideToAttack(Faction unitFaction)
+    {
+        switch (unitFaction)
+        {
+            case Faction.Hero: return HeroManager.Instance.opponentHeroView;
+            case Faction.Enemy: return HeroManager.Instance.playerHeroView;
+            default: throw new System.Exception($"Unit faction out of range {unitFaction}");
+        }
     }
 
     private static bool isAttackMainSideBorders(int coordY) => coordY < 0 || coordY > GridSettings.HEIGHT - 1;

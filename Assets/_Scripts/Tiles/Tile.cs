@@ -40,10 +40,7 @@ public class Tile : MonoBehaviour, IDropHandler {
 
         if (unitOnTileMoves.Count > 0) HighlightTilesToMoveOff();
         
-         _highlight.SetActive(false);
-
-        MenuManager.Instance.EnableHeroAttackMark(false);
-        MenuManager.Instance.EnableEnemyAttackMark(false);
+        _highlight.SetActive(false);
         MenuManager.Instance.ShowTileInfo(null);
     }
 
@@ -104,7 +101,25 @@ public class Tile : MonoBehaviour, IDropHandler {
                 HighlightTileToFightOn((AttackUnit) unitMove);
                 break;
             case AttackMain:
-                HighlightMainAttackMarkers((AttackMain) unitMove);
+                HighlightMainAttackMarker((AttackMain) unitMove);
+                break;
+        }
+    }
+
+    private void DeactivateHighlight(UnitMove unitMove)
+    {
+        switch (unitMove)
+        {
+            case MoveTo:
+            case AttackUnit:
+                unitMove.validTileToMove._highlight.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 0.35f);
+                unitMove.validTileToMove._highlight.SetActive(false);
+
+                break;
+            case AttackMain:
+                AttackMain attackMain = (AttackMain)unitMove;
+                attackMain.mainHeroToAttack.EnableAttackMark(false);
+
                 break;
         }
     }
@@ -128,19 +143,11 @@ public class Tile : MonoBehaviour, IDropHandler {
         foreach (List<UnitMove> unitMoves in unitOnTileMoves)
         {   
             foreach (UnitMove move in unitMoves)
-            {   
-                if (move.GetType() == typeof(MoveTo) || move.GetType() == typeof(AttackUnit))
-                {   
-                    move.validTileToMove._highlight.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 0.35f);
-                    move.validTileToMove._highlight.SetActive(false);
-                }
+            {
+                DeactivateHighlight(move);
             }
         }
     }
 
-    private void HighlightMainAttackMarkers(AttackMain unitAction)
-    {
-        MenuManager.Instance.EnableHeroAttackMark(unitAction.isAttackHeroMainHealth);
-        MenuManager.Instance.EnableEnemyAttackMark(unitAction.isAttackOpponentMainHealth);
-    }
+    private void HighlightMainAttackMarker(AttackMain unitAction) => unitAction.mainHeroToAttack.EnableAttackMark(true);
 }

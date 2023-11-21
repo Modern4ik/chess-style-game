@@ -77,7 +77,7 @@ public class UnitLogic
                 await Fight(unit, unitMove.validTileToMove.OccupiedUnit);
                 break;
             case AttackMain: 
-                await AttackMainSide(unit);
+                await AttackMainSide(unit, (AttackMain)unitMove);
                 break;
         }
     }
@@ -90,9 +90,9 @@ public class UnitLogic
         unitAction.validTileToMove.SetUnit(unit); 
     }
 
-    private async Task AttackMainSide(BaseUnit unit)
+    private async Task AttackMainSide(BaseUnit unit, AttackMain unitAction)
     {
-        await menuManager.DoDamageToMainHero(unit.getFaction(), unit.GetAttack());
+        await unitAction.mainHeroToAttack.GetDamage(unit.GetAttack());
         DestroyUnit(unit);
         unit.OccupiedTile.OccupiedUnit = null;
     }
