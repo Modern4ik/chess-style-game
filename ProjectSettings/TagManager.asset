@@ -7,6 +7,7 @@ TagManager:
   - Horse
   - Bishop
   - Pawn
+  - Opponent
   layers:
   - Default
   - TransparentFX

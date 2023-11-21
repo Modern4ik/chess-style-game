@@ -55,6 +55,7 @@ public class NotificationView : MonoBehaviour, INotificationView
         switch (GameManager.Instance.GameState)
         {
             case GameState.SpawnHeroes:
+            case GameState.HeroesTurn:
                 GameObject playerText = this.transform.Find("PlayerTurnText").gameObject;
                 playerText.SetActive(true);
 

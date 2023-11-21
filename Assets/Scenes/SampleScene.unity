@@ -366,6 +366,52 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 635124770}
   m_CullTransparentMesh: 1
+--- !u!1 &781974458
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 781974459}
+  - component: {fileID: 781974460}
+  m_Layer: 0
+  m_Name: Hero Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &781974459
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 781974458}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2056925706}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &781974460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 781974458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b72c6e8f6b6d7747a7c391c0a62f585, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerHeroPrefab: {fileID: 7617996363861280509, guid: 694b61cb3e2db9c4b9dcd54e7185d84f, type: 3}
+  opponentHeroPrefab: {fileID: 8024662118861466328, guid: 56c1825995d2ab14c891af2ba3c34bb7, type: 3}
 --- !u!1 &900138433
 GameObject:
   m_ObjectHideFlags: 0
@@ -988,13 +1034,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5ff5556fcf6b1342a8111b8ec300209, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerHero: {fileID: 0}
+  opponentHero: {fileID: 0}
   _selectedHeroObject: {fileID: 1140045124}
   _tileObject: {fileID: 1382292736}
   _tileUnitObject: {fileID: 1945248844}
-  _alliedHealthPrefab: {fileID: 6675898107712014106, guid: 4bca3ea30ae7b73428a5c18c24c23b64, type: 3}
-  _enemyHealthPrefab: {fileID: 1469223095963543316, guid: 72ef3402033fdde4d9b10c70451a946f, type: 3}
-  _heroAttackMarkPrefab: {fileID: 4193560274325291144, guid: 3f250f9d0fd0ba746846234ca00c3657, type: 3}
-  _enemyAttackMarkPrefab: {fileID: 2962416141217707007, guid: 7139cef25b23e834fa3f78e00b4a8755, type: 3}
   _unitSelectMenu: {fileID: 7518855748393853959, guid: 41a85455f93fab14586f2fd5ebdf0c62, type: 3}
   _endGameMenuPrefab: {fileID: 2233876579425780365, guid: 9a2649f8d80833042bf05b6c6ba9ff2c, type: 3}
   _winEndMenuText: {fileID: 600190887686835945, guid: 351fa2769e7e16749af09f1604043fc0, type: 3}
@@ -1110,6 +1154,7 @@ Transform:
   - {fileID: 87785391}
   - {fileID: 1435657576}
   - {fileID: 1638019427}
+  - {fileID: 781974459}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

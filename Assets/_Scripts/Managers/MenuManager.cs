@@ -5,15 +5,11 @@ using UnityEngine.UI;
 public class MenuManager : MonoBehaviour, IMenuManager {
     public static MenuManager Instance;
 
-    private IHealth playerHealth;
-    private IHealth enemyHealth;
-    private GameObject heroAttackMark;
-    private GameObject enemyAttackMark;
     private GameObject unitMenu;
+    public MainHeroView playerHero;
+    public MainHeroView opponentHero;
     
     [SerializeField] private GameObject _selectedHeroObject,_tileObject,_tileUnitObject;
-    [SerializeField] private GameObject _alliedHealthPrefab, _enemyHealthPrefab;
-    [SerializeField] private GameObject _heroAttackMarkPrefab, _enemyAttackMarkPrefab;
     [SerializeField] private GameObject _unitSelectMenu;
     [SerializeField] private GameObject _endGameMenuPrefab;
     [SerializeField] private GameObject _winEndMenuText, _loseEndMenuText;
@@ -26,45 +22,10 @@ public class MenuManager : MonoBehaviour, IMenuManager {
     {
         Instance = this;
 
-        GenerateHealthBars();
         GenerateUnitSelectMenu();
-        heroAttackMark = GenerateAttackMark(_heroAttackMarkPrefab);
-        enemyAttackMark = GenerateAttackMark(_enemyAttackMarkPrefab);
-
         Debug.Log("MenuManager awaked");
     }
 
-    public async Task DoDamageToMainHero(Faction unitFaction, Attack unitAttack)
-    {   
-        switch (unitFaction)
-        {
-            case Faction.Hero:
-                if (await enemyHealth.RecieveDamage(unitAttack) == 0) GenerateEndGameMenu(_winEndMenuText);
-                break;
-            case Faction.Enemy:
-                if (await playerHealth.RecieveDamage(unitAttack) == 0) GenerateEndGameMenu(_loseEndMenuText);
-                break;
-        }
-    }
-
-    public void GenerateHealthBars()
-    {
-        HealthView playerHealthView = GenerateHealthBar(_alliedHealthPrefab);
-        HealthView enemyHealthView = GenerateHealthBar(_enemyHealthPrefab);
-
-        this.playerHealth = new Health(10, new Defense(1, 1, 1), playerHealthView);
-        this.enemyHealth = new Health(10, new Defense(1, 1, 1), enemyHealthView);
-    }
-
-    private HealthView GenerateHealthBar(GameObject prefab)
-    {
-        GameObject sideHealthBar = Instantiate(prefab, _canvas.transform);
-
-        return sideHealthBar.transform.GetComponent<HealthView>();
-    }
-
-    private GameObject GenerateAttackMark(GameObject markPrefab) => Instantiate(markPrefab, _canvas.transform);
-   
     public void GenerateUnitSelectMenu()
     {
         unitMenu = Instantiate(_unitSelectMenu, _canvas.transform);
@@ -79,13 +40,22 @@ public class MenuManager : MonoBehaviour, IMenuManager {
         }
     }
 
-    public void EnableHeroAttackMark(bool isEnable) => this.heroAttackMark.SetActive(isEnable);
-    public void EnableEnemyAttackMark(bool isEnable) => this.enemyAttackMark.SetActive(isEnable);
+    public void GenerateEndGameMenu(string mainHeroViewTag)
+    {   
+        switch (mainHeroViewTag)
+        {
+            case "Player":
+                GameObject loseMenu = Instantiate(_endGameMenuPrefab, _canvas.transform);
+                Instantiate(_loseEndMenuText, loseMenu.transform);
 
-    private void GenerateEndGameMenu(GameObject menuText)
-    {
-        GameObject endMenu = Instantiate(_endGameMenuPrefab, _canvas.transform);
-        Instantiate(menuText, endMenu.transform);
+                break;
+
+            case "Opponent":
+                GameObject winMenu = Instantiate(_endGameMenuPrefab, _canvas.transform);
+                Instantiate(_winEndMenuText, winMenu.transform);
+
+                break;
+        }
 
         GameManager.Instance.ChangeState(GameState.GameEnded);
     }
