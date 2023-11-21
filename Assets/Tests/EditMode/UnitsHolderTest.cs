@@ -48,6 +48,6 @@ public class UnitsHolderTest
 
     private UnitSettings emptyUnitSettings()
     {
-        return new UnitSettings(new UnityObjectStub(), new HealthViewStub(), new ElementalType());
+        return new UnitSettings(new UnitViewStub(), new HealthViewStub(), new ElementalType());
     }
 }
