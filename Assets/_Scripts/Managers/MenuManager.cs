@@ -4,18 +4,21 @@ using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour, IMenuManager {
     public static MenuManager Instance;
+    public bool isGamePaused = false;
 
     private IHealth playerHealth;
     private IHealth enemyHealth;
     private GameObject heroAttackMark;
     private GameObject enemyAttackMark;
     private GameObject unitMenu;
+    private GameObject pauseMenu;
     
     [SerializeField] private GameObject _selectedHeroObject,_tileObject,_tileUnitObject;
     [SerializeField] private GameObject _alliedHealthPrefab, _enemyHealthPrefab;
     [SerializeField] private GameObject _heroAttackMarkPrefab, _enemyAttackMarkPrefab;
     [SerializeField] private GameObject _unitSelectMenu;
     [SerializeField] private GameObject _endGameMenuPrefab;
+    [SerializeField] private GameObject _pauseMenuPrefab;
     [SerializeField] private GameObject _winEndMenuText, _loseEndMenuText;
     [SerializeField] private GameObject _turnNotificationPrefab;
     // Поле ниже подтягивает Canvas(именно Transform Канваса) из иерархии в Unity.
@@ -32,6 +35,15 @@ public class MenuManager : MonoBehaviour, IMenuManager {
         enemyAttackMark = GenerateAttackMark(_enemyAttackMarkPrefab);
 
         Debug.Log("MenuManager awaked");
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (isGamePaused) ResumeGame();
+            else PauseGame();
+        }
     }
 
     public async Task DoDamageToMainHero(Faction unitFaction, Attack unitAttack)
@@ -95,9 +107,27 @@ public class MenuManager : MonoBehaviour, IMenuManager {
         await Task.Delay(1500);
 
         GameObject turnNotification = Instantiate(_turnNotificationPrefab, _canvas.transform);
+        turnNotification.transform.SetAsFirstSibling();
         await NotificationView.Instance.StartNotificationAnimation();
 
         Destroy(turnNotification);    
+    }
+
+    private void ResumeGame()
+    {
+        Destroy(pauseMenu);
+        Time.timeScale = 1f;
+
+        isGamePaused = false;
+        
+    }
+
+    private void PauseGame()
+    {
+        pauseMenu = Instantiate(_pauseMenuPrefab, _canvas.transform);
+        Time.timeScale = 0f;
+
+        isGamePaused = true;
     }
 
     public void ShowTileInfo(Tile tile) {
