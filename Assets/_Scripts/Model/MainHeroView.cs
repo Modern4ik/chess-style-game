@@ -15,5 +15,5 @@ public class MainHeroView : MonoBehaviour, IMainHeroView
         if (await heroHealth.RecieveDamage(unitAttack) == 0) MenuManager.Instance.GenerateEndGameMenu(this.tag);
     }
 
-    public void EnableAttackMark(bool isEnable) => this.transform.Find("HeroCanvas/AttackMarker").gameObject.SetActive(isEnable);
+    public void SetUnderAttackMark(bool isEnable) => this.transform.Find("HeroCanvas/AttackMarker").gameObject.SetActive(isEnable);
 }

@@ -16,6 +16,7 @@ public class Tile : MonoBehaviour, IDropHandler {
     public int y;
     public static string droppedUnitTag;
     public static Color droppedUnitColor;
+    private Color transparentWhite = new Color(1f, 1f, 1f, 0.35f);
     private List<List<UnitMove>> unitOnTileMoves = new List<List<UnitMove>>();
     
     public virtual void Init(int x, int y)
@@ -112,13 +113,13 @@ public class Tile : MonoBehaviour, IDropHandler {
         {
             case MoveTo:
             case AttackUnit:
-                unitMove.validTileToMove._highlight.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 0.35f);
+                unitMove.validTileToMove._highlight.GetComponent<SpriteRenderer>().color = transparentWhite;
                 unitMove.validTileToMove._highlight.SetActive(false);
 
                 break;
             case AttackMain:
                 AttackMain attackMain = (AttackMain)unitMove;
-                attackMain.mainHeroToAttack.EnableAttackMark(false);
+                attackMain.mainHeroToAttack.SetUnderAttackMark(false);
 
                 break;
         }
@@ -149,5 +150,5 @@ public class Tile : MonoBehaviour, IDropHandler {
         }
     }
 
-    private void HighlightMainAttackMarker(AttackMain unitAction) => unitAction.mainHeroToAttack.EnableAttackMark(true);
+    private void HighlightMainAttackMarker(AttackMain unitAction) => unitAction.mainHeroToAttack.SetUnderAttackMark(true);
 }
