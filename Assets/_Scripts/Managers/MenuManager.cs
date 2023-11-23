@@ -29,6 +29,15 @@ public class MenuManager : MonoBehaviour, IMenuManager {
         Debug.Log("MenuManager awaked");
     }
 
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (isGamePaused) ResumeGame();
+            else PauseGame();
+        }
+    }
+
     public void GenerateUnitSelectMenu()
     {
         unitMenu = Instantiate(_unitSelectMenu, _canvas.transform);
@@ -80,7 +89,6 @@ public class MenuManager : MonoBehaviour, IMenuManager {
         Time.timeScale = 1f;
 
         isGamePaused = false;
-        
     }
 
     private void PauseGame()
