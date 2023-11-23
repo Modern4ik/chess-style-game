@@ -7,8 +7,6 @@ public class MenuManager : MonoBehaviour, IMenuManager {
     public bool isGamePaused = false;
 
     private GameObject unitMenu;
-    public MainHeroView playerHero;
-    public MainHeroView opponentHero;
     private GameObject pauseMenu;
     
     [SerializeField] private GameObject _selectedHeroObject,_tileObject,_tileUnitObject;
