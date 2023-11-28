@@ -4,7 +4,6 @@ using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour, IMenuManager {
     public static MenuManager Instance;
-    public bool isGamePaused = false;
 
     private GameObject unitMenu;
     private GameObject pauseMenu;
@@ -87,6 +86,7 @@ public class MenuManager : MonoBehaviour, IMenuManager {
         Time.timeScale = 1f;
 
         isGamePaused = false;
+        GridManager.Instance.ActivateTiles();
     }
 
     private void PauseGame()
@@ -95,5 +95,6 @@ public class MenuManager : MonoBehaviour, IMenuManager {
         Time.timeScale = 0f;
 
         isGamePaused = true;
+        GridManager.Instance.DeactivateTiles();
     }
 }
