@@ -14,6 +14,9 @@ public class Tile : MonoBehaviour, IDropHandler {
     public int x;
     public int y;
     public static string droppedUnitTag;
+
+    public GameObject tileInfo;
+    public GameObject tileUnitInfo;
     public static Color droppedUnitColor;
     private Color transparentWhite = new Color(1f, 1f, 1f, 0.35f);
     private List<List<UnitMove>> unitOnTileMoves = new List<List<UnitMove>>();
@@ -153,19 +156,19 @@ public class Tile : MonoBehaviour, IDropHandler {
 
     private void ShowTileInfo()
     {
-        GridManager.Instance._tileObject.GetComponentInChildren<Text>().text = this.TileName;
-        GridManager.Instance._tileObject.SetActive(true);
+        tileInfo.GetComponentInChildren<Text>().text = this.TileName;
+        tileInfo.SetActive(true);
 
         if (this.OccupiedUnit != null)
         {
-            GridManager.Instance._tileUnitObject.GetComponentInChildren<Text>().text = this.OccupiedUnit.getName();
-            GridManager.Instance._tileUnitObject.SetActive(true);
+            tileUnitInfo.GetComponentInChildren<Text>().text = this.OccupiedUnit.getName();
+            tileUnitInfo.SetActive(true);
         }
     }
 
     private void HideTileInfo()
     {
-        GridManager.Instance._tileObject.SetActive(false);
-        GridManager.Instance._tileUnitObject.SetActive(false);
+        tileInfo.SetActive(false);
+        tileUnitInfo.SetActive(false);
     }
 }

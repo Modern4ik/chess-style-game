@@ -10,8 +10,8 @@ public class GridManager : MonoBehaviour, IGridManager {
 
     [SerializeField] private Transform _cam;
 
-    [SerializeField] public GameObject _tileObject;
-    [SerializeField] public GameObject _tileUnitObject;
+    [SerializeField] private GameObject _tileObject;
+    [SerializeField] private GameObject _tileUnitObject;
 
     private int _width = GridSettings.WIDTH;
     private int _height = GridSettings.HEIGHT;
@@ -33,8 +33,12 @@ public class GridManager : MonoBehaviour, IGridManager {
             for (int y = 0; y < _height; y++) {
                 //var randomTile = Random.Range(0, 6) == 3 ? _mountainTile : _grassTile;
                 var spawnedTile = Instantiate(_grassTile, new Vector3(x, y), Quaternion.identity);
+
                 spawnedTile.name = $"Tile {x} {y}";
                 spawnedTile.Init(x,y);
+                spawnedTile.tileInfo = _tileObject;
+                spawnedTile.tileUnitInfo = _tileUnitObject;
+
                 _tiles[new Vector2(x, y)] = spawnedTile;
             }
         }
