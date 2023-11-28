@@ -8,8 +8,8 @@ public class MenuManager : MonoBehaviour, IMenuManager {
 
     private GameObject unitMenu;
     private GameObject pauseMenu;
-    
-    [SerializeField] private GameObject _selectedHeroObject,_tileObject,_tileUnitObject;
+
+    [SerializeField] private GameObject _selectedHeroObject;
     [SerializeField] private GameObject _unitSelectMenu;
     [SerializeField] private GameObject _endGameMenuPrefab;
     [SerializeField] private GameObject _pauseMenuPrefab;
@@ -95,23 +95,5 @@ public class MenuManager : MonoBehaviour, IMenuManager {
         Time.timeScale = 0f;
 
         isGamePaused = true;
-    }
-
-    public void ShowTileInfo(Tile tile) {
-
-        if (tile == null)
-        {
-            _tileObject.SetActive(false);
-            _tileUnitObject.SetActive(false);
-            return;
-        }
-
-        _tileObject.GetComponentInChildren<Text>().text = tile.TileName;
-        _tileObject.SetActive(true);
-
-        if (tile.OccupiedUnit != null) {
-            _tileUnitObject.GetComponentInChildren<Text>().text = tile.OccupiedUnit.getName();
-            _tileUnitObject.SetActive(true);
-        }
     }
 }

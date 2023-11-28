@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -11,6 +9,9 @@ public class GridManager : MonoBehaviour, IGridManager {
     [SerializeField] private Tile _grassTile, _mountainTile;
 
     [SerializeField] private Transform _cam;
+
+    [SerializeField] public GameObject _tileObject;
+    [SerializeField] public GameObject _tileUnitObject;
 
     private int _width = GridSettings.WIDTH;
     private int _height = GridSettings.HEIGHT;

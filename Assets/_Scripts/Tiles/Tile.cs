@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -9,7 +8,7 @@ public class Tile : MonoBehaviour, IDropHandler {
     [SerializeField] protected SpriteRenderer _renderer;
     [SerializeField] private GameObject _highlight;
     [SerializeField] private bool _isWalkable;
-
+    
     public BaseUnit OccupiedUnit;
     public bool Walkable => _isWalkable && OccupiedUnit == null;
     public int x;
@@ -32,7 +31,7 @@ public class Tile : MonoBehaviour, IDropHandler {
         if (this.OccupiedUnit != null) HighlightUnitActions();
             
         _highlight.SetActive(true);
-        MenuManager.Instance.ShowTileInfo(this); 
+        ShowTileInfo(); 
     }
 
     void OnMouseExit()
@@ -42,7 +41,7 @@ public class Tile : MonoBehaviour, IDropHandler {
         if (unitOnTileMoves.Count > 0) HighlightTilesToMoveOff();
         
         _highlight.SetActive(false);
-        MenuManager.Instance.ShowTileInfo(null);
+        HideTileInfo();
     }
 
     public void OnDrop(PointerEventData eventData)
@@ -151,4 +150,22 @@ public class Tile : MonoBehaviour, IDropHandler {
     }
 
     private void HighlightMainAttackMarker(AttackMain unitAction) => unitAction.mainHeroToAttack.SetUnderAttackMark(true);
+
+    private void ShowTileInfo()
+    {
+        GridManager.Instance._tileObject.GetComponentInChildren<Text>().text = this.TileName;
+        GridManager.Instance._tileObject.SetActive(true);
+
+        if (this.OccupiedUnit != null)
+        {
+            GridManager.Instance._tileUnitObject.GetComponentInChildren<Text>().text = this.OccupiedUnit.getName();
+            GridManager.Instance._tileUnitObject.SetActive(true);
+        }
+    }
+
+    private void HideTileInfo()
+    {
+        GridManager.Instance._tileObject.SetActive(false);
+        GridManager.Instance._tileUnitObject.SetActive(false);
+    }
 }
