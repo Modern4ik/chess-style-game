@@ -4,11 +4,11 @@ using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour, IMenuManager {
     public static MenuManager Instance;
-    public bool isGamePaused = false;
 
     private GameObject unitMenu;
     private GameObject pauseMenu;
-    
+    private bool isGamePaused = false;
+
     [SerializeField] private GameObject _selectedHeroObject,_tileObject,_tileUnitObject;
     [SerializeField] private GameObject _unitSelectMenu;
     [SerializeField] private GameObject _endGameMenuPrefab;
@@ -87,6 +87,7 @@ public class MenuManager : MonoBehaviour, IMenuManager {
         Time.timeScale = 1f;
 
         isGamePaused = false;
+        GridManager.Instance.ActivateTiles();
     }
 
     private void PauseGame()
@@ -95,6 +96,7 @@ public class MenuManager : MonoBehaviour, IMenuManager {
         Time.timeScale = 0f;
 
         isGamePaused = true;
+        GridManager.Instance.DeactivateTiles();
     }
 
     public void ShowTileInfo(Tile tile) {

@@ -1008,8 +1008,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5ff5556fcf6b1342a8111b8ec300209, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerHero: {fileID: 0}
-  opponentHero: {fileID: 0}
   _selectedHeroObject: {fileID: 1140045124}
   _tileObject: {fileID: 1382292736}
   _tileUnitObject: {fileID: 1945248844}

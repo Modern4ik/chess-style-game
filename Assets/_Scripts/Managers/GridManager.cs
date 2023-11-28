@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -58,4 +56,19 @@ public class GridManager : MonoBehaviour, IGridManager {
         return null;
     }
 
+    public void ActivateTiles()
+    {
+        foreach (Tile tile in _tiles.Values)
+        {
+            tile.isDeactivated = false;
+        }
+    }
+
+    public void DeactivateTiles()
+    {
+        foreach (Tile tile in _tiles.Values)
+        {
+            tile.isDeactivated = true;
+        }
+    }
 }

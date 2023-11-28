@@ -15,7 +15,9 @@ public class Tile : MonoBehaviour, IDropHandler {
     public int x;
     public int y;
     public static string droppedUnitTag;
+    public bool isDeactivated = false;
     public static Color droppedUnitColor;
+
     private Color transparentWhite = new Color(1f, 1f, 1f, 0.35f);
     private List<List<UnitMove>> unitOnTileMoves = new List<List<UnitMove>>();
     
@@ -27,7 +29,7 @@ public class Tile : MonoBehaviour, IDropHandler {
 
     void OnMouseEnter()
     {
-        if (GameManager.Instance.IsGameEnded() || MenuManager.Instance.isGamePaused) return;
+        if (GameManager.Instance.IsGameEnded() || isDeactivated) return;
 
         if (this.OccupiedUnit != null) HighlightUnitActions();
             
@@ -37,7 +39,7 @@ public class Tile : MonoBehaviour, IDropHandler {
 
     void OnMouseExit()
     {
-        if (GameManager.Instance.IsGameEnded() || MenuManager.Instance.isGamePaused) return;
+        if (GameManager.Instance.IsGameEnded() || isDeactivated) return;
 
         if (unitOnTileMoves.Count > 0) HighlightTilesToMoveOff();
         
@@ -47,7 +49,7 @@ public class Tile : MonoBehaviour, IDropHandler {
 
     public void OnDrop(PointerEventData eventData)
     {
-        if (GameManager.Instance.GameState != GameState.SpawnHeroes || MenuManager.Instance.isGamePaused) return;
+        if (GameManager.Instance.GameState != GameState.SpawnHeroes || isDeactivated) return;
 
         if (OccupiedUnit == null && y == 0)
         {
