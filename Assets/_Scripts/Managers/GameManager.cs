@@ -39,7 +39,11 @@ public class GameManager : MonoBehaviour, IGameManager
                  * Сдвигаются юниты врага
                  * Если дошли до конца, наносят нам урон
                  */
-                UnitManager.Instance.MoveUnitsAsync(Faction.Enemy);
+                await UnitManager.Instance.MoveUnitsAsync(Faction.Enemy);
+
+                if (HeroManager.Instance.isPlayerDead || HeroManager.Instance.isOpponentDead) ChangeState(GameState.GameEnded);
+                else ChangeState(GameState.SpawnHeroes);
+
                 break;
             case GameState.SpawnHeroes:
                 /* 
@@ -56,12 +60,19 @@ public class GameManager : MonoBehaviour, IGameManager
                  */
                 MenuManager.Instance.UpdateUnitSelectMenu();
 
-                UnitManager.Instance.MoveUnitsAsync(Faction.Hero);
+                await UnitManager.Instance.MoveUnitsAsync(Faction.Hero);
+
+                if (HeroManager.Instance.isPlayerDead || HeroManager.Instance.isOpponentDead) ChangeState(GameState.GameEnded);
+                else ChangeState(GameState.SpawnEnemies);
+
                 break;
             case GameState.GameEnded:
                 /* 
                  * Когда закончилось ХП у кого-то, игра заканчивается
                  */
+                if (HeroManager.Instance.isOpponentDead) MenuManager.Instance.GenerateWinMenu();
+                else MenuManager.Instance.GenerateLoseMenu();
+
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(newState), newState, null);

@@ -29,24 +29,5 @@ public class UnitManager : MonoBehaviour {
         unitLogic.SpawnEnemies();
     }
 
-    public async void MoveUnitsAsync(Faction faction)
-    {
-        await unitLogic.MoveUnits(faction);
-
-        /*
-         * Это временный(может и постоянный) костыль, чтобы игра останавливалась при появлении EndGameMenu,
-         * иначе данный метод в асинхронее продолжает менять стейты.
-         */
-        if (GameManager.Instance.IsGameEnded()) return;
-
-        switch (faction)
-        {
-            case Faction.Hero:
-                GameManager.Instance.ChangeState(GameState.SpawnEnemies);
-                break;
-            case Faction.Enemy:
-                GameManager.Instance.ChangeState(GameState.SpawnHeroes);
-                break;
-        }
-    }
+    public async Task MoveUnitsAsync(Faction faction) => await unitLogic.MoveUnits(faction);
 }

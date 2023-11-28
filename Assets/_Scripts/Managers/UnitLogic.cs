@@ -60,8 +60,8 @@ public class UnitLogic
             {
                 await Task.Delay(750);
                 await ApplyUnitAction(unit, unitMove);
-                if (GameManager.Instance.IsGameEnded()) break;
             }
+            if (HeroManager.Instance.isPlayerDead || HeroManager.Instance.isOpponentDead) break;
         }
         unitsHolder.compact();
     }
@@ -95,6 +95,9 @@ public class UnitLogic
         await unitAction.mainHeroToAttack.GetDamage(unit.GetAttack());
         DestroyUnit(unit);
         unit.OccupiedTile.OccupiedUnit = null;
+
+        if (unitAction.mainHeroToAttack.isHeroDead && unit.getFaction() == Faction.Hero) HeroManager.Instance.isOpponentDead = true;
+        else if (unitAction.mainHeroToAttack.isHeroDead && unit.getFaction() == Faction.Enemy) HeroManager.Instance.isPlayerDead = true;
     }
 
     private async Task Fight(BaseUnit attackingUnit, BaseUnit defendingUnit)
