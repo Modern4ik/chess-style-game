@@ -50,24 +50,36 @@ public class MenuManager : MonoBehaviour, IMenuManager {
         }
     }
 
-    public void GenerateEndGameMenu(string mainHeroViewTag)
-    {   
-        switch (mainHeroViewTag)
-        {
-            case "Player":
-                GameObject loseMenu = Instantiate(_endGameMenuPrefab, _canvas.transform);
-                Instantiate(_loseEndMenuText, loseMenu.transform);
+    //public void GenerateEndGameMenu(string mainHeroViewTag)
+    //{   
+    //    switch (mainHeroViewTag)
+    //    {
+    //        case "Player":
+    //            GameObject loseMenu = Instantiate(_endGameMenuPrefab, _canvas.transform);
+    //            Instantiate(_loseEndMenuText, loseMenu.transform);
 
-                break;
+    //            break;
 
-            case "Opponent":
-                GameObject winMenu = Instantiate(_endGameMenuPrefab, _canvas.transform);
-                Instantiate(_winEndMenuText, winMenu.transform);
+    //        case "Opponent":
+    //            GameObject winMenu = Instantiate(_endGameMenuPrefab, _canvas.transform);
+    //            Instantiate(_winEndMenuText, winMenu.transform);
 
-                break;
-        }
+    //            break;
+    //    }
 
-        GameManager.Instance.ChangeState(GameState.GameEnded);
+    //    GameManager.Instance.ChangeState(GameState.GameEnded);
+    //}
+
+    public void GenerateWinMenu()
+    {
+        GameObject winMenu = Instantiate(_endGameMenuPrefab, _canvas.transform);
+        Instantiate(_winEndMenuText, winMenu.transform);
+    }
+
+    public void GenerateLoseMenu()
+    {
+        GameObject loseMenu = Instantiate(_endGameMenuPrefab, _canvas.transform);
+        Instantiate(_loseEndMenuText, loseMenu.transform);
     }
 
     public async Task GenerateTurnNotification()
