@@ -60,8 +60,8 @@ public class UnitLogic
             {
                 await Task.Delay(750);
                 await ApplyUnitAction(unit, unitMove);
-                if (GameManager.Instance.IsGameEnded()) break;
             }
+            if (HeroManager.Instance.isPlayerDead || HeroManager.Instance.isOpponentDead) break;
         }
         unitsHolder.compact();
     }
