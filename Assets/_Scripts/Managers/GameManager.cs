@@ -79,11 +79,6 @@ public class GameManager : MonoBehaviour, IGameManager
         }
 
     }
-
-    public bool IsGameEnded()
-    {
-        return GameState == GameState.GameEnded;
-    }
 }
 
 public enum GameState

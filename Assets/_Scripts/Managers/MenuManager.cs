@@ -23,6 +23,7 @@ public class MenuManager : MonoBehaviour, IMenuManager {
         Instance = this;
 
         GenerateUnitSelectMenu();
+        GameStatus.isGameActive = true;
         Debug.Log("MenuManager awaked");
     }
 
@@ -53,12 +54,16 @@ public class MenuManager : MonoBehaviour, IMenuManager {
     {
         GameObject winMenu = Instantiate(_endGameMenuPrefab, _canvas.transform);
         Instantiate(_winEndMenuText, winMenu.transform);
+
+        GameStatus.isGameActive = false;
     }
 
     public void GenerateLoseMenu()
     {
         GameObject loseMenu = Instantiate(_endGameMenuPrefab, _canvas.transform);
         Instantiate(_loseEndMenuText, loseMenu.transform);
+
+        GameStatus.isGameActive = false;
     }
 
     public async Task GenerateTurnNotification()
