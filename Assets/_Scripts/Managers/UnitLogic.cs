@@ -95,9 +95,6 @@ public class UnitLogic
         await unitAction.mainHeroToAttack.GetDamage(unit.GetAttack());
         DestroyUnit(unit);
         unit.OccupiedTile.OccupiedUnit = null;
-
-        if (unitAction.mainHeroToAttack.isHeroDead && unit.getFaction() == Faction.Hero) HeroManager.Instance.isOpponentDead = true;
-        else if (unitAction.mainHeroToAttack.isHeroDead && unit.getFaction() == Faction.Enemy) HeroManager.Instance.isPlayerDead = true;
     }
 
     private async Task Fight(BaseUnit attackingUnit, BaseUnit defendingUnit)

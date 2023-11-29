@@ -49,26 +49,6 @@ public class MenuManager : MonoBehaviour, IMenuManager {
         }
     }
 
-    //public void GenerateEndGameMenu(string mainHeroViewTag)
-    //{   
-    //    switch (mainHeroViewTag)
-    //    {
-    //        case "Player":
-    //            GameObject loseMenu = Instantiate(_endGameMenuPrefab, _canvas.transform);
-    //            Instantiate(_loseEndMenuText, loseMenu.transform);
-
-    //            break;
-
-    //        case "Opponent":
-    //            GameObject winMenu = Instantiate(_endGameMenuPrefab, _canvas.transform);
-    //            Instantiate(_winEndMenuText, winMenu.transform);
-
-    //            break;
-    //    }
-
-    //    GameManager.Instance.ChangeState(GameState.GameEnded);
-    //}
-
     public void GenerateWinMenu()
     {
         GameObject winMenu = Instantiate(_endGameMenuPrefab, _canvas.transform);
