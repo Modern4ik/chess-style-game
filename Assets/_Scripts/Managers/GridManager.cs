@@ -60,5 +60,4 @@ public class GridManager : MonoBehaviour, IGridManager {
         if (_tiles.TryGetValue(pos, out var tile)) return tile;
         return null;
     }
-
 }

@@ -1010,7 +1010,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5ff5556fcf6b1342a8111b8ec300209, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGamePaused: 0
   _selectedHeroObject: {fileID: 1140045124}
   _unitSelectMenu: {fileID: 7518855748393853959, guid: 41a85455f93fab14586f2fd5ebdf0c62, type: 3}
   _endGameMenuPrefab: {fileID: 2233876579425780365, guid: 9a2649f8d80833042bf05b6c6ba9ff2c, type: 3}

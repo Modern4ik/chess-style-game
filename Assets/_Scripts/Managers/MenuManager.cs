@@ -4,7 +4,6 @@ using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour, IMenuManager {
     public static MenuManager Instance;
-    public bool isGamePaused = false;
 
     private GameObject unitMenu;
     private GameObject pauseMenu;
@@ -31,7 +30,7 @@ public class MenuManager : MonoBehaviour, IMenuManager {
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (isGamePaused) ResumeGame();
+            if (!GameStatus.isGameActive) ResumeGame();
             else PauseGame();
         }
     }
@@ -86,7 +85,7 @@ public class MenuManager : MonoBehaviour, IMenuManager {
         Destroy(pauseMenu);
         Time.timeScale = 1f;
 
-        isGamePaused = false;
+        GameStatus.isGameActive = true;
     }
 
     private void PauseGame()
@@ -94,6 +93,6 @@ public class MenuManager : MonoBehaviour, IMenuManager {
         pauseMenu = Instantiate(_pauseMenuPrefab, _canvas.transform);
         Time.timeScale = 0f;
 
-        isGamePaused = true;
+        GameStatus.isGameActive = false;
     }
 }
