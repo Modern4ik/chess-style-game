@@ -1,4 +1,4 @@
 public static class GameStatus
 {
-    public static bool isGameActive = true;
+    public static bool isGameActive;
 }
