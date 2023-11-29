@@ -21,10 +21,13 @@ public class Tile : MonoBehaviour, IDropHandler {
     private Color transparentWhite = new Color(1f, 1f, 1f, 0.35f);
     private List<List<UnitMove>> unitOnTileMoves = new List<List<UnitMove>>();
     
-    public virtual void Init(int x, int y)
+    public virtual void Init(int x, int y, GameObject tileInfo, GameObject tileUnitInfo)
     {
         this.x = x;
         this.y = y;
+
+        this.tileInfo = tileInfo;
+        this.tileUnitInfo = tileUnitInfo;
     }
 
     void OnMouseEnter()
