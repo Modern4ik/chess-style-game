@@ -7,8 +7,7 @@ public class MenuManager : MonoBehaviour, IMenuManager {
 
     private GameObject unitMenu;
     private GameObject pauseMenu;
-    private bool isGamePaused = false;
-
+    
     [SerializeField] private GameObject _selectedHeroObject,_tileObject,_tileUnitObject;
     [SerializeField] private GameObject _unitSelectMenu;
     [SerializeField] private GameObject _endGameMenuPrefab;
@@ -31,7 +30,7 @@ public class MenuManager : MonoBehaviour, IMenuManager {
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (isGamePaused) ResumeGame();
+            if (!GameStatus.isGameActive) ResumeGame();
             else PauseGame();
         }
     }
@@ -86,8 +85,7 @@ public class MenuManager : MonoBehaviour, IMenuManager {
         Destroy(pauseMenu);
         Time.timeScale = 1f;
 
-        isGamePaused = false;
-        GridManager.Instance.ActivateTiles();
+        GameStatus.isGameActive = true;
     }
 
     private void PauseGame()
@@ -95,8 +93,7 @@ public class MenuManager : MonoBehaviour, IMenuManager {
         pauseMenu = Instantiate(_pauseMenuPrefab, _canvas.transform);
         Time.timeScale = 0f;
 
-        isGamePaused = true;
-        GridManager.Instance.DeactivateTiles();
+        GameStatus.isGameActive = false;
     }
 
     public void ShowTileInfo(Tile tile) {

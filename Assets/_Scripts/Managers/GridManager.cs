@@ -55,20 +55,4 @@ public class GridManager : MonoBehaviour, IGridManager {
         if (_tiles.TryGetValue(pos, out var tile)) return tile;
         return null;
     }
-
-    public void ActivateTiles()
-    {
-        foreach (Tile tile in _tiles.Values)
-        {
-            tile.isDeactivated = false;
-        }
-    }
-
-    public void DeactivateTiles()
-    {
-        foreach (Tile tile in _tiles.Values)
-        {
-            tile.isDeactivated = true;
-        }
-    }
 }
