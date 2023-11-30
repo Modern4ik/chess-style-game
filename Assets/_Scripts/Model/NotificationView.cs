@@ -32,10 +32,10 @@ public class NotificationView : MonoBehaviour, INotificationView
         }    
     }
 
-    public async Task StartNotificationAnimation()
+    public async Task StartNotificationAnimation(Faction faction)
     {
         _notificationBorder = this.transform.Find("Border").GetComponent<Image>();
-        _notificationText = GetNotificationText();
+        _notificationText = GetNotificationText(faction);
         await Task.Delay(_notificationDelay);
 
         bool isEqualsValues = false;
@@ -50,23 +50,22 @@ public class NotificationView : MonoBehaviour, INotificationView
         isShowing = false;
     }
 
-    private TextMeshProUGUI GetNotificationText()
+    private TextMeshProUGUI GetNotificationText(Faction faction)
     {
-        switch (GameManager.Instance.GameState)
+        switch (faction)
         {
-            case GameState.SpawnHeroes:
-            case GameState.HeroesTurn:
+            case Faction.Hero:
                 GameObject playerText = this.transform.Find("PlayerTurnText").gameObject;
                 playerText.SetActive(true);
 
                 return playerText.GetComponent<TextMeshProUGUI>();
-            case GameState.SpawnEnemies:
+            case Faction.Enemy:
                 GameObject enemyText = this.transform.Find("EnemyTurnText").gameObject;
                 enemyText.SetActive(true);
 
                 return enemyText.GetComponent<TextMeshProUGUI>();
             default:
-                throw new System.Exception($"GameState out of range: {GameManager.Instance.GameState}");
+                throw new System.Exception($"Faction out of range: {faction}");
         }
     }
 }

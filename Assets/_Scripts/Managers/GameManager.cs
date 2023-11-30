@@ -6,9 +6,16 @@ public class GameManager : MonoBehaviour, IGameManager
     public static GameManager Instance;
     public GameState GameState;
 
+    private UnitLogic unitLogic;
+    private PlayerInput playerInput;
+
     void Awake()
     {
         Instance = this;
+
+        unitLogic = new UnitLogic(GridManager.Instance, new UnitFactory(new UnitPrefabLoader()));
+        playerInput = new MouseInput();
+
         Debug.Log("GameManager awaked");
     }
 
@@ -25,51 +32,44 @@ public class GameManager : MonoBehaviour, IGameManager
         {
             case GameState.GenerateGrid:
                 GridManager.Instance.GenerateGrid();
+
+                ChangeState(GameState.SpawnEnemies);
                 break;
             case GameState.SpawnEnemies:
-                /*
-                 * Должны появляться враги на последней линии
-                 */
-                await MenuManager.Instance.GenerateTurnNotification();
+                await MenuManager.Instance.GenerateTurnNotification(Faction.Enemy);
 
-                UnitManager.Instance.SpawnEnemies();
+                unitLogic.SpawnEnemies();
+
+                ChangeState(GameState.EnemiesTurn);
                 break;
             case GameState.EnemiesTurn:
-                /*
-                 * Сдвигаются юниты врага
-                 * Если дошли до конца, наносят нам урон
-                 */
-                await UnitManager.Instance.MoveUnitsAsync(Faction.Enemy);
+                await unitLogic.MoveUnits(Faction.Enemy);
 
                 if (HeroManager.Instance.isPlayerDead || HeroManager.Instance.isOpponentDead) ChangeState(GameState.GameEnded);
                 else ChangeState(GameState.SpawnHeroes);
 
                 break;
             case GameState.SpawnHeroes:
-                /* 
-                 * Должны выбрать юнита и поставить его на какую-то клетку.
-                 * На первой линии
-                 */
-                //Стейт переключается в Tile, т.к нужно реагировать на нажатие мыши
-                await MenuManager.Instance.GenerateTurnNotification();
+                MenuManager.Instance.GenerateTurnNotification(Faction.Hero);
+
+                GameStatus.isAwaitPlayerInput = true;
+                await playerInput.SelectUnitToResp();
+
+                unitLogic.SpawnHero(Tile.tileDroppedOn);
+                Tile.tileDroppedOn = null;
+
+                ChangeState(GameState.HeroesTurn);
                 break;
             case GameState.HeroesTurn:
-                /*
-                 * Сдвигаются все наши юниты
-                 * Если дошли до конца, они наносят урон 
-                 */
                 MenuManager.Instance.UpdateUnitSelectMenu();
 
-                await UnitManager.Instance.MoveUnitsAsync(Faction.Hero);
+                await unitLogic.MoveUnits(Faction.Hero);
 
                 if (HeroManager.Instance.isPlayerDead || HeroManager.Instance.isOpponentDead) ChangeState(GameState.GameEnded);
                 else ChangeState(GameState.SpawnEnemies);
 
                 break;
             case GameState.GameEnded:
-                /* 
-                 * Когда закончилось ХП у кого-то, игра заканчивается
-                 */
                 if (HeroManager.Instance.isOpponentDead) MenuManager.Instance.GenerateWinMenu();
                 else MenuManager.Instance.GenerateLoseMenu();
 
@@ -77,7 +77,6 @@ public class GameManager : MonoBehaviour, IGameManager
             default:
                 throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
         }
-
     }
 }
 

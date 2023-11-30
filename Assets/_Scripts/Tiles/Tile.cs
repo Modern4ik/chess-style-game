@@ -13,6 +13,7 @@ public class Tile : MonoBehaviour, IDropHandler {
     public bool Walkable => _isWalkable && OccupiedUnit == null;
     public int x;
     public int y;
+    public static Tile tileDroppedOn;
     public static string droppedUnitTag;
 
     public GameObject tileInfo;
@@ -53,16 +54,18 @@ public class Tile : MonoBehaviour, IDropHandler {
 
     public void OnDrop(PointerEventData eventData)
     {
-        if (GameManager.Instance.GameState != GameState.SpawnHeroes || !GameStatus.isGameActive) return;
+        if (!GameStatus.isAwaitPlayerInput || !GameStatus.isGameActive) return;
 
         if (OccupiedUnit == null && y == 0)
         {
+            GameStatus.isAwaitPlayerInput = false;
+
             GameObject droppedUnit = eventData.pointerDrag;
             droppedUnitTag = droppedUnit.tag;
             droppedUnitColor = droppedUnit.GetComponent<Image>().color;
             //Generate and set unit
             //End turn
-            UnitManager.Instance.SpawnHero(this);
+            tileDroppedOn = this;
         }
     }
 

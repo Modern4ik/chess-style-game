@@ -6,17 +6,13 @@ public class UnitLogic
 {
     //Делаю так, чтобы разбить зависимость singleton-ов, для того чтобы код можно было потестить по частям.
     private IGridManager gridManager;
-    private IGameManager gameManager;
-    private IMenuManager menuManager;
-      
+    
     private UnitsHolder unitsHolder;
     private IUnitFactory unitFactory;
         
-    public UnitLogic(IGridManager gridManager, IGameManager gameManager, IMenuManager menuManager, IUnitFactory unitFactory)
+    public UnitLogic(IGridManager gridManager, IUnitFactory unitFactory)
     {
         this.gridManager = gridManager;
-        this.gameManager = gameManager;
-        this.menuManager = menuManager;
         this.unitFactory = unitFactory;
         unitsHolder = new UnitsHolderImpl();
     }
@@ -24,7 +20,6 @@ public class UnitLogic
     public BaseUnit SpawnHero(Tile tile)
     {
         var unit = SpawnUnit(Faction.Hero, tile);
-        gameManager.ChangeState(GameState.HeroesTurn);
         return unit;
     }
 
@@ -37,8 +32,6 @@ public class UnitLogic
             var randomSpawnTile = gridManager.GetEnemySpawnTile();
             SpawnUnit(Faction.Enemy, randomSpawnTile);
         }
-
-        gameManager.ChangeState(GameState.EnemiesTurn);
     }
 
     public BaseUnit SpawnUnit(Faction faction, Tile tile)

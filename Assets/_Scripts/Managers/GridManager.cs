@@ -17,11 +17,9 @@ public class GridManager : MonoBehaviour, IGridManager {
     private int _height = GridSettings.HEIGHT;
 
     private Dictionary<Vector2, Tile> _tiles;
-    private IGameManager gameManager;
-    
+
     void Awake() {
         Instance = this;
-        gameManager = GameManager.Instance;
         Debug.Log("GridManager awaked");
     }
 
@@ -40,10 +38,7 @@ public class GridManager : MonoBehaviour, IGridManager {
                 _tiles[new Vector2(x, y)] = spawnedTile;
             }
         }
-
         _cam.transform.position = new Vector3((float)_width / 2 - 0.5f, (float)_height / 2 - 0.5f, -10);
-
-        gameManager.ChangeState(GameState.SpawnEnemies);
     }
 
     public Tile GetHeroSpawnTile() {
