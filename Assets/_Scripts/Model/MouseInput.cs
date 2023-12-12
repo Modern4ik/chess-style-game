@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 
 public class MouseInput : PlayerInput
 {
-    public async Task SelectUnitToResp()
+    public async Task<InputData> SelectUnitToResp()
     {
         bool isTileSelected = false;
 
@@ -11,5 +11,7 @@ public class MouseInput : PlayerInput
             isTileSelected = Tile.tileDroppedOn != null;
             await Task.Delay(25);
         }
+
+        return new InputData { tileToSpawn = Tile.tileDroppedOn, unitTag = Tile.droppedUnitTag, unitColor = Tile.droppedUnitColor };
     }
 }

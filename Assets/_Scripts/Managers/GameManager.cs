@@ -53,9 +53,9 @@ public class GameManager : MonoBehaviour, IGameManager
                 MenuManager.Instance.GenerateTurnNotification(Faction.Hero);
 
                 GameStatus.isAwaitPlayerInput = true;
-                await playerInput.SelectUnitToResp();
+                InputData inputData = await playerInput.SelectUnitToResp();
 
-                unitLogic.SpawnHero(Tile.tileDroppedOn);
+                unitLogic.SpawnHero(inputData);
                 Tile.tileDroppedOn = null;
 
                 ChangeState(GameState.HeroesTurn);

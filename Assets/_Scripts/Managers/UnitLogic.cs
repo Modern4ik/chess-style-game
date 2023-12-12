@@ -17,9 +17,9 @@ public class UnitLogic
         unitsHolder = new UnitsHolderImpl();
     }
         
-    public BaseUnit SpawnHero(Tile tile)
+    public BaseUnit SpawnHero(InputData inputData)
     {
-        var unit = SpawnUnit(Faction.Hero, tile);
+        var unit = SpawnUnit(Faction.Hero, inputData);
         return unit;
     }
 
@@ -30,14 +30,14 @@ public class UnitLogic
         for (int i = 0; i < enemyCount; i++)
         {
             var randomSpawnTile = gridManager.GetEnemySpawnTile();
-            SpawnUnit(Faction.Enemy, randomSpawnTile);
+            SpawnUnit(Faction.Enemy, new InputData { tileToSpawn = randomSpawnTile});
         }
     }
 
-    public BaseUnit SpawnUnit(Faction faction, Tile tile)
+    public BaseUnit SpawnUnit(Faction faction, InputData inputData)
     {
-        var unit = unitFactory.createUnit(faction);
-        tile.SetUnit(unit);
+        var unit = unitFactory.createUnit(faction, inputData);
+        inputData.tileToSpawn.SetUnit(unit);
         unitsHolder.AddUnit(unit);
         return unit;
     }
