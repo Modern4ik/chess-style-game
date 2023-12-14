@@ -8,10 +8,10 @@ public class MouseInput : PlayerInput
 
         while (!isTileSelected)
         {
-            isTileSelected = Tile.tileDroppedOn != null;
+            isTileSelected = TileView.tileDroppedOn != null;
             await Task.Delay(25);
         }
 
-        return new InputData { tileToSpawn = Tile.tileDroppedOn, unitTag = Tile.droppedUnitTag, unitColor = Tile.droppedUnitColor };
+        return new InputData { tileToSpawn = TileView.tileDroppedOn, unitTag = TileView.droppedUnitTag, unitColor = TileView.droppedUnitColor };
     }
 }

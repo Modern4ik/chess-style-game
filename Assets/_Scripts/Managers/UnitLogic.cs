@@ -67,7 +67,7 @@ public class UnitLogic
                 await Move(unit, (MoveTo)unitMove);
                 break;
             case AttackUnit:
-                await Fight(unit, unitMove.validTileToMove.OccupiedUnit);
+                await Fight(unit, unitMove.validTileToMove.occupiedUnit);
                 break;
             case AttackMain: 
                 await AttackMainSide(unit, (AttackMain)unitMove);
@@ -87,7 +87,7 @@ public class UnitLogic
     {
         await unitAction.mainHeroToAttack.GetDamage(unit.GetAttack());
         DestroyUnit(unit);
-        unit.OccupiedTile.OccupiedUnit = null;
+        unit.OccupiedTile.occupiedUnit = null;
     }
 
     private async Task Fight(BaseUnit attackingUnit, BaseUnit defendingUnit)

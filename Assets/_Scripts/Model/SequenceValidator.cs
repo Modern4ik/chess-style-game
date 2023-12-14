@@ -62,7 +62,7 @@ public static class SequenceValidator
 
     private static bool IsAllyOnTile(Tile tileMoveTo, Faction faction)
     {
-        if (tileMoveTo.OccupiedUnit != null && tileMoveTo.OccupiedUnit.getFaction() == faction)
+        if (tileMoveTo.occupiedUnit != null && tileMoveTo.occupiedUnit.getFaction() == faction)
         {
             return false;
         }
@@ -72,7 +72,7 @@ public static class SequenceValidator
 
     private static bool IsEnemyOnTile(Tile tileMoveTo, Faction faction)
     {
-        if (tileMoveTo.OccupiedUnit != null && tileMoveTo.OccupiedUnit.getFaction() != faction)
+        if (tileMoveTo.occupiedUnit != null && tileMoveTo.occupiedUnit.getFaction() != faction)
         {
             return true;
         }

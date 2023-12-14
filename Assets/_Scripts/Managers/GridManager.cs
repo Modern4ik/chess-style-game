@@ -6,7 +6,7 @@ using Random = UnityEngine.Random;
 public class GridManager : MonoBehaviour, IGridManager {
     public static GridManager Instance;
 
-    [SerializeField] private Tile _grassTile, _mountainTile;
+    [SerializeField] private TileView _grassTile, _mountainTile;
 
     [SerializeField] private Transform _cam;
 
@@ -30,11 +30,12 @@ public class GridManager : MonoBehaviour, IGridManager {
         {
             for (int y = 0; y < _height; y++) {
                 //var randomTile = Random.Range(0, 6) == 3 ? _mountainTile : _grassTile;
-                var spawnedTile = Instantiate(_grassTile, new Vector3(x, y), Quaternion.identity);
+                TileView spawnedTileView = Instantiate(_grassTile, new Vector3(x, y), Quaternion.identity);
+                Tile spawnedTile = new Tile(x, y, spawnedTileView);
 
-                spawnedTile.name = $"Tile {x} {y}";
-                spawnedTile.Init(x, y, _tileObject, _tileUnitObject);
-    
+                spawnedTileView.name = $"Tile {x} {y}";
+                spawnedTileView.Init(_tileObject, _tileUnitObject, spawnedTile);
+
                 _tiles[new Vector2(x, y)] = spawnedTile;
             }
         }
@@ -42,12 +43,12 @@ public class GridManager : MonoBehaviour, IGridManager {
     }
 
     public Tile GetHeroSpawnTile() {
-        return _tiles.Where(t => t.Key.x < _width / 2 && t.Value.Walkable).OrderBy(t => Random.value).First().Value;
+        return _tiles.Where(t => t.Key.x < _width / 2 && t.Value.walkable).OrderBy(t => Random.value).First().Value;
     }
 
     public Tile GetEnemySpawnTile()
     {
-        return _tiles.Where(t => t.Key.y == _width - 1 && t.Value.Walkable).OrderBy(t => Random.value).First().Value;
+        return _tiles.Where(t => t.Key.y == _width - 1 && t.Value.walkable).OrderBy(t => Random.value).First().Value;
     }
 
     public Tile GetTileAtPosition(Vector2 pos)

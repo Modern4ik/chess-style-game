@@ -56,7 +56,7 @@ public class GameManager : MonoBehaviour, IGameManager
                 InputData inputData = await playerInput.SelectUnitToResp();
 
                 unitLogic.SpawnHero(inputData);
-                Tile.tileDroppedOn = null;
+                TileView.tileDroppedOn = null;
 
                 ChangeState(GameState.HeroesTurn);
                 break;
