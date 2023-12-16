@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 9028939053187551210}
   - component: {fileID: 7219314912377178900}
   - component: {fileID: -750627606701587212}
+  - component: {fileID: 8642702619545431356}
   m_Layer: 0
   m_Name: Grass Tile
   m_TagString: Untagged
@@ -146,15 +147,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TileName: Grasslands
+  isOccupied: 0
+  tileInfo: {fileID: 0}
+  tileUnitInfo: {fileID: 0}
   _renderer: {fileID: 9028939053187551210}
   _highlight: {fileID: 8145960743030912638}
   _isWalkable: 1
-  _tileObject: {fileID: 0}
-  _tileUnitObject: {fileID: 0}
-  x: 0
-  y: 0
   _baseColor: {r: 0.4392157, g: 0.7411765, b: 0.36862746, a: 1}
   _offsetColor: {r: 0.4, g: 0.6901961, b: 0.33333334, a: 1}
+--- !u!114 &8642702619545431356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 838513813503424364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8389d027e18fb641b71d9654c3943c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2933365383755659612
 GameObject:
   m_ObjectHideFlags: 0

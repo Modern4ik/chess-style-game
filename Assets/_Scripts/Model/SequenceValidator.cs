@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class SequenceValidator
 {
-    public static List<UnitMove> GetValidRandomUnitMoves(List<List<Coordinate>> moveSequences, Tile occupiedTile, Faction faction)
+    public static List<UnitMove> GetValidRandomUnitMoves(List<List<Coordinate>> moveSequences, GameTile occupiedTile, Faction faction)
     {
         List<List<UnitMove>> validMovesTo = new List<List<UnitMove>>();
         List<List<UnitMove>> validAttacksUnit = new List<List<UnitMove>>();
@@ -22,16 +22,16 @@ public static class SequenceValidator
         else return GetRandomActions(validMovesTo);
     }
 
-    public static List<UnitMove> GetValidUnitMoves(List<Coordinate> sequence, Tile startTile, Faction faction)
+    public static List<UnitMove> GetValidUnitMoves(List<Coordinate> sequence, GameTile startTile, Faction faction)
     {
-        Tile currentTile = startTile;
+        GameTile currentTile = startTile;
         List<UnitMove> unitMoves = new List<UnitMove>();
 
         foreach (Coordinate coord in sequence)
         {
             int moveToX = currentTile.x + coord.x;
             int moveToY = currentTile.y + coord.y;
-            Tile tileMoveTo = GridManager.Instance.GetTileAtPosition(new Vector2(moveToX, moveToY));
+            GameTile tileMoveTo = GridManager.Instance.GetTileAtPosition(new Vector2(moveToX, moveToY));
 
             if (tileMoveTo != null && IsAllyOnTile(tileMoveTo, faction))
             {
@@ -60,7 +60,7 @@ public static class SequenceValidator
         else return new List<UnitMove>();
     }
 
-    private static bool IsAllyOnTile(Tile tileMoveTo, Faction faction)
+    private static bool IsAllyOnTile(GameTile tileMoveTo, Faction faction)
     {
         if (tileMoveTo.occupiedUnit != null && tileMoveTo.occupiedUnit.getFaction() == faction)
         {
@@ -70,7 +70,7 @@ public static class SequenceValidator
         return true;
     }
 
-    private static bool IsEnemyOnTile(Tile tileMoveTo, Faction faction)
+    private static bool IsEnemyOnTile(GameTile tileMoveTo, Faction faction)
     {
         if (tileMoveTo.occupiedUnit != null && tileMoveTo.occupiedUnit.getFaction() != faction)
         {

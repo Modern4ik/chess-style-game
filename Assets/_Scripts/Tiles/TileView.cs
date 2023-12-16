@@ -1,84 +1,38 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public abstract class TileView : MonoBehaviour, IDropHandler
+public abstract class TileView : MonoBehaviour
 {
-    public Tile tileToView;
-
     public string TileName;
-    public static Tile tileDroppedOn;
-    public static string droppedUnitTag;
-    public bool isOccupied;
     public GameObject tileInfo;
     public GameObject tileUnitInfo;
-    public static Color droppedUnitColor;
     private Color transparentWhite = new Color(1f, 1f, 1f, 0.35f);
-    private List<List<UnitMove>> unitOnTileMoves = new List<List<UnitMove>>();
+    public List<List<UnitMove>> unitOnTileMoves = new List<List<UnitMove>>();
 
     [SerializeField] protected SpriteRenderer _renderer;
-    [SerializeField] private GameObject _highlight;
+    [SerializeField] public GameObject _highlight;
     [SerializeField] public bool _isWalkable;
 
-    public virtual void Init(GameObject tileInfo, GameObject tileUnitInfo, Tile tileToView)
+    public virtual void Init(GameObject tileInfo, GameObject tileUnitInfo)
     {
         this.tileInfo = tileInfo;
         this.tileUnitInfo = tileUnitInfo;
-
-        this.tileToView = tileToView; 
     }
 
-    void OnMouseEnter()
-    {
-        if (!GameStatus.isGameActive) return;
-
-        if (tileToView.occupiedUnit != null) HighlightUnitActions();
-
-        _highlight.SetActive(true);
-        ShowTileInfo();
-    }
-
-    void OnMouseExit()
-    {
-        if (!GameStatus.isGameActive) return;
-
-        if (unitOnTileMoves.Count > 0) HighlightTilesToMoveOff();
-
-        _highlight.SetActive(false);
-        HideTileInfo();
-    }
-
-    public void OnDrop(PointerEventData eventData)
-    {
-        if (!GameStatus.isAwaitPlayerInput || !GameStatus.isGameActive) return;
-
-        if (tileToView.occupiedUnit == null && tileToView.y == 0)
-        {
-            GameStatus.isAwaitPlayerInput = false;
-
-            GameObject droppedUnit = eventData.pointerDrag;
-            droppedUnitTag = droppedUnit.tag;
-            droppedUnitColor = droppedUnit.GetComponent<Image>().color;
-            //Generate and set unit
-            //End turn
-            tileDroppedOn = tileToView;
-        }
-    }
-
-    private void GetUnitOnTileMoves(BaseUnit unitOnTile)
+    private void GetUnitOnTileMoves(GameTile tileToView)
     {
         if (unitOnTileMoves.Count > 0) unitOnTileMoves.Clear();
 
-        foreach (List<Coordinate> sequence in unitOnTile.getMoveSequences())
+        foreach (List<Coordinate> sequence in tileToView.occupiedUnit.getMoveSequences())
         {
-            unitOnTileMoves.Add(SequenceValidator.GetValidUnitMoves(sequence, tileToView, unitOnTile.getFaction()));
+            unitOnTileMoves.Add(SequenceValidator.GetValidUnitMoves(sequence, tileToView, tileToView.occupiedUnit.getFaction()));
         }
     }
 
-    private void HighlightUnitActions()
+    public void HighlightUnitActions(GameTile tileToView)
     {
-        GetUnitOnTileMoves(tileToView.occupiedUnit);
+        GetUnitOnTileMoves(tileToView);
 
         foreach (List<UnitMove> unitMoves in unitOnTileMoves)
         {
@@ -137,7 +91,7 @@ public abstract class TileView : MonoBehaviour, IDropHandler
         unitAction.validTileToMove.tileView._highlight.SetActive(true);
     }
 
-    private void HighlightTilesToMoveOff()
+    public void HighlightTilesToMoveOff()
     {
         foreach (List<UnitMove> unitMoves in unitOnTileMoves)
         {
@@ -150,19 +104,19 @@ public abstract class TileView : MonoBehaviour, IDropHandler
 
     private void HighlightMainAttackMarker(AttackMain unitAction) => unitAction.mainHeroToAttack.SetUnderAttackMark(true);
 
-    private void ShowTileInfo()
+    public void ShowTileInfo(BaseUnit unitOnTile)
     {
         tileInfo.GetComponentInChildren<Text>().text = this.TileName;
         tileInfo.SetActive(true);
 
-        if (tileToView.occupiedUnit != null)
+        if (unitOnTile != null)
         {
-            tileUnitInfo.GetComponentInChildren<Text>().text = tileToView.occupiedUnit.getName();
+            tileUnitInfo.GetComponentInChildren<Text>().text = unitOnTile.getName();
             tileUnitInfo.SetActive(true);
         }
     }
 
-    private void HideTileInfo()
+    public void HideTileInfo()
     {
         tileInfo.SetActive(false);
         tileUnitInfo.SetActive(false);

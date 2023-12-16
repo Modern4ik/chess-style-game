@@ -58,7 +58,7 @@ public abstract class BaseUnit
         return _unitView;
     }
     
-    public Tile OccupiedTile { get; set; }
+    public GameTile OccupiedTile { get; set; }
 
     private MovePattern CreateMovePattern(Faction unitFaction, MovePattern movePattern)
     {
