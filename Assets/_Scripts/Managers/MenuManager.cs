@@ -66,15 +66,15 @@ public class MenuManager : MonoBehaviour, IMenuManager {
         GameStatus.isGameActive = false;
     }
 
-    public async Task GenerateTurnNotification()
+    public async Task GenerateTurnNotification(Faction faction)
     {
         await Task.Delay(1500);
 
         GameObject turnNotification = Instantiate(_turnNotificationPrefab, _canvas.transform);
         turnNotification.transform.SetAsFirstSibling();
-        await NotificationView.Instance.StartNotificationAnimation();
+        await NotificationView.Instance.StartNotificationAnimation(faction);
 
-        Destroy(turnNotification);    
+        Destroy(turnNotification);
     }
 
     private void ResumeGame()

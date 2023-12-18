@@ -9,9 +9,9 @@ public class UnitFactory : IUnitFactory
         this._unitPrefabLoader = unitPrefabLoader;
     }
 
-    public BaseUnit createUnit(Faction faction)
+    public BaseUnit createUnit(Faction faction, InputData inputData)
     {
-        MonoBehaviour prefab = _unitPrefabLoader.getUnitPrefab(faction);
+        MonoBehaviour prefab = _unitPrefabLoader.getUnitPrefab(faction, inputData);
         UnitSettings unitSettings = UnitSettingsCreator.createUnitSettings(prefab);
 
         switch (prefab.tag)

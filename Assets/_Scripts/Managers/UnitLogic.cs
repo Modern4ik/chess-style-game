@@ -6,25 +6,20 @@ public class UnitLogic
 {
     //Делаю так, чтобы разбить зависимость singleton-ов, для того чтобы код можно было потестить по частям.
     private IGridManager gridManager;
-    private IGameManager gameManager;
-    private IMenuManager menuManager;
-      
+    
     private UnitsHolder unitsHolder;
     private IUnitFactory unitFactory;
         
-    public UnitLogic(IGridManager gridManager, IGameManager gameManager, IMenuManager menuManager, IUnitFactory unitFactory)
+    public UnitLogic(IGridManager gridManager, IUnitFactory unitFactory)
     {
         this.gridManager = gridManager;
-        this.gameManager = gameManager;
-        this.menuManager = menuManager;
         this.unitFactory = unitFactory;
         unitsHolder = new UnitsHolderImpl();
     }
         
-    public BaseUnit SpawnHero(Tile tile)
+    public BaseUnit SpawnHero(InputData inputData)
     {
-        var unit = SpawnUnit(Faction.Hero, tile);
-        gameManager.ChangeState(GameState.HeroesTurn);
+        var unit = SpawnUnit(Faction.Hero, inputData);
         return unit;
     }
 
@@ -35,16 +30,14 @@ public class UnitLogic
         for (int i = 0; i < enemyCount; i++)
         {
             var randomSpawnTile = gridManager.GetEnemySpawnTile();
-            SpawnUnit(Faction.Enemy, randomSpawnTile);
+            SpawnUnit(Faction.Enemy, new InputData { tileToSpawn = randomSpawnTile});
         }
-
-        gameManager.ChangeState(GameState.EnemiesTurn);
     }
 
-    public BaseUnit SpawnUnit(Faction faction, Tile tile)
+    public BaseUnit SpawnUnit(Faction faction, InputData inputData)
     {
-        var unit = unitFactory.createUnit(faction);
-        tile.SetUnit(unit);
+        var unit = unitFactory.createUnit(faction, inputData);
+        inputData.tileToSpawn.SetUnit(unit);
         unitsHolder.AddUnit(unit);
         return unit;
     }
@@ -74,7 +67,7 @@ public class UnitLogic
                 await Move(unit, (MoveTo)unitMove);
                 break;
             case AttackUnit:
-                await Fight(unit, unitMove.validTileToMove.OccupiedUnit);
+                await Fight(unit, unitMove.validTileToMove.occupiedUnit);
                 break;
             case AttackMain: 
                 await AttackMainSide(unit, (AttackMain)unitMove);
@@ -94,7 +87,7 @@ public class UnitLogic
     {
         await unitAction.mainHeroToAttack.GetDamage(unit.GetAttack());
         DestroyUnit(unit);
-        unit.OccupiedTile.OccupiedUnit = null;
+        unit.OccupiedTile.occupiedUnit = null;
     }
 
     private async Task Fight(BaseUnit attackingUnit, BaseUnit defendingUnit)

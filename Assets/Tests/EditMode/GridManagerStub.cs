@@ -3,7 +3,7 @@
 public class GridManagerStub : IGridManager
 {
     private static int size = 8;
-    private Tile[,] grid = new Tile[size, size];
+    private TileView[,] grid = new TileView[size, size];
     
     public void GenerateGrid()
     {
@@ -16,17 +16,17 @@ public class GridManagerStub : IGridManager
         }  
     }
 
-    private Tile CreateTile()
+    private TileView CreateTile()
     {
         GameObject gameObject = new GameObject();
-        gameObject.AddComponent<Tile>();
-        return gameObject.GetComponent<Tile>();
+        gameObject.AddComponent<TileView>();
+        return gameObject.GetComponent<TileView>();
     }
     //TODO: Данный метод временно мокнут для тестов.
-    public Tile GetTileAtPosition(Vector2 pos)
+    public GameTile GetTileAtPosition(Vector2 pos)
     {
-        GameObject testTile = new GameObject("TestTile", typeof(Tile));
-        var tileComp = testTile.GetComponent<Tile>();
+        GameObject testTile = new GameObject("TestTile", typeof(GameTile));
+        var tileComp = testTile.GetComponent<GameTile>();
         switch (pos.y)
         {
             case 1:
@@ -43,7 +43,7 @@ public class GridManagerStub : IGridManager
         return tileComp;
     }
 
-    public Tile GetEnemySpawnTile()
+    public GameTile GetEnemySpawnTile()
     {
         throw new System.NotImplementedException();
     }

@@ -12,7 +12,7 @@ public class MenuManagerStub : IMenuManager
         throw new System.NotImplementedException();
     }
 
-    public void ShowTileInfo(Tile tile)
+    public void ShowTileInfo(GameTile tile)
     {
         throw new System.NotImplementedException();
     }

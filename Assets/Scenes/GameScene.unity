@@ -384,6 +384,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b72c6e8f6b6d7747a7c391c0a62f585, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isPlayerDead: 0
+  isOpponentDead: 0
   playerHeroPrefab: {fileID: 7617996363861280509, guid: 694b61cb3e2db9c4b9dcd54e7185d84f, type: 3}
   opponentHeroPrefab: {fileID: 8024662118861466328, guid: 56c1825995d2ab14c891af2ba3c34bb7, type: 3}
 --- !u!1 &900138433
@@ -854,50 +856,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1382292736}
   m_CullTransparentMesh: 1
---- !u!1 &1435657574
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1435657576}
-  - component: {fileID: 1435657575}
-  m_Layer: 0
-  m_Name: Unit Manager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1435657575
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1435657574}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc698489fa05371479c18afabf043bb1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &1435657576
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1435657574}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2056925706}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1485128814
 GameObject:
   m_ObjectHideFlags: 0
@@ -1125,7 +1083,6 @@ Transform:
   m_Children:
   - {fileID: 959863194}
   - {fileID: 87785391}
-  - {fileID: 1435657576}
   - {fileID: 1638019427}
   - {fileID: 781974459}
   m_Father: {fileID: 0}

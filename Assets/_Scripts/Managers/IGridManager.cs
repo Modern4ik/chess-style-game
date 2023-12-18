@@ -3,6 +3,6 @@ using UnityEngine;
 public interface IGridManager
 {
     public void GenerateGrid();
-    public Tile GetTileAtPosition(Vector2 pos);
-    public Tile GetEnemySpawnTile();
+    public GameTile GetTileAtPosition(Vector2 pos);
+    public GameTile GetEnemySpawnTile();
 }

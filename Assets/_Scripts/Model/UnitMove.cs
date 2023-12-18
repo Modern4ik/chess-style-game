@@ -1,4 +1,4 @@
 public abstract class UnitMove
 {
-    public Tile validTileToMove { get; set; }
+    public GameTile validTileToMove { get; set; }
 }

@@ -16,12 +16,12 @@ public class UnitPrefabLoader : IUnitPrefabLoader
         enemyUnits = Resources.LoadAll<ScriptableUnit>("Units/Enemies").ToList();
     }
 
-    public override MonoBehaviour getUnitPrefab(Faction faction)
+    public override MonoBehaviour getUnitPrefab(Faction faction, InputData inputData)
     {   
         if (faction == Faction.Hero)
         {
-            var prefab = playerUnits.Find(pref => pref.UnitPrefab.tag == Tile.droppedUnitTag).UnitPrefab;
-            prefab.transform.GetComponent<SpriteRenderer>().color = Tile.droppedUnitColor;
+            var prefab = playerUnits.Find(pref => pref.UnitPrefab.tag == inputData.unitTag).UnitPrefab;
+            prefab.transform.GetComponent<SpriteRenderer>().color = inputData.unitColor;
 
             MonoBehaviour instance = UnityEngine.Object.Instantiate(prefab);
             return instance;
