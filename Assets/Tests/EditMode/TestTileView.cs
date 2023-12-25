@@ -1,4 +1,7 @@
-public class TestTileView : TileView
+namespace View
 {
-        
+    public class TestTileView : TileView
+    {
+
+    }
 }

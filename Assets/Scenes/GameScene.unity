@@ -149,7 +149,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 87785389}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1273a75e96c45ea4589c793466f2a799, type: 3}
+  m_Script: {fileID: 11500000, guid: d917180bd7817d842a33602fb882998e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   GameState: 0
@@ -381,7 +381,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 781974458}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b72c6e8f6b6d7747a7c391c0a62f585, type: 3}
+  m_Script: {fileID: 11500000, guid: e61bbb07b30792f4c8bdededfaeb2365, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   isPlayerDead: 0
@@ -494,7 +494,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 959863192}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b6ce72e273f0184d8823bc7492d20aa, type: 3}
+  m_Script: {fileID: 11500000, guid: 06771338b909d0d43b6a18bdd15d996d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _grassTile: {fileID: -750627606701587212, guid: 10b7f3a198b961041b4c4e16d6823537, type: 3}
