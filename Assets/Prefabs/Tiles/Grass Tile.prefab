@@ -152,8 +152,8 @@ MonoBehaviour:
   _renderer: {fileID: 9028939053187551210}
   _highlight: {fileID: 8145960743030912638}
   _isWalkable: 1
-  _baseColor: {r: 0.11532295, g: 1, b: 0, a: 1}
-  _offsetColor: {r: 0.23058216, g: 0.6037736, b: 0.054111768, a: 1}
+  _baseColor: {r: 0.4392157, g: 0.7411765, b: 0.36862746, a: 1}
+  _offsetColor: {r: 0.4, g: 0.6901961, b: 0.33333334, a: 1}
 --- !u!114 &8642702619545431356
 MonoBehaviour:
   m_ObjectHideFlags: 0
