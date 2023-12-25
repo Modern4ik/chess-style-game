@@ -146,7 +146,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f6568135c194a8488af50ccedeff11a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TileName: Grass
+  TileName: Grassland
   tileInfo: {fileID: 0}
   tileUnitInfo: {fileID: 0}
   _renderer: {fileID: 9028939053187551210}
@@ -327,7 +327,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &7802717968268407644
 MonoBehaviour:
   m_ObjectHideFlags: 0
