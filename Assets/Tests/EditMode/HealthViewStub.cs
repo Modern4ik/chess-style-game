@@ -1,9 +1,12 @@
 using System.Threading.Tasks;
 
-public class HealthViewStub : IHealthView
+namespace View
 {
-    public Task UpdateHealthBar(float maxHealth, float currentHealth)
+    public class HealthViewStub : IHealthView
     {
-        return Task.CompletedTask;
+        public Task UpdateHealthBar(float maxHealth, float currentHealth)
+        {
+            return Task.CompletedTask;
+        }
     }
 }

@@ -35,7 +35,7 @@ Transform:
   - {fileID: 1264118645230989441}
   - {fileID: 7811009128739584405}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &9028939053187551210
 SpriteRenderer:
@@ -143,11 +143,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 838513813503424364}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30eb90e1984112544ba9c80f06ef880c, type: 3}
+  m_Script: {fileID: 11500000, guid: 3f6568135c194a8488af50ccedeff11a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TileName: Grasslands
-  isOccupied: 0
+  TileName: Grassland
   tileInfo: {fileID: 0}
   tileUnitInfo: {fileID: 0}
   _renderer: {fileID: 9028939053187551210}
@@ -328,7 +327,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &7802717968268407644
 MonoBehaviour:
   m_ObjectHideFlags: 0

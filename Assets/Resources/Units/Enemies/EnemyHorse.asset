@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e9ed4922ed0fc2408d4180802877f45, type: 3}
+  m_Script: {fileID: 11500000, guid: a3fcd612ff56cc849bf3671553df1c45, type: 3}
   m_Name: EnemyHorse
   m_EditorClassIdentifier: 
   UnitPrefab: {fileID: 2799780831324583611, guid: 42aa084f6473fb94ea000c0f698aa631, type: 3}

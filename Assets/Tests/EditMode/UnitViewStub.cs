@@ -1,7 +1,10 @@
+using GameLogic.Units;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class UnitViewStub : IUnitView
+namespace View
+{
+    public class UnitViewStub : IUnitView
 {
     public void Destroy() { }
     public void SetPosition(Vector2 position) { }
@@ -9,4 +12,5 @@ public class UnitViewStub : IUnitView
     public async Task MoveAnimation(int moveToX, int moveToY) => await Task.CompletedTask;
     public void StartFight() { }
     public void DisableFightAnimation() { }
+}
 }

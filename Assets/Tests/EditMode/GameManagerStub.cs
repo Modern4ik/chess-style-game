@@ -1,6 +1,9 @@
-public class GameManagerStub : IGameManager
+namespace GameState
 {
-    public void ChangeState(GameState newState)
+    public class GameManagerStub : IGameManager
     {
+        public void ChangeState(GameState newState)
+        {
+        }
     }
 }

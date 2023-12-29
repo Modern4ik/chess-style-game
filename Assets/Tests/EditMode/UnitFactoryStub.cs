@@ -1,8 +1,16 @@
-public class UnitFactoryStub : IUnitFactory
+using UserInput;
+using View;
+using GameLogic.Units;
+using GameLogic.Factory;
+
+namespace GameLogic
 {
-    public BaseUnit createUnit(Faction faction, InputData inputData)
+    public class UnitFactoryStub : IUnitFactory
     {
-        var unitSettings = new UnitSettings(new UnitViewStub(), new HealthViewStub(), new ElementalType());
-        return new Pawn("new_pawn", faction, unitSettings);
+        public BaseUnit createUnit(Faction faction, InputData inputData)
+        {
+            var unitSettings = new UnitSettings(new UnitViewStub(), new HealthViewStub(), new ElementalType());
+            return new Pawn("new_pawn", faction, unitSettings);
+        }
     }
 }

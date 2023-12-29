@@ -1,20 +1,25 @@
+using GameLogic;
+using GameLogic.Units;
 using System.Threading.Tasks;
 
-public class MenuManagerStub : IMenuManager
+namespace SuperUserInput
 {
-    public Task DoDamageToMainHero(Faction unitFaction, Attack unitAttack)
+    public class MenuManagerStub : IMenuManager
     {
-        throw new System.NotImplementedException();
-    }
+        public Task DoDamageToMainHero(Faction unitFaction, Attack unitAttack)
+        {
+            throw new System.NotImplementedException();
+        }
 
-    public void DamageEnemy(int damage)
-    {
-        throw new System.NotImplementedException();
-    }
+        public void DamageEnemy(int damage)
+        {
+            throw new System.NotImplementedException();
+        }
 
-    public void ShowTileInfo(GameTile tile)
-    {
-        throw new System.NotImplementedException();
+        public void ShowTileInfo(GameTile tile)
+        {
+            throw new System.NotImplementedException();
+        }
+
     }
-    
 }
