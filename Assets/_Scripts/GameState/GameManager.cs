@@ -66,6 +66,8 @@ namespace GameState
                     unitLogic.SpawnHero(inputData);
                     TileInput.tileDroppedOn = null;
 
+                    HeroManager.Instance.playerHeroView.SpendPsyEnergy(1);
+
                     ChangeState(GameState.HeroesTurn);
                     break;
                 case GameState.HeroesTurn:

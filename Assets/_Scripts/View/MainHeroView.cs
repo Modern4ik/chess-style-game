@@ -9,11 +9,14 @@ namespace View
         public bool isHeroDead { get; private set; }
 
         private IHealth heroHealth;
+        private IPsyEnergy heroPsyEnergy;
 
         [SerializeField] private int healthValue;
 
         private void Awake()
-        {
+        {   
+            if (tag == "Player") heroPsyEnergy = new PsyEnergy(5, transform.Find("HeroCanvas/PsyEnergy").GetComponent<PsyEnergyView>());
+
             heroHealth = new Health(healthValue, new Defense(1, 1, 1), this.transform.Find("HeroCanvas/HealthBar").GetComponent<HealthView>());
         }
 
@@ -32,6 +35,8 @@ namespace View
                 }
             }
         }
+
+        public void SpendPsyEnergy(int energyCount) => heroPsyEnergy.SpendEnergy(energyCount);
 
         public void SetUnderAttackMark(bool isEnable) => this.transform.Find("HeroCanvas/AttackMarker").gameObject.SetActive(isEnable);
     }
