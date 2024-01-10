@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using UnityEngine;
 using SuperUserInput;
 using UserInput;
@@ -65,6 +65,9 @@ namespace GameState
 
                     unitLogic.SpawnHero(inputData);
                     TileInput.tileDroppedOn = null;
+
+                    // Временное решение для демонстрации анимации PsyEnergyBar.
+                    HeroManager.Instance.playerHeroView.SpendPsyEnergy(1);
 
                     ChangeState(GameState.HeroesTurn);
                     break;
