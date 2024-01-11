@@ -6,15 +6,15 @@ namespace GameLogic
     {
         private int currentEnergy;
         private int maxEnergy;
-        private IPsyEnergyView _psyEnergyView;
+        private IPsyEnergyView psyEnergyView;
 
         public PsyEnergy(int maxEnergy, IPsyEnergyView psyEnergyView)
         {
             this.maxEnergy = maxEnergy;
             currentEnergy = maxEnergy;
 
-            _psyEnergyView = psyEnergyView;
-            _psyEnergyView.UpdatePsyEnergyBar(maxEnergy, currentEnergy);
+            this.psyEnergyView = psyEnergyView;
+            psyEnergyView.UpdatePsyEnergyBar(maxEnergy, currentEnergy);
         }
 
         public void SpendEnergy(int energyCount)
@@ -23,7 +23,7 @@ namespace GameLogic
 
             if (currentEnergy <= 0) currentEnergy = 0;
 
-            _psyEnergyView.UpdatePsyEnergyBar(maxEnergy, currentEnergy);
+            psyEnergyView.UpdatePsyEnergyBar(maxEnergy, currentEnergy);
         }
     }
 }

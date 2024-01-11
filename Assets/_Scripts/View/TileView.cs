@@ -76,7 +76,7 @@ namespace View
                     break;
                 case AttackMain:
                     AttackMain attackMain = (AttackMain)unitMove;
-                    attackMain.mainHeroToAttack.SetUnderAttackMark(false);
+                    attackMain.mainHeroToAttack.heroView.SetUnderAttackMark(false);
 
                     break;
             }
@@ -107,7 +107,7 @@ namespace View
             }
         }
 
-        private void HighlightMainAttackMarker(AttackMain unitAction) => unitAction.mainHeroToAttack.SetUnderAttackMark(true);
+        private void HighlightMainAttackMarker(AttackMain unitAction) => unitAction.mainHeroToAttack.heroView.SetUnderAttackMark(true);
 
         public void ShowTileInfo(BaseUnit unitOnTile)
         {

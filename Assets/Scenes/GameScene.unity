@@ -431,10 +431,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e61bbb07b30792f4c8bdededfaeb2365, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isPlayerDead: 0
-  isOpponentDead: 0
-  playerHeroPrefab: {fileID: 7617996363861280509, guid: 694b61cb3e2db9c4b9dcd54e7185d84f, type: 3}
-  opponentHeroPrefab: {fileID: 8024662118861466328, guid: 56c1825995d2ab14c891af2ba3c34bb7, type: 3}
+  _playerHeroPrefab: {fileID: 7617996363861280509, guid: 694b61cb3e2db9c4b9dcd54e7185d84f, type: 3}
+  _opponentHeroPrefab: {fileID: 8024662118861466328, guid: 56c1825995d2ab14c891af2ba3c34bb7, type: 3}
 --- !u!1 &900138433
 GameObject:
   m_ObjectHideFlags: 0

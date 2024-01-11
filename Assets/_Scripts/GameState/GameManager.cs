@@ -67,7 +67,7 @@ namespace GameState
                     TileInput.tileDroppedOn = null;
 
                     // Временное решение для демонстрации анимации PsyEnergyBar.
-                    HeroManager.Instance.playerHeroView.SpendPsyEnergy(1);
+                    HeroManager.Instance.playerHero.psyEnergy.SpendEnergy(1);
 
                     ChangeState(GameState.HeroesTurn);
                     break;

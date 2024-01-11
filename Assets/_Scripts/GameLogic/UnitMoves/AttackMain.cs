@@ -1,3 +1,4 @@
+using GameLogic.Heroes;
 using View;
 
 namespace GameLogic
@@ -6,9 +7,9 @@ namespace GameLogic
     {
         public class AttackMain : UnitMove
         {
-            public IMainHeroView mainHeroToAttack { get; set; }
+            public BaseHero mainHeroToAttack { get; set; }
 
-            public AttackMain(IMainHeroView mainHeroToAttack) => this.mainHeroToAttack = mainHeroToAttack;
+            public AttackMain(BaseHero mainHeroToAttack) => this.mainHeroToAttack = mainHeroToAttack;
         }
     } 
 }

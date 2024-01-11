@@ -93,7 +93,18 @@ namespace GameLogic
 
         private async Task AttackMainSide(BaseUnit unit, AttackMain unitAction)
         {
-            await unitAction.mainHeroToAttack.GetDamage(unit.GetAttack());
+            if (await unitAction.mainHeroToAttack.health.RecieveDamage(unit.GetAttack()) == 0)
+            {
+                switch (unitAction.mainHeroToAttack.faction)
+                {
+                    case Faction.Hero:
+                        GameStatus.isPlayerDead = true;
+                        break;
+                    case Faction.Enemy:
+                        GameStatus.isOpponentDead = true;
+                        break;
+                }
+            }
             DestroyUnit(unit);
             unit.OccupiedTile.occupiedUnit = null;
         }
