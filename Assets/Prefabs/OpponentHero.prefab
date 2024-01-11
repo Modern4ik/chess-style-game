@@ -343,7 +343,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5730419050812101764}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2ba2ed18cc639994eaef73b0aa341235, type: 3}
+  m_Script: {fileID: 11500000, guid: 4fb43c8f3e38ab44ba835863f69b3c9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _healthBarSprite: {fileID: 8576520235384654990}
@@ -392,4 +392,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cd55b14ce0c6e1468d32fd5b96589ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthValue: 10
+  healthValue: 1

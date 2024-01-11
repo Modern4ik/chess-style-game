@@ -168,6 +168,53 @@ Transform:
   m_Father: {fileID: 2056925706}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &500905583
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 500905584}
+  - component: {fileID: 500905585}
+  m_Layer: 0
+  m_Name: Game Menu Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &500905584
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 500905583}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2056925706}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &500905585
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 500905583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 734284e78714c2744b860ebd8334fcc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _unitSelectMenuPrefab: {fileID: 4358143777674174872, guid: 41a85455f93fab14586f2fd5ebdf0c62, type: 3}
+  _turnNotificationPrefab: {fileID: 3087927487261934204, guid: ba93145e776c64e44b8a9d0b171d0d5d, type: 3}
+  _generalCanvas: {fileID: 1209031077}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -935,7 +982,7 @@ GameObject:
   - component: {fileID: 1638019427}
   - component: {fileID: 1638019428}
   m_Layer: 0
-  m_Name: Menu Manager
+  m_Name: System Menu Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -969,13 +1016,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _selectedHeroObject: {fileID: 1140045124}
-  _unitSelectMenu: {fileID: 7518855748393853959, guid: 41a85455f93fab14586f2fd5ebdf0c62, type: 3}
   _endGameMenuPrefab: {fileID: 2233876579425780365, guid: 9a2649f8d80833042bf05b6c6ba9ff2c, type: 3}
   _pauseMenuPrefab: {fileID: 8542750022969557161, guid: ffdd782511147e44c9c220eb053d2215, type: 3}
   _winEndMenuText: {fileID: 600190887686835945, guid: 351fa2769e7e16749af09f1604043fc0, type: 3}
   _loseEndMenuText: {fileID: 530876562275020311, guid: b9b1017ef185cdf49b8a0ce0dd26e4a5, type: 3}
-  _turnNotificationPrefab: {fileID: 8813985198792088352, guid: ba93145e776c64e44b8a9d0b171d0d5d, type: 3}
-  _canvas: {fileID: 1209031081}
+  _generalCanvasTransform: {fileID: 1209031081}
 --- !u!1 &1945248844
 GameObject:
   m_ObjectHideFlags: 0
@@ -1083,8 +1128,9 @@ Transform:
   m_Children:
   - {fileID: 959863194}
   - {fileID: 87785391}
-  - {fileID: 1638019427}
   - {fileID: 781974459}
+  - {fileID: 1638019427}
+  - {fileID: 500905584}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

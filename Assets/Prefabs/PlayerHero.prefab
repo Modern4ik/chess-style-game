@@ -126,7 +126,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 307376088401791798}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67e4699b780057a4f83a26e704f6a2f0, type: 3}
+  m_Script: {fileID: 11500000, guid: e0683fbc50a675749bd8c20898f9dc64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _psyEnergySprite: {fileID: 1206145444861193020}
@@ -475,7 +475,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6252791891089462409}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2ba2ed18cc639994eaef73b0aa341235, type: 3}
+  m_Script: {fileID: 11500000, guid: 4fb43c8f3e38ab44ba835863f69b3c9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _healthBarSprite: {fileID: 595017453506443801}
@@ -600,7 +600,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cd55b14ce0c6e1468d32fd5b96589ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthValue: 10
+  healthValue: 1
 --- !u!1 &7816447598389712641
 GameObject:
   m_ObjectHideFlags: 0

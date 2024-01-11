@@ -1,6 +1,8 @@
 using System.Threading.Tasks;
 using UnityEngine;
 using GameLogic;
+using View.UI;
+using GameSettings;
 
 namespace View
 {
@@ -17,20 +19,20 @@ namespace View
         {   
             if (tag == "Player") heroPsyEnergy = new PsyEnergy(5, transform.Find("HeroCanvas/PsyEnergy").GetComponent<PsyEnergyView>());
 
-            heroHealth = new Health(healthValue, new Defense(1, 1, 1), this.transform.Find("HeroCanvas/HealthBar").GetComponent<HealthView>());
+            heroHealth = new Health(healthValue, new Defense(1, 1, 1), transform.Find("HeroCanvas/HealthBar").GetComponent<HealthView>());
         }
 
         public async Task GetDamage(Attack unitAttack)
         {
             if (await heroHealth.RecieveDamage(unitAttack) == 0)
             {
-                switch (this.tag)
+                switch (tag)
                 {
                     case "Player":
-                        HeroManager.Instance.isPlayerDead = true;
+                        GameStatus.isPlayerDead = true;
                         break;
                     case "Opponent":
-                        HeroManager.Instance.isOpponentDead = true;
+                        GameStatus.isOpponentDead = true;
                         break;
                 }
             }

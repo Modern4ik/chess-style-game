@@ -6,6 +6,7 @@ using GameLogic.Units;
 using GameLogic.UnitMoves;
 using GameLogic.Factory;
 using GameLogic.Holders;
+using GameSettings;
 
 namespace GameLogic
 {
@@ -61,7 +62,7 @@ namespace GameLogic
                     await Task.Delay(750);
                     await ApplyUnitAction(unit, unitMove);
                 }
-                if (HeroManager.Instance.isPlayerDead || HeroManager.Instance.isOpponentDead) break;
+                if (GameStatus.isPlayerDead || GameStatus.isOpponentDead) break;
             }
             unitsHolder.compact();
         }

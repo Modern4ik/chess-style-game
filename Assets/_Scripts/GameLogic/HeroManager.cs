@@ -10,9 +10,6 @@ namespace GameLogic
         public IMainHeroView playerHeroView { get; private set; }
         public IMainHeroView opponentHeroView { get; private set; }
 
-        public bool isPlayerDead;
-        public bool isOpponentDead;
-
         [SerializeField] private GameObject playerHeroPrefab;
         [SerializeField] private GameObject opponentHeroPrefab;
 

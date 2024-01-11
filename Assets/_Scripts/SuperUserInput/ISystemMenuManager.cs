@@ -1,6 +1,6 @@
 namespace SuperUserInput
 {
-    public interface IMenuManager
+    public interface ISystemMenuManager
     {
 
     }

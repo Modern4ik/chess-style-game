@@ -1,4 +1,4 @@
-using View;
+using View.UI;
 
 namespace GameLogic
 {

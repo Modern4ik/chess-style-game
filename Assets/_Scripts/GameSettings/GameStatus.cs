@@ -4,5 +4,7 @@ namespace GameSettings
     {
         public static bool isGameActive;
         public static bool isAwaitPlayerInput;
+        public static bool isPlayerDead;
+        public static bool isOpponentDead;
     }
 }

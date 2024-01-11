@@ -10,8 +10,6 @@ namespace View
     {
         public class NotificationView : MonoBehaviour, INotificationView
         {
-            public static NotificationView Instance;
-
             private float _targetTransparency = 0f;
             private bool isShowing = false;
             private Image _notificationBorder;
@@ -19,11 +17,6 @@ namespace View
 
             [SerializeField] private float _reduceTransparencySpeed;
             [SerializeField] private int _notificationDelay;
-
-            private void Awake()
-            {
-                Instance = this;
-            }
 
             private void Update()
             {
