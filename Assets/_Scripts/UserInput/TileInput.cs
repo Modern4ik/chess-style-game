@@ -1,5 +1,7 @@
 using GameLogic;
+using GameLogic.UnitMoves;
 using GameSettings;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -11,6 +13,7 @@ namespace UserInput
         public static GameTile tileDroppedOn;
         public static string droppedUnitTag;
         public static Color droppedUnitColor;
+        public List<List<UnitMove>> unitOnTileMoves = new List<List<UnitMove>>();
 
         private GameTile tileToView;
 
@@ -23,20 +26,24 @@ namespace UserInput
         {
             if (!GameStatus.isGameActive) return;
 
-            if (tileToView.occupiedUnit != null) tileToView.tileView.HighlightUnitActions(tileToView);
+            if (tileToView.occupiedUnit != null)
+            {
+                HighlightUnitActions(tileToView);
+                tileToView.tileView.ShowUnitInfo(tileToView.occupiedUnit.getName());
+            }
 
-            tileToView.tileView._highlight.SetActive(true);
-            tileToView.tileView.ShowTileInfo(tileToView.occupiedUnit);
+            tileToView.tileView.HighlightEmptyTile();
+            tileToView.tileView.ShowTileInfo();
         }
 
         void OnMouseExit()
         {
             if (!GameStatus.isGameActive) return;
 
-            if (tileToView.tileView.unitOnTileMoves.Count > 0) tileToView.tileView.HighlightTilesToMoveOff();
+            if (unitOnTileMoves.Count > 0) HighlightTilesToMoveOff();
 
-            tileToView.tileView._highlight.SetActive(false);
-            tileToView.tileView.HideTileInfo();
+            tileToView.tileView.DeactivateHighlight();
+            tileToView.tileView.HideAllInfo();
         }
 
         public void OnDrop(PointerEventData eventData)
@@ -53,6 +60,79 @@ namespace UserInput
                 //Generate and set unit
                 //End turn
                 tileDroppedOn = tileToView;
+            }
+        }
+
+        public void HighlightUnitActions(GameTile tileToView)
+        {
+            GetUnitOnTileMoves(tileToView);
+
+            foreach (List<UnitMove> unitMoves in unitOnTileMoves)
+            {
+                foreach (UnitMove move in unitMoves)
+                {
+                    ActivateHighlight(move);
+                }
+            }
+        }
+
+        private void GetUnitOnTileMoves(GameTile tileToView)
+        {
+            if (unitOnTileMoves.Count > 0) unitOnTileMoves.Clear();
+
+            foreach (List<Coordinate> sequence in tileToView.occupiedUnit.getMoveSequences())
+            {
+                unitOnTileMoves.Add(SequenceValidator.GetValidUnitMoves(sequence, tileToView, tileToView.occupiedUnit.getFaction()));
+            }
+        }
+
+        private void ActivateHighlight(UnitMove unitMove)
+        {
+            switch (unitMove)
+            {
+                case MoveTo:
+                    HighlightTileToMoveOn((MoveTo)unitMove);
+                    break;
+                case AttackUnit:
+                    HighlightTileToFightOn((AttackUnit)unitMove);
+                    break;
+                case AttackMain:
+                    HighlightMainAttackMarker((AttackMain)unitMove);
+                    break;
+            }
+        }
+
+        private void HighlightTileToMoveOn(MoveTo unitAction) => unitAction.validTileToMove.tileView.HighlightToMoveOn();
+
+        private void HighlightTileToFightOn(AttackUnit unitAction) => unitAction.validTileToMove.tileView.HighlightToFightOn();
+        
+        private void HighlightMainAttackMarker(AttackMain unitAction) => unitAction.mainHeroToAttack.heroView.SetUnderAttackMark(true);
+
+        public void HighlightTilesToMoveOff()
+        {
+            foreach (List<UnitMove> unitMoves in unitOnTileMoves)
+            {
+                foreach (UnitMove move in unitMoves)
+                {
+                    DeactivateTileHighlight(move);
+                }
+            }
+        }
+
+        private void DeactivateTileHighlight(UnitMove unitMove)
+        {
+            switch (unitMove)
+            {
+                case MoveTo:
+                case AttackUnit:
+                    unitMove.validTileToMove.tileView.DeactivateHighlight();
+                    
+                    break;
+                case AttackMain:
+                    AttackMain attackMain = (AttackMain)unitMove;
+                    attackMain.mainHeroToAttack.heroView.SetUnderAttackMark(false);
+
+                    break;
             }
         }
     }

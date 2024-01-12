@@ -1,7 +1,3 @@
-using GameLogic;
-using GameLogic.Units;
-using GameLogic.UnitMoves;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,8 +9,7 @@ namespace View
         public GameObject tileInfo;
         public GameObject tileUnitInfo;
         private Color transparentWhite = new Color(1f, 1f, 1f, 0.35f);
-        public List<List<UnitMove>> unitOnTileMoves = new List<List<UnitMove>>();
-
+        
         [SerializeField] protected SpriteRenderer _renderer;
         [SerializeField] public GameObject _highlight;
         [SerializeField] public bool _isWalkable;
@@ -25,103 +20,39 @@ namespace View
             this.tileUnitInfo = tileUnitInfo;
         }
 
-        private void GetUnitOnTileMoves(GameTile tileToView)
+        public void HighlightToMoveOn()
         {
-            if (unitOnTileMoves.Count > 0) unitOnTileMoves.Clear();
-
-            foreach (List<Coordinate> sequence in tileToView.occupiedUnit.getMoveSequences())
-            {
-                unitOnTileMoves.Add(SequenceValidator.GetValidUnitMoves(sequence, tileToView, tileToView.occupiedUnit.getFaction()));
-            }
+            _highlight.GetComponent<SpriteRenderer>().color = Color.green;
+            _highlight.SetActive(true);
         }
 
-        public void HighlightUnitActions(GameTile tileToView)
+        public void HighlightToFightOn()
         {
-            GetUnitOnTileMoves(tileToView);
-
-            foreach (List<UnitMove> unitMoves in unitOnTileMoves)
-            {
-                foreach (UnitMove move in unitMoves)
-                {
-                    ActivateHighlight(move);
-                }
-            }
+            _highlight.GetComponent<SpriteRenderer>().color = Color.red;
+            _highlight.SetActive(true);
         }
 
-        private void ActivateHighlight(UnitMove unitMove)
+        public void HighlightEmptyTile() => _highlight.SetActive(true);
+
+        public void DeactivateHighlight()
         {
-            switch (unitMove)
-            {
-                case MoveTo:
-                    HighlightTileToMoveOn((MoveTo)unitMove);
-                    break;
-                case AttackUnit:
-                    HighlightTileToFightOn((AttackUnit)unitMove);
-                    break;
-                case AttackMain:
-                    HighlightMainAttackMarker((AttackMain)unitMove);
-                    break;
-            }
+            _highlight.GetComponent<SpriteRenderer>().color = transparentWhite;
+            _highlight.SetActive(false);
         }
 
-        private void DeactivateHighlight(UnitMove unitMove)
-        {
-            switch (unitMove)
-            {
-                case MoveTo:
-                case AttackUnit:
-                    unitMove.validTileToMove.tileView._highlight.GetComponent<SpriteRenderer>().color = transparentWhite;
-                    unitMove.validTileToMove.tileView._highlight.SetActive(false);
-
-                    break;
-                case AttackMain:
-                    AttackMain attackMain = (AttackMain)unitMove;
-                    attackMain.mainHeroToAttack.heroView.SetUnderAttackMark(false);
-
-                    break;
-            }
-        }
-
-        private void HighlightTileToMoveOn(MoveTo unitAction)
-        {
-            unitAction.validTileToMove.tileView._highlight.GetComponent<SpriteRenderer>().color = Color.green;
-
-            unitAction.validTileToMove.tileView._highlight.SetActive(true);
-        }
-
-        private void HighlightTileToFightOn(AttackUnit unitAction)
-        {
-            unitAction.validTileToMove.tileView._highlight.GetComponent<SpriteRenderer>().color = Color.red;
-
-            unitAction.validTileToMove.tileView._highlight.SetActive(true);
-        }
-
-        public void HighlightTilesToMoveOff()
-        {
-            foreach (List<UnitMove> unitMoves in unitOnTileMoves)
-            {
-                foreach (UnitMove move in unitMoves)
-                {
-                    DeactivateHighlight(move);
-                }
-            }
-        }
-
-        private void HighlightMainAttackMarker(AttackMain unitAction) => unitAction.mainHeroToAttack.heroView.SetUnderAttackMark(true);
-
-        public void ShowTileInfo(BaseUnit unitOnTile)
+        public void ShowTileInfo()
         {
             tileInfo.GetComponentInChildren<Text>().text = this.TileName;
             tileInfo.SetActive(true);
-
-            if (unitOnTile != null)
-            {
-                tileUnitInfo.GetComponentInChildren<Text>().text = unitOnTile.getName();
-                tileUnitInfo.SetActive(true);
-            }
         }
 
-        public void HideTileInfo()
+        public void ShowUnitInfo(string unitName)
+        {
+            tileUnitInfo.GetComponentInChildren<Text>().text = unitName;
+            tileUnitInfo.SetActive(true);
+        }
+
+        public void HideAllInfo()
         {
             tileInfo.SetActive(false);
             tileUnitInfo.SetActive(false);
