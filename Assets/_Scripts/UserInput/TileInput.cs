@@ -17,13 +17,10 @@ namespace UserInput
 
         private GameTile tileToView;
 
-        public virtual void Init(GameTile tileToView)
-        {
-            this.tileToView = tileToView;
-        }
-
         void OnMouseEnter()
         {
+            tileToView = GridManager.Instance.GetTileAtPosition(new Vector2(transform.position.x, transform.position.y));
+
             if (!GameStatus.isGameActive) return;
 
             if (tileToView.occupiedUnit != null)
