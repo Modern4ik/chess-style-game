@@ -3,7 +3,6 @@ using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using View;
-using UserInput;
 using GameSettings;
 
 namespace GameLogic
@@ -67,4 +66,3 @@ namespace GameLogic
         }
     }
 }
-
