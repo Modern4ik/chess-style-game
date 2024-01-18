@@ -39,11 +39,16 @@ namespace GameLogic
                 int moveToY = currentTile.y + coord.y;
                 GameTile tileMoveTo = GridManager.Instance.GetTileAtPosition(new Vector2(moveToX, moveToY));
 
-                if (tileMoveTo != null && IsAllyOnTile(tileMoveTo, faction))
+                if (tileMoveTo != null && !IsAllyOnTile(tileMoveTo, faction))
                 {
                     if (IsEnemyOnTile(tileMoveTo, faction))
                     {
                         unitMoves.Add(new AttackUnit(coord, tileMoveTo));
+                        break;
+                    }
+                    else if(tileMoveTo.fruitOnTile != null)
+                    {
+                        unitMoves.Add(new TakeFruit(coord, tileMoveTo));
                         break;
                     }
                     else unitMoves.Add(new MoveTo(coord, tileMoveTo));
@@ -70,10 +75,10 @@ namespace GameLogic
         {
             if (tileMoveTo.occupiedUnit != null && tileMoveTo.occupiedUnit.getFaction() == faction)
             {
-                return false;
+                return true;
             }
 
-            return true;
+            return false;
         }
 
         private static bool IsEnemyOnTile(GameTile tileMoveTo, Faction faction)

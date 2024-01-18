@@ -7,6 +7,7 @@ using GameLogic.UnitMoves;
 using GameLogic.Factory;
 using GameLogic.Holders;
 using GameSettings;
+using GameLogic.Fruits;
 
 namespace GameLogic
 {
@@ -77,6 +78,9 @@ namespace GameLogic
                 case AttackUnit:
                     await Fight(unit, unitMove.validTileToMove.occupiedUnit);
                     break;
+                case TakeFruit:
+                    await TakingFruit(unit, (TakeFruit)unitMove);
+                    break;
                 case AttackMain:
                     await AttackMainSide(unit, (AttackMain)unitMove);
                     break;
@@ -122,10 +126,29 @@ namespace GameLogic
             }
         }
 
+        private async Task TakingFruit(BaseUnit unit, TakeFruit unitAction)
+        {
+            await DestroyFruit(unitAction.validTileToMove.fruitOnTile, unitAction.validTileToMove);
+
+            await unit.getUnitView().MoveAnimation(unitAction.validTileToMove.x, unitAction.validTileToMove.y);
+            unitAction.validTileToMove.SetUnit(unit);
+        }
+
         private void DestroyUnit(BaseUnit unit)
         {
             unitsHolder.DeleteUnit(unit);
             unit.getUnitView().Destroy();
+        }
+
+        private async Task DestroyFruit(BaseFruit fruitOnTile, GameTile tile)
+        {
+            await fruitOnTile.fruitView.StartDestroyingAnimation();
+            fruitOnTile.fruitView.DestroyObject();
+
+            GridManager.Instance.currentFruitsCount--;
+            GridManager.Instance.GenerateFruits();
+
+            tile.fruitOnTile = null;
         }
     }
 }

@@ -93,6 +93,9 @@ namespace UserInput
                 case AttackUnit:
                     HighlightTileToFightOn((AttackUnit)unitMove);
                     break;
+                case TakeFruit:
+                    HighlightTileToTakeFruitOn((TakeFruit)unitMove);
+                    break;
                 case AttackMain:
                     HighlightMainAttackMarker((AttackMain)unitMove);
                     break;
@@ -102,6 +105,8 @@ namespace UserInput
         private void HighlightTileToMoveOn(MoveTo unitAction) => unitAction.validTileToMove.tileView.HighlightToMoveOn();
 
         private void HighlightTileToFightOn(AttackUnit unitAction) => unitAction.validTileToMove.tileView.HighlightToFightOn();
+
+        private void HighlightTileToTakeFruitOn(TakeFruit unitAction) => unitAction.validTileToMove.tileView.HighlightToTakeFruitOn();
         
         private void HighlightMainAttackMarker(AttackMain unitAction) => unitAction.mainHeroToAttack.heroView.SetUnderAttackMark(true);
 
@@ -122,6 +127,7 @@ namespace UserInput
             {
                 case MoveTo:
                 case AttackUnit:
+                case TakeFruit:
                     unitMove.validTileToMove.tileView.DeactivateHighlight();
                     
                     break;
