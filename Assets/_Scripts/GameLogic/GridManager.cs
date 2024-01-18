@@ -3,7 +3,6 @@ using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using View;
-using UserInput;
 using GameSettings;
 
 namespace GameLogic
@@ -43,8 +42,7 @@ namespace GameLogic
 
                     spawnedTileView.name = $"Tile {x} {y}";
                     spawnedTileView.Init(_tileObject, _tileUnitObject);
-                    spawnedTileView.transform.GetComponent<TileInput>().Init(spawnedTile);
-
+                    
                     _tiles[new Vector2(x, y)] = spawnedTile;
                 }
             }
@@ -68,4 +66,3 @@ namespace GameLogic
         }
     }
 }
-

@@ -588,6 +588,7 @@ GameObject:
   - component: {fileID: 5113473212507039151}
   - component: {fileID: 3230166399882079262}
   - component: {fileID: 3110203687413081929}
+  - component: {fileID: 4358143777674174872}
   m_Layer: 5
   m_Name: UnitSelectionMenu
   m_TagString: Untagged
@@ -680,3 +681,15 @@ MonoBehaviour:
   m_Spacing: {x: 1, y: 10}
   m_Constraint: 0
   m_ConstraintCount: 2
+--- !u!114 &4358143777674174872
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7518855748393853959}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1007ca3b9e203ba41ab08953b8360984, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

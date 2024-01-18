@@ -5,6 +5,7 @@ using System;
 using Random = UnityEngine.Random;
 using UserInput;
 using GameLogic.Units;
+using View;
 
 namespace GameLogic
 {   
@@ -35,7 +36,7 @@ namespace GameLogic
                 else
                 {
                     var prefab = selectScriptableUnits(faction).OrderBy(o => Random.value).First().UnitPrefab;
-                    prefab.transform.GetComponent<SpriteRenderer>().color = PrefabSettingsChanger.SetRandomColor();
+                    prefab.transform.GetComponent<SpriteRenderer>().color = PrefabViewChanger.SetRandomColor();
 
                     MonoBehaviour instance = UnityEngine.Object.Instantiate(prefab);
                     return instance;

@@ -1,6 +1,5 @@
 ﻿using System;
 using UnityEngine;
-using SuperUserInput;
 using UserInput;
 using GameLogic;
 using GameLogic.Units;
@@ -40,11 +39,12 @@ namespace GameState
             {
                 case GameState.GenerateGrid:
                     GridManager.Instance.GenerateGrid();
+                    GameMenuManager.Instance.GenerateUnitSelectMenu();
 
                     ChangeState(GameState.SpawnEnemies);
                     break;
                 case GameState.SpawnEnemies:
-                    await MenuManager.Instance.GenerateTurnNotification(Faction.Enemy);
+                    await GameMenuManager.Instance.GenerateTurnNotification(Faction.Enemy);
 
                     unitLogic.SpawnEnemies();
 
@@ -53,12 +53,12 @@ namespace GameState
                 case GameState.EnemiesTurn:
                     await unitLogic.MoveUnits(Faction.Enemy);
 
-                    if (HeroManager.Instance.isPlayerDead || HeroManager.Instance.isOpponentDead) ChangeState(GameState.GameEnded);
+                    if (GameStatus.isPlayerDead || GameStatus.isOpponentDead) ChangeState(GameState.GameEnded);
                     else ChangeState(GameState.SpawnHeroes);
 
                     break;
                 case GameState.SpawnHeroes:
-                    MenuManager.Instance.GenerateTurnNotification(Faction.Hero);
+                    GameMenuManager.Instance.GenerateTurnNotification(Faction.Hero);
 
                     GameStatus.isAwaitPlayerInput = true;
                     InputData inputData = await playerInput.SelectUnitToResp();
@@ -67,23 +67,20 @@ namespace GameState
                     TileInput.tileDroppedOn = null;
 
                     // Временное решение для демонстрации анимации PsyEnergyBar.
-                    HeroManager.Instance.playerHeroView.SpendPsyEnergy(1);
+                    HeroManager.Instance.playerHero.psyEnergy.SpendEnergy(1);
 
                     ChangeState(GameState.HeroesTurn);
                     break;
                 case GameState.HeroesTurn:
-                    MenuManager.Instance.UpdateUnitSelectMenu();
+                    GameMenuManager.Instance.UpdateUnitSelectMenu();
 
                     await unitLogic.MoveUnits(Faction.Hero);
 
-                    if (HeroManager.Instance.isPlayerDead || HeroManager.Instance.isOpponentDead) ChangeState(GameState.GameEnded);
+                    if (GameStatus.isPlayerDead || GameStatus.isOpponentDead) ChangeState(GameState.GameEnded);
                     else ChangeState(GameState.SpawnEnemies);
 
                     break;
                 case GameState.GameEnded:
-                    if (HeroManager.Instance.isOpponentDead) MenuManager.Instance.GenerateWinMenu();
-                    else MenuManager.Instance.GenerateLoseMenu();
-
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
@@ -101,4 +98,3 @@ namespace GameState
         GameEnded = 5
     }
 }
-

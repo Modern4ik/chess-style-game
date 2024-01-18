@@ -6,6 +6,7 @@ using GameLogic.Units;
 using GameLogic.UnitMoves;
 using GameLogic.Factory;
 using GameLogic.Holders;
+using GameSettings;
 
 namespace GameLogic
 {
@@ -61,7 +62,7 @@ namespace GameLogic
                     await Task.Delay(750);
                     await ApplyUnitAction(unit, unitMove);
                 }
-                if (HeroManager.Instance.isPlayerDead || HeroManager.Instance.isOpponentDead) break;
+                if (GameStatus.isPlayerDead || GameStatus.isOpponentDead) break;
             }
             unitsHolder.compact();
         }
@@ -92,7 +93,18 @@ namespace GameLogic
 
         private async Task AttackMainSide(BaseUnit unit, AttackMain unitAction)
         {
-            await unitAction.mainHeroToAttack.GetDamage(unit.GetAttack());
+            if (await unitAction.mainHeroToAttack.health.RecieveDamage(unit.GetAttack()) == 0)
+            {
+                switch (unitAction.mainHeroToAttack.faction)
+                {
+                    case Faction.Hero:
+                        GameStatus.isPlayerDead = true;
+                        break;
+                    case Faction.Enemy:
+                        GameStatus.isOpponentDead = true;
+                        break;
+                }
+            }
             DestroyUnit(unit);
             unit.OccupiedTile.occupiedUnit = null;
         }

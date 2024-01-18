@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace SuperUserInput
 {
-    public class MenuManagerStub : IMenuManager
+    public class MenuManagerStub : ISystemMenuManager
     {
         public Task DoDamageToMainHero(Faction unitFaction, Attack unitAttack)
         {

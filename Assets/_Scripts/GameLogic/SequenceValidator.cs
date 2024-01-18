@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using View;
 using GameLogic.Units;
 using GameLogic.UnitMoves;
 using GameSettings;
+using GameLogic.Heroes;
 
 namespace GameLogic
 {
@@ -86,12 +86,12 @@ namespace GameLogic
             return false;
         }
 
-        private static IMainHeroView GetMainSideToAttack(Faction unitFaction)
+        private static BaseHero GetMainSideToAttack(Faction unitFaction)
         {
             switch (unitFaction)
             {
-                case Faction.Hero: return HeroManager.Instance.opponentHeroView;
-                case Faction.Enemy: return HeroManager.Instance.playerHeroView;
+                case Faction.Hero: return HeroManager.Instance.opponentHero;
+                case Faction.Enemy: return HeroManager.Instance.playerHero;
                 default: throw new System.Exception($"Unit faction out of range {unitFaction}");
             }
         }

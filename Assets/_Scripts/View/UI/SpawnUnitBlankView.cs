@@ -18,7 +18,7 @@ namespace View
         // В OnEndDrag(как заканчиваем тащить) мы задаём родителя до перетаскивания и вовзращаем значение Raycast Target на true.
         // 
         // Ссылка на видео с примером реализации такой логики: https://www.youtube.com/watch?v=kWRyZ3hb1Vc
-        public class SpawnUnitBlank : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+        public class SpawnUnitBlankView : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
         {
             public Image image;
             Transform parentAfterDrag;
