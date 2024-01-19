@@ -1,3 +1,4 @@
+using GameSettings;
 using System.Threading.Tasks;
 
 namespace UserInput
@@ -10,6 +11,8 @@ namespace UserInput
 
             while (!isTileSelected)
             {
+                if (GameStatus.isChoiceSkipped) return null;
+
                 isTileSelected = TileInput.tileDroppedOn != null;
                 await Task.Delay(25);
             }

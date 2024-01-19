@@ -214,6 +214,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _unitSelectMenuPrefab: {fileID: 4358143777674174872, guid: 41a85455f93fab14586f2fd5ebdf0c62, type: 3}
   _turnNotificationPrefab: {fileID: 3087927487261934204, guid: ba93145e776c64e44b8a9d0b171d0d5d, type: 3}
+  _skipButtonPrefab: {fileID: -5655837026580468248, guid: 0891a61d891994345aec24cd5c2b0cd3, type: 3}
   _generalCanvas: {fileID: 1209031077}
 --- !u!1 &519420028
 GameObject:
