@@ -85,5 +85,7 @@ namespace GameLogic
             if (_tiles.TryGetValue(pos, out var tile)) return tile;
             return null;
         }
+
+        public void DecreaseCurrentFruitCount() => currentFruitsCount--;
     }
 }

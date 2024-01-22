@@ -145,7 +145,7 @@ namespace GameLogic
             await fruitOnTile.fruitView.StartDestroyingAnimation();
             fruitOnTile.fruitView.DestroyObject();
 
-            GridManager.Instance.currentFruitsCount--;
+            GridManager.Instance.DecreaseCurrentFruitCount();
             GridManager.Instance.GenerateFruits();
 
             tile.fruitOnTile = null;
