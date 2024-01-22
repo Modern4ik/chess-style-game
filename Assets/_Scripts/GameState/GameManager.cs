@@ -67,6 +67,7 @@ namespace GameState
                     if (inputData == null)
                     {
                         ChangeState(GameState.HeroesTurn);
+                        GameStatus.isAwaitPlayerInput = false;
                         GameStatus.isChoiceSkipped = false;
                         break;
                     }
