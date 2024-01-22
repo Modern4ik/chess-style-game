@@ -32,6 +32,12 @@ namespace View
             _highlight.SetActive(true);
         }
 
+        public void HighlightToTakeFruitOn()
+        {
+            _highlight.GetComponent<SpriteRenderer>().color = Color.cyan;
+            _highlight.SetActive(true);
+        }
+
         public void HighlightEmptyTile() => _highlight.SetActive(true);
 
         public void DeactivateHighlight()

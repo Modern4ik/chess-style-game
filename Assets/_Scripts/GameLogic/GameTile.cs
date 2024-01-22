@@ -1,5 +1,6 @@
 ﻿using View;
 using GameLogic.Units;
+using GameLogic.Fruits;
 
 namespace GameLogic
 {
@@ -7,6 +8,8 @@ namespace GameLogic
     {
         public string TileName;
         public BaseUnit occupiedUnit;
+        public BaseFruit fruitOnTile;
+
         public int x;
         public int y;
         public TileView tileView;

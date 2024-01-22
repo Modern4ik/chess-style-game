@@ -544,9 +544,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _grassTile: {fileID: -750627606701587212, guid: 10b7f3a198b961041b4c4e16d6823537, type: 3}
   _mountainTile: {fileID: -5128559355391493039, guid: 0b081e75548c8394b8a8c8e3590753b0, type: 3}
+  _fruitPrefab: {fileID: 4644540773644284251, guid: 1ed17c63d0b157142a1d1b5f9ae69878, type: 3}
   _cam: {fileID: 519420032}
   _tileObject: {fileID: 1382292736}
   _tileUnitObject: {fileID: 1945248844}
+  currentFruitsCount: 0
+  maxFruitsCount: 2
 --- !u!4 &959863194
 Transform:
   m_ObjectHideFlags: 0
