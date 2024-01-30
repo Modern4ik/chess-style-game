@@ -58,10 +58,19 @@ namespace GameState
 
                     break;
                 case GameState.SpawnHeroes:
-                    GameMenuManager.Instance.GenerateTurnNotification(Faction.Hero);
+                    await GameMenuManager.Instance.GenerateTurnNotification(Faction.Hero);
+                    GameMenuManager.Instance.ActivateSkipButton();
 
                     GameStatus.isAwaitPlayerInput = true;
                     InputData inputData = await playerInput.SelectUnitToResp();
+
+                    if (inputData == null)
+                    {
+                        ChangeState(GameState.HeroesTurn);
+                        GameStatus.isAwaitPlayerInput = false;
+                        GameStatus.isChoiceSkipped = false;
+                        break;
+                    }
 
                     unitLogic.SpawnHero(inputData);
                     TileInput.tileDroppedOn = null;
@@ -73,6 +82,7 @@ namespace GameState
                     break;
                 case GameState.HeroesTurn:
                     GameMenuManager.Instance.UpdateUnitSelectMenu();
+                    GameMenuManager.Instance.DeactivateSkipButton();
 
                     await unitLogic.MoveUnits(Faction.Hero);
 

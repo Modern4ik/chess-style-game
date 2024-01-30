@@ -6,5 +6,6 @@ namespace GameSettings
         public static bool isAwaitPlayerInput;
         public static bool isPlayerDead;
         public static bool isOpponentDead;
+        public static bool isChoiceSkipped;
     }
 }
